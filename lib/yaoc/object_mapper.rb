@@ -1,20 +1,23 @@
 module Yaoc
 
   class ObjectMapper
-    attr_accessor :result_class, :forward_commands, :backward_commads
+    attr_accessor :load_result_source, :dump_result_source,
+                  :forward_commands, :backward_commads
 
-    def initialize(result_class)
-      self.result_class = result_class
+    def initialize(load_result_source, dump_result_source=->(attrs){ attrs})
+      self.load_result_source = load_result_source.respond_to?(:call) ? load_result_source : ->(attrs){load_result_source.new(attrs)}
+      self.dump_result_source = dump_result_source.respond_to?(:call) ? dump_result_source : ->(attrs){dump_result_source.new(attrs)}
+
       self.forward_commands = []
       self.backward_commads = []
     end
 
     def load(fetch_able)
-      result_class.new(converter(fetch_able).call())
+      load_result_source.call(converter(fetch_able).call())
     end
 
     def dump(object)
-      reverse_converter(object).call()
+      dump_result_source.call(reverse_converter(object).call())
     end
 
     def add_mapping(&block)

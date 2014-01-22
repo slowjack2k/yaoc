@@ -22,6 +22,8 @@ Uptodate doc's look into the specs.
 
 ```ruby
 
+require 'yaoc'
+
 User = Struct.new(:id, :name) do
   def initialize(params={})
     super()
@@ -32,15 +34,26 @@ User = Struct.new(:id, :name) do
    end
 end
 
-mapper = Yaoc::ObjectMapper.new(User).tap do |mapper|
+OldUser = Struct.new(:id, :fullname) do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+   end
+end
+
+mapper = Yaoc::ObjectMapper.new(User, OldUser).tap do |mapper|
   mapper.add_mapping do
+    fetcher :public_send
     rule to: :name, from: :fullname
     rule to: :id
   end
 end
 
-
-user = mapper.load({id: 1, fullname: "myname" })
+old_user = OldUser.new({id: 1, fullname: "myname" })
+new_user = mapper.load(old_user)
 
 
 ```

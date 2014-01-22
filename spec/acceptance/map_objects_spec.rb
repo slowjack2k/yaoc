@@ -7,9 +7,9 @@ feature "Map objects", %q{
 } do
 
   given(:mapper){
-    Yaoc::ObjectMapper.new(result_object_class).tap do |mapper|
+    Yaoc::ObjectMapper.new(load_result_object_class, dump_result_object_class).tap do |mapper|
       mapper.add_mapping do
-        fetcher :[]
+        fetcher :public_send
         reverse_fetcher :public_send
         rule to: :name,
              converter: ->(source, result){ result.merge({name:  "#{source[:name]} Hello World"}) },
@@ -20,7 +20,7 @@ feature "Map objects", %q{
     end
   }
 
-  given(:result_object_class) {
+  given(:load_result_object_class) {
     Struct.new(:id, :name, :role) do
       include Equalizer.new(:id, :name, :role)
 
@@ -35,22 +35,41 @@ feature "Map objects", %q{
     end
   }
 
-  given(:input_hash){
-    {id: 1, name: "paul", fullrolename: "admin"}
+  given(:dump_result_object_class) {
+    Struct.new(:id, :name, :fullrolename) do
+      include Equalizer.new(:id, :name, :fullrolename)
+
+      def initialize(params={})
+        super()
+
+        params.each do |attr, value|
+          self.public_send("#{attr}=", value)
+        end if params
+      end
+
+    end
   }
 
-  given(:result_object){
-    result_object_class.new({id: 1, name: "paul", role: "admin"})
+  given(:input_hash){
+    dump_result_object
+  }
+
+  given(:load_result_object){
+    load_result_object_class.new({id: 1, name: "paul", role: "admin"})
+  }
+
+  given(:dump_result_object){
+    dump_result_object_class.new({id: 1, name: "paul", fullrolename: "admin"})
   }
 
   scenario "creates an result object from an input_object" do
-    result_object.name += " Hello World"
+    load_result_object.name += " Hello World"
 
-    expect(mapper.load(input_hash)).to eq result_object
+    expect(mapper.load(input_hash)).to eq load_result_object
   end
 
-  scenario "dumps an result object as hash" do
-    expect(mapper.dump(result_object)).to eq input_hash
+  scenario "dumps an result object as result object" do
+    expect(mapper.dump(load_result_object)).to eq dump_result_object
   end
 
 end

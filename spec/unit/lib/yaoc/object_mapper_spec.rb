@@ -86,20 +86,24 @@ describe Yaoc::ObjectMapper do
 
       converter.stub(call: data)
 
-      expect(subject.result_class).to receive(:new).with(data)
+      expect(subject.load_result_source).to receive(:call).with(data)
 
       subject.load(data)
     end
   end
 
   describe "#dump" do
-    it "dump the object as a hash" do
-      obj = subject.result_class.new 1, "paul"
 
-      expect(reverse_converter).to receive(:call)
+    it "dump the object as an wanted object" do
+      data = {id: 1}
 
-      subject.dump(obj)
+      reverse_converter.stub(call: data)
+
+      expect(subject.dump_result_source).to receive(:call).with(data)
+
+      subject.dump(data)
     end
+
   end
 
 end
