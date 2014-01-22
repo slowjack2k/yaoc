@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["dieter.spaeth@gmx.de"]
   spec.summary       = %q{Yet another object converter}
   spec.description   = %q{Yet another object converter}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/slowjack2k/yaoc"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
