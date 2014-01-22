@@ -1,7 +1,5 @@
 # Yaoc
 
-TODO: Write a gem description
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -18,7 +16,32 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Uptodate doc's look into the specs.
+
+```ruby
+
+User = Struct.new(:id, :name) do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+   end
+end
+
+mapper = Yaoc::ObjectMapper.new(User).tap do |mapper|
+  mapper.add_mapping do
+    rule to: :name, from: :fullname
+    rule to: :id
+  end
+end
+
+
+user = mapper.load({id: 1, fullname: "myname" })
+
+
+```
 
 ## Contributing
 
