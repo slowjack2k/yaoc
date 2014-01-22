@@ -1,5 +1,7 @@
 # Yaoc
 
+Indentation of this gem is to learn and train a little ruby.
+
 ## Installation
 
 Add this line to your application's Gemfile:
