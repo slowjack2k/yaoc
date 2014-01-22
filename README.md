@@ -51,8 +51,10 @@ mapper = Yaoc::ObjectMapper.new(User, OldUser).tap do |mapper|
 
     rule to: :firstname,
          from: :fullname,
-         converter: ->(source, result){ result.merge({firstname:  source.fullname.split().first }) },
-         reverse_converter: ->(source, result){ result.merge({fullname:  "#{source.firstname} #{source.lastname}" }) }
+         converter: ->(source, result){ result.merge({firstname:
+                                                      source.fullname.split().first }) },
+         reverse_converter: ->(source, result){ result.merge({fullname:
+                                                              "#{source.firstname} #{source.lastname}" }) }
 
     rule to: :lastname,
          from: :fullname,
