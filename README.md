@@ -76,6 +76,9 @@ new_user.lastname = "name"
 
 puts mapper.dump(new_user)
 
+#<struct OldUser id=1, fullname="myfirst mysecond", r_role="admin">
+#<struct User id=1, firstname="myfirst", lastname="mysecond", role="admin">
+#<struct OldUser id=1, fullname="no name", r_role="admin">
 
 # the resulting class has no hash enabled constructor?
 
@@ -130,14 +133,6 @@ new_user2.firstname = "no"
 new_user2.lastname = "name"
 
 puts mapper.dump(new_user2)
-
-#<struct OldUser id=1, fullname="myfirst mysecond", r_role="admin">
-#<struct User id=1, firstname="myfirst", lastname="mysecond", role="admin">
-#<struct OldUser id=1, fullname="no name", r_role="admin">
-
-
-
-
 
 #<struct OldUser2 id=1, fullname="myfirst mysecond", r_role="admin">
 #<struct User2 id=1, firstname="myfirst", lastname="mysecond", role="admin">
