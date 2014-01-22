@@ -59,11 +59,13 @@ new_user = mapper.load(old_user)
 puts old_user
 puts new_user
 
+new_user.name = "no name"
+
 puts mapper.dump(new_user)
 
 #<struct OldUser id=1, fullname="myname">
 #<struct User id=1, name="myname">
-#<struct OldUser id=1, fullname="myname">
+#<struct OldUser id=1, fullname="no name">
 
 ```
 
