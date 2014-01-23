@@ -5,14 +5,8 @@ describe Yaoc::MappingBase do
     Struct.new(:to_convert) do
       include Yaoc::MappingBase
 
-      def self.converter_proc(to, from)
-        -> (to_convert, result){
-          [to, from, to_convert, result]
-        }
-      end
-
       def call
-        result = :my_result
+        result = {}
         converter_methods.map do |method_name|
           self.public_send(method_name, to_convert, result)
         end
@@ -34,8 +28,8 @@ describe Yaoc::MappingBase do
       subject.map(:foo, :bar)
       subject.map(:bar, :foo)
 
-      expect(subject.new(:my_to_convert).call()).to eq [[:foo, :bar, :my_to_convert, :my_result],
-                                                        [:bar, :foo, :my_to_convert, :my_result]]
+      expect(subject.new({bar: :my_to_convert, foo: :my_result}).call()).to eq [{:foo=>:my_to_convert, :bar=>:my_result},
+                                                                                {:foo=>:my_to_convert, :bar=>:my_result}]
     end
 
     it "uses my converter when provided" do
