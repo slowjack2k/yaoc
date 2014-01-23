@@ -20,7 +20,7 @@ Or install it yourself as:
 
 Uptodate doc's look into the specs.
 
-### The resulting class have hash enabled constructors?
+### The resulting classes have hash enabled constructors?
 
 ```ruby
 
@@ -89,7 +89,7 @@ puts mapper.dump(new_user)
 
 ```
 
-### The resulting class has no hash enabled constructor?
+### The resulting classes have no hash enabled constructor?
 
 ```ruby
 
