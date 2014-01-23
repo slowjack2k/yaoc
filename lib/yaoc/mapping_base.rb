@@ -8,7 +8,10 @@ module Yaoc
     end
 
     abstract_method :call
-    abstract_method :fill_result_with_value
+
+    def fill_result_with_value(result, key, value)
+      result.tap{|taped_result| taped_result[key] = value}
+    end
 
 
     def converter_methods

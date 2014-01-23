@@ -11,10 +11,6 @@ module Yaoc
         end
       end
 
-      def fill_result_with_value(result, key, value)
-        result.merge({key => value})
-      end
-
       module ClassMethods
         def converter_proc(to, from)
           -> (to_convert, result){
