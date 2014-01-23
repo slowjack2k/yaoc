@@ -1,6 +1,22 @@
 require 'bundler/setup'
 Bundler.require(:development)
 
+
+begin
+  if ENV["COVERAGE"]
+    require 'simplecov'
+    SimpleCov.start do
+      add_group "Lib", "lib"
+
+      add_filter "/spec/"
+    end
+  end
+rescue LoadError
+  warn "=" * 80
+  warn 'simplecov not installed. No coverage report'
+  warn "=" * 80
+end
+
 require 'yaoc'
 
 Dir[File.join(File.expand_path(__dir__ ), "support/**/*.rb")].each { |f| require f }

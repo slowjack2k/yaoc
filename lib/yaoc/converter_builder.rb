@@ -36,6 +36,7 @@ module Yaoc
     end
 
     def converter(fetch_able)
+      raise "BuildCommandsNotExecuted" unless self.all_commands_applied?
       converter_class.new(fetch_able, fetcher)
     end
 

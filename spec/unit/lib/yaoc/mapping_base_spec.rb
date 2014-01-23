@@ -21,6 +21,13 @@ describe Yaoc::MappingBase do
     end
   }
 
+  describe "created module" do
+    it "can be inspected" do
+      subject.map(:foo, :bar)
+      expect(subject.class_private_module.inspect).to include("map_0000_bar_to_foo")
+    end
+  end
+
   describe ".map" do
 
     it "creates a bunch of mapping methods" do

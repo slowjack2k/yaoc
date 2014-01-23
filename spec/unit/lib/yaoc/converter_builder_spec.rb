@@ -49,15 +49,16 @@ describe Yaoc::ConverterBuilder do
   describe "#add_mapping" do
 
     it "delegates to internal methods" do
-      expect(subject).to receive(:fetch_with).with(:public_send)
       expect(subject).to receive(:rule).with(to: :id, from: :from, converter: :converter)
-      expect(subject).to receive(:with_strategy).with(:to_array_mapping)
 
       subject.add_mapping do
         fetch_with  :public_send
         with_strategy :to_array_mapping
         rule to: :id, from: :from, converter: :converter
       end
+
+      expect(subject.send :fetcher).to eq(:public_send)
+      expect(subject.strategy).to eq(:to_array_mapping)
     end
 
   end
@@ -93,7 +94,7 @@ describe Yaoc::ConverterBuilder do
       end
     end
 
-    it "use the right to when from in arrays is missing" do
+    it "use the right 'to' when 'from' in arrays is missing" do
       expect(converter_class).to receive(:map).ordered.with(:id, :r_id, nil)
       expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
 
@@ -107,9 +108,18 @@ describe Yaoc::ConverterBuilder do
   describe "#converter" do
     it "creates a new converter class with the wanted strategy" do
       subject = Yaoc::ConverterBuilder.new()
-      subject.strategy = :to_array_mapping
+      subject.add_mapping do
+        with_strategy :to_array_mapping
+      end
 
       expect(subject.converter({})).to be_kind_of Yaoc::Strategies::ToArrayMapping
+    end
+
+    it "raises an exception when not all commands are applied" do
+      subject = Yaoc::ConverterBuilder.new()
+      subject.strategy = :to_array_mapping
+
+      expect{subject.converter({})}.to raise_exception
     end
   end
 end
