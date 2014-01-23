@@ -48,6 +48,23 @@ describe Yaoc::ConverterBuilder do
 
   describe "#add_mapping" do
 
+
+
+    it "delegates to internal methods" do
+      expect(subject).to receive(:fetch_with).with(:public_send)
+      expect(subject).to receive(:rule).with(to: :id, from: :from, converter: :converter)
+
+      subject.add_mapping do
+        fetch_with  :public_send
+        rule to: :id, from: :from, converter: :converter
+      end
+    end
+
+
+
+  end
+
+  describe "#rule" do
     it "creates a converter" do
 
       expect(converter_class).to receive(:map).with(:id, :id2, :some_proc)
@@ -69,15 +86,6 @@ describe Yaoc::ConverterBuilder do
 
     end
 
-    it "allows to set a fetcher" do
-      subject.add_mapping do
-        fetch_with  :public_send
-        rule to: :id
-      end
-
-      expect(subject.send :fetcher).to eq(:public_send)
-    end
-
     it "allows to use array of attributes" do
       expect(converter_class).to receive(:map).ordered.with(:id, :id, nil)
       expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
@@ -96,6 +104,5 @@ describe Yaoc::ConverterBuilder do
              from: [:r_id]
       end
     end
-
   end
 end
