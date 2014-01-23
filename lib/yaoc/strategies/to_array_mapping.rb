@@ -13,10 +13,14 @@ module Yaoc
         end
       end
 
+      def fill_result_with_value(result, key, value)
+        result[key] = value
+      end
+
       module ClassMethods
         def converter_proc(to, from)
           -> (to_convert, result){
-            result[to] = to_convert.public_send(fetcher, from)
+            fill_result_with_value(result, to, to_convert.public_send(fetcher, from))
           }
         end
       end

@@ -8,6 +8,8 @@ module Yaoc
     end
 
     abstract_method :call
+    abstract_method :fill_result_with_value
+
 
     def converter_methods
       self.class.converter_methods

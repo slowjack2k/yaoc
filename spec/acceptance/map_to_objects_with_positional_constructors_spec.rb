@@ -1,6 +1,6 @@
 require "spec_helper"
 
-feature "Map objects", %q{
+feature "Map objects to classes with positional constructors", %q{
    In order to map objects with positional constructors
    as a lib user
    I want to map object from an input object to an output object and reverse with a given mapping strategy
