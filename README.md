@@ -163,8 +163,8 @@ mapper = Yaoc::ObjectMapper.new(User3, OldUser3).tap do |mapper|
     strategy :to_array_mapping
     reverse_strategy :to_array_mapping
 
-    rule to: 3, from: :r_role,
-         reverse_to: 2, reverse_from: :role
+    rule to: 0, from: :id,
+         reverse_to: 0, reverse_from: :id
 
     rule to: 1,
          from: :fullname,
@@ -178,8 +178,8 @@ mapper = Yaoc::ObjectMapper.new(User3, OldUser3).tap do |mapper|
          converter: ->(source, result){ result[2]  = source.fullname.split().last },
          reverse_converter: ->(source, result){ result }
 
-    rule to: 0, from: :id,
-         reverse_to: 0, reverse_from: :id
+    rule to: 3, from: :r_role,
+         reverse_to: 2, reverse_from: :role
   end
 end
 
