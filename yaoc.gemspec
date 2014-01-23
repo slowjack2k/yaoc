@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name          = "yaoc"
   spec.version       = Yaoc::VERSION
   spec.authors       = ["Dieter Späth"]
-  spec.email         = ["dieter.spaeth@gmx.de"]
+  spec.email         = ["shad0wrunner@gmx.de"]
   spec.summary       = %q{Yet another object converter}
   spec.description   = %q{Yet another object converter}
   spec.homepage      = "https://github.com/slowjack2k/yaoc"
