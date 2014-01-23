@@ -290,7 +290,7 @@ puts user_mapper.dump(new_user4)
 #<struct OldUser4 o_id=1, o_firstname="firstname", o_lastname="lastname",
 # o_roles=[#<struct OldRole o_id=1, o_name="admin">, #<struct OldRole o_id=2, o_name="guest">]>
 
-``
+```
 
 ## Contributing
 
