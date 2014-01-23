@@ -25,7 +25,11 @@ module Yaoc
     module ClassMethods
       include AbstractType
 
-      abstract_method :converter_proc
+      def converter_proc(to, from)
+        -> (to_convert, result){
+          fill_result_with_value(result, to, to_convert.public_send(fetcher, from))
+        }
+      end
 
       def map(to, from, block=nil)
         class_private_module(:Mapping).tap do |mod|

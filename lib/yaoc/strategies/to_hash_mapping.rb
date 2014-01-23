@@ -12,11 +12,7 @@ module Yaoc
       end
 
       module ClassMethods
-        def converter_proc(to, from)
-          -> (to_convert, result){
-            fill_result_with_value(result, to, to_convert.public_send(fetcher, from))
-          }
-        end
+
       end
     end
   end
