@@ -2,12 +2,13 @@ module Yaoc
   module MappingBase
     include AbstractType
 
-
     def self.included(other)
       other.extend(ClassMethods)
     end
 
-    abstract_method :call
+    def call
+      self.class.mapping_strategy.call(self)
+    end
 
     def fill_result_with_value(result, key, value)
       result.tap{|taped_result| taped_result[key] = value}
@@ -29,6 +30,14 @@ module Yaoc
         -> (to_convert, result){
           fill_result_with_value(result, to, to_convert.public_send(fetcher, from))
         }
+      end
+
+      def mapping_strategy=(new_strat)
+        @mapping_strategy = new_strat
+      end
+
+      def mapping_strategy
+        @mapping_strategy
       end
 
       def map(to, from, block=nil)

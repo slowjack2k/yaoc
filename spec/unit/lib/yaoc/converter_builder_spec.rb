@@ -111,7 +111,7 @@ describe Yaoc::ConverterBuilder do
         with_strategy :to_array_mapping
       end
 
-      expect(subject.converter({})).to be_kind_of Yaoc::Strategies::ToArrayMapping
+      expect(subject.send(:converter_class).mapping_strategy).to eq(Yaoc::Strategies::ToArrayMapping)
     end
 
     it "raises an exception when not all commands are applied" do

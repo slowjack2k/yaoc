@@ -49,26 +49,10 @@ module Yaoc
 
     def converter_class
       @converter_class ||= Struct.new(:to_convert, :fetcher, :target_source) do
-        include MappingBase
-
-        def call
-          call_constructor(super)
-        end
-
-        def call_able_source
-          self.target_source.respond_to?(:call) ? self.target_source : ->(*attrs){ self.target_source.new(*attrs) }
-        end
-
-        def call_constructor(args)
-          if args.is_a? Array
-            call_able_source.call(*args)
-          else
-            call_able_source.call(args)
-          end
-        end
+        include MappingToClass
 
       end.tap do |new_class|
-        new_class.send(:include, strategy_module)
+        new_class.mapping_strategy = strategy_module
       end
     end
 

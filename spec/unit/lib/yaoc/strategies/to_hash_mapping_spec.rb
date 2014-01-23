@@ -4,7 +4,7 @@ describe Yaoc::Strategies::ToHashMapping do
   subject{
     Struct.new(:to_convert) do
       include Yaoc::MappingBase
-      include Yaoc::Strategies::ToHashMapping
+      self.mapping_strategy = Yaoc::Strategies::ToHashMapping
     end
   }
 

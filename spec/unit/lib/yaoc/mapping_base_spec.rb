@@ -5,12 +5,12 @@ describe Yaoc::MappingBase do
     Struct.new(:to_convert) do
       include Yaoc::MappingBase
 
-      def call
+      self.mapping_strategy = ->(obj){
         result = {}
-        converter_methods.map do |method_name|
-          self.public_send(method_name, to_convert, result)
+        obj.converter_methods.map do |method_name|
+          obj.public_send(method_name, obj.to_convert, result)
         end
-      end
+      }
 
     end
   }

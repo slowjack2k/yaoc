@@ -4,7 +4,7 @@ describe Yaoc::Strategies::ToArrayMapping do
   subject{
     Struct.new(:to_convert) do
       include Yaoc::MappingBase
-      include Yaoc::Strategies::ToArrayMapping
+      self.mapping_strategy = Yaoc::Strategies::ToArrayMapping
     end
   }
 
@@ -20,7 +20,7 @@ describe Yaoc::Strategies::ToArrayMapping do
     [1, "paul"]
   }
 
-  describe "#call" do
+  describe ".call" do
 
     it "creates a hash from a object" do
       subject.map(0, :id)
