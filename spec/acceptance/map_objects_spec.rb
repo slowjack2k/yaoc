@@ -16,13 +16,14 @@ feature "Map objects", %q{
              reverse_converter: ->(source, result){ result.merge({name: source.name}) }
         rule to: :role, from: :fullrolename
         rule to: :id
+        rule to: [:foo, :bar]
       end
     end
   }
 
   given(:load_result_object_class) {
-    Struct.new(:id, :name, :role) do
-      include Equalizer.new(:id, :name, :role)
+    Struct.new(:id, :name, :role, :foo, :bar) do
+      include Equalizer.new(:id, :name, :role, :foo, :bar)
 
       def initialize(params={})
         super()
@@ -36,8 +37,8 @@ feature "Map objects", %q{
   }
 
   given(:dump_result_object_class) {
-    Struct.new(:id, :name, :fullrolename) do
-      include Equalizer.new(:id, :name, :fullrolename)
+    Struct.new(:id, :name, :fullrolename, :foo, :bar) do
+      include Equalizer.new(:id, :name, :fullrolename, :foo, :bar)
 
       def initialize(params={})
         super()
@@ -55,11 +56,11 @@ feature "Map objects", %q{
   }
 
   given(:load_result_object){
-    load_result_object_class.new({id: 1, name: "paul", role: "admin"})
+    load_result_object_class.new({id: 1, name: "paul", role: "admin", foo: "some thing", bar: "some other thing"})
   }
 
   given(:dump_result_object){
-    dump_result_object_class.new({id: 1, name: "paul", fullrolename: "admin"})
+    dump_result_object_class.new({id: 1, name: "paul", fullrolename: "admin", foo: "some thing", bar: "some other thing"})
   }
 
   scenario "creates an result object from an input_object" do

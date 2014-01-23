@@ -23,7 +23,13 @@ module Yaoc
 
 
     def rule(to: nil, from: to, converter: nil)
-      build_commands.push  ->{ converter_class.map(to, from, converter) }
+      to_s = Array(to)
+      from_s = Array(from)
+      converter_s = Array(converter)
+
+      to_s.each_with_index do |to, index|
+        build_commands.push  ->{ converter_class.map(to, from_s[index] || to, converter_s[index]) }
+      end
     end
 
     def apply_commands!

@@ -78,5 +78,24 @@ describe Yaoc::ConverterBuilder do
       expect(subject.send :fetcher).to eq(:public_send)
     end
 
+    it "allows to use array of attributes" do
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil)
+      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
+
+      subject.add_mapping do
+        rule to: [:id, :name]
+      end
+    end
+
+    it "use the right to when from in arrays is missing" do
+      expect(converter_class).to receive(:map).ordered.with(:id, :r_id, nil)
+      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
+
+      subject.add_mapping do
+        rule to: [:id, :name],
+             from: [:r_id]
+      end
+    end
+
   end
 end

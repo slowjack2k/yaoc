@@ -62,6 +62,10 @@ mapper = Yaoc::ObjectMapper.new(User, OldUser).tap do |mapper|
          reverse_converter: ->(source, result){ result }
 
     rule to: :id
+
+    # or
+    # rule to: [:id, :foo, :bar, ...], from: [:rid, :rfoo], converter: [->(){}]
+
   end
 end
 
