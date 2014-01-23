@@ -149,7 +149,7 @@ puts mapper.dump(new_user2)
 
 ```
 
-### But I have a positional constructor for my objects
+### But my classes have positional constructor, what now?
 
 ```ruby
 OldUser3 = Struct.new(:id, :fullname, :r_role)
