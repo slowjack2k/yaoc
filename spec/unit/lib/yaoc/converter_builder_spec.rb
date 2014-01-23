@@ -48,19 +48,17 @@ describe Yaoc::ConverterBuilder do
 
   describe "#add_mapping" do
 
-
-
     it "delegates to internal methods" do
       expect(subject).to receive(:fetch_with).with(:public_send)
       expect(subject).to receive(:rule).with(to: :id, from: :from, converter: :converter)
+      expect(subject).to receive(:with_strategy).with(:to_array_mapping)
 
       subject.add_mapping do
         fetch_with  :public_send
+        with_strategy :to_array_mapping
         rule to: :id, from: :from, converter: :converter
       end
     end
-
-
 
   end
 
@@ -103,6 +101,15 @@ describe Yaoc::ConverterBuilder do
         rule to: [:id, :name],
              from: [:r_id]
       end
+    end
+  end
+
+  describe "#converter" do
+    it "creates a new converter class with the wanted strategy" do
+      subject = Yaoc::ConverterBuilder.new()
+      subject.strategy = :to_array_mapping
+
+      expect(subject.converter({})).to be_kind_of Yaoc::Strategies::ToArrayMapping
     end
   end
 end

@@ -51,7 +51,7 @@ feature "Map objects", %q{
     end
   }
 
-  given(:input_hash){
+  given(:input_object){
     dump_result_object
   }
 
@@ -66,7 +66,7 @@ feature "Map objects", %q{
   scenario "creates an result object from an input_object" do
     load_result_object.name += " Hello World"
 
-    expect(mapper.load(input_hash)).to eq load_result_object
+    expect(mapper.load(input_object)).to eq load_result_object
   end
 
   scenario "dumps an result object as result object" do

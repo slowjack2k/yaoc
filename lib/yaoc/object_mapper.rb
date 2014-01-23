@@ -4,16 +4,18 @@ module Yaoc
     attr_accessor :load_result_source, :dump_result_source
 
     def initialize(load_result_source, dump_result_source=->(attrs){ attrs})
-      self.load_result_source = load_result_source.respond_to?(:call) ? load_result_source : ->(attrs){load_result_source.new(attrs)}
-      self.dump_result_source = dump_result_source.respond_to?(:call) ? dump_result_source : ->(attrs){dump_result_source.new(attrs)}
+      self.load_result_source = load_result_source.respond_to?(:call) ? load_result_source : ->(*attrs){load_result_source.new(*attrs)}
+      self.dump_result_source = dump_result_source.respond_to?(:call) ? dump_result_source : ->(*attrs){dump_result_source.new(*attrs)}
     end
 
     def load(fetch_able)
-      load_result_source.call(converter(fetch_able).call())
+      converter_result = converter(fetch_able).call()
+      call_constructor(load_result_source, converter_result)
     end
 
     def dump(object)
-      dump_result_source.call(reverse_converter(object).call())
+      converter_result = reverse_converter(object).call()
+      call_constructor(dump_result_source, converter_result)
     end
 
     def add_mapping(&block)
@@ -23,12 +25,22 @@ module Yaoc
 
     protected
 
+    def call_constructor(call_able, args)
+      if args.is_a? Array
+        call_able.call(*args)
+      else
+        call_able.call(args)
+      end
+    end
+
     def apply_commands
       converter_builder.apply_commands!
       reverse_converter_builder.apply_commands!
     end
 
-    def rule(to: nil, from: to, converter: nil, reverse_converter: nil)
+    def rule(to: nil, from: to, converter: nil,
+             reverse_to: from, reverse_from: to, reverse_converter: nil)
+
       converter_builder.rule(
           to: to,
           from: from,
@@ -36,8 +48,8 @@ module Yaoc
       )
 
       reverse_converter_builder.rule(
-          to: from,
-          from: to,
+          to: reverse_to,
+          from: reverse_from,
           converter: reverse_converter,
       )
     end
@@ -48,6 +60,14 @@ module Yaoc
 
     def reverse_fetcher(new_fetcher)
       reverse_converter_builder.fetcher = new_fetcher
+    end
+
+    def strategy(new_strategy)
+      converter_builder.strategy = new_strategy
+    end
+
+    def reverse_strategy(new_strategy)
+      reverse_converter_builder.strategy = new_strategy
     end
 
     def converter(fetch_able)

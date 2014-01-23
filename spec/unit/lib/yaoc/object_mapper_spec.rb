@@ -62,6 +62,14 @@ describe Yaoc::ObjectMapper do
 
     end
 
+    it "accepts a reverse mapping for from and to" do
+      expect(reverse_converter_builder).to receive(:rule).with(to: :id_r, from: :id_r, converter: nil)
+
+      subject.add_mapping do
+        rule to: :id, reverse_to: :id_r, reverse_from: :id_r
+      end
+    end
+
     it "allows to set a fetcher" do
       expect(converter_builder).to receive(:fetcher=).with(:public_send)
 
@@ -79,6 +87,24 @@ describe Yaoc::ObjectMapper do
       subject.add_mapping do
         reverse_fetcher :fetch
         rule to: :id
+      end
+    end
+
+    it "allows to change the strategy" do
+      expect(converter_builder).to receive(:strategy=).with(:to_array_mapping)
+
+      subject.add_mapping do
+        strategy :to_array_mapping
+        rule to: 0, from: :id
+      end
+    end
+
+    it "allows to change the reverse strategy" do
+      expect(reverse_converter_builder).to receive(:strategy=).with(:to_array_mapping)
+
+      subject.add_mapping do
+        reverse_strategy :to_array_mapping
+        rule to: :id, from: 0
       end
     end
   end
