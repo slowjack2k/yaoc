@@ -20,7 +20,7 @@ describe Yaoc::Strategies::ToHashMapping do
     {id: 1, name: "paul"}
   }
 
-  describe ".call" do
+  describe "#call" do
 
     it "creates a hash from a object" do
       subject.map(:id, :id)

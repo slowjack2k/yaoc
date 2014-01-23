@@ -8,5 +8,5 @@ require 'yaoc/converter_builder'
 require 'yaoc/object_mapper'
 
 module Yaoc
-  # Your code goes here...
+
 end

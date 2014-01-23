@@ -1,7 +1,8 @@
 module Yaoc
 
   class ConverterBuilder
-    attr_accessor  :build_commands, :command_order, :strategy, :all_commands_applied
+    attr_accessor  :build_commands, :command_order,
+                   :strategy, :all_commands_applied
 
     def initialize(command_order=:recorded_order, fetcher=:fetch)
       self.build_commands = []
@@ -35,9 +36,9 @@ module Yaoc
       build_commands_ordered.each &:call
     end
 
-    def converter(fetch_able)
+    def converter(fetch_able, target_source=nil)
       raise "BuildCommandsNotExecuted" unless self.all_commands_applied?
-      converter_class.new(fetch_able, fetcher)
+      converter_class.new(fetch_able, fetcher, target_source || ->(attrs){ attrs})
     end
 
     def fetcher=(new_fetcher)
@@ -47,8 +48,25 @@ module Yaoc
     protected
 
     def converter_class
-      @converter_class ||= Struct.new(:to_convert, :fetcher) do
+      @converter_class ||= Struct.new(:to_convert, :fetcher, :target_source) do
         include MappingBase
+
+        def call
+          call_constructor(super)
+        end
+
+        def call_able_source
+          self.target_source.respond_to?(:call) ? self.target_source : ->(*attrs){ self.target_source.new(*attrs) }
+        end
+
+        def call_constructor(args)
+          if args.is_a? Array
+            call_able_source.call(*args)
+          else
+            call_able_source.call(args)
+          end
+        end
+
       end.tap do |new_class|
         new_class.send(:include, strategy_module)
       end

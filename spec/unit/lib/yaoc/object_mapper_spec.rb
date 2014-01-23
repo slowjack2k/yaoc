@@ -110,27 +110,19 @@ describe Yaoc::ObjectMapper do
   end
 
   describe "#load" do
-    it "creates an object of result_class kind" do
-      data = {id: 1}
+    it "creates an object of result class kind" do
+      expect(converter).to receive(:call)
 
-      converter.stub(call: data)
-
-      expect(subject.load_result_source).to receive(:call).with(data)
-
-      subject.load(data)
+      subject.load({})
     end
   end
 
   describe "#dump" do
 
     it "dump the object as an wanted object" do
-      data = {id: 1}
+      expect(reverse_converter).to receive(:call)
 
-      reverse_converter.stub(call: data)
-
-      expect(subject.dump_result_source).to receive(:call).with(data)
-
-      subject.dump(data)
+      subject.dump({})
     end
 
   end

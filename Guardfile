@@ -6,6 +6,8 @@ guard :rspec, all_after_pass: true ,
   
   watch(%r{^spec/.+_spec\.rb$})
 
+  watch('lib/yaoc.rb')  { "spec" }
+
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/unit/lib/#{m[1]}_spec.rb" }
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/integration/lib/#{m[1]}_spec.rb" }
 

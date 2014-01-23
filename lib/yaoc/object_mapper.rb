@@ -3,19 +3,17 @@ module Yaoc
   class ObjectMapper
     attr_accessor :load_result_source, :dump_result_source
 
-    def initialize(load_result_source, dump_result_source=->(attrs){ attrs})
-      self.load_result_source = load_result_source.respond_to?(:call) ? load_result_source : ->(*attrs){load_result_source.new(*attrs)}
-      self.dump_result_source = dump_result_source.respond_to?(:call) ? dump_result_source : ->(*attrs){dump_result_source.new(*attrs)}
+    def initialize(load_result_source, dump_result_source=nil)
+      self.load_result_source = load_result_source
+      self.dump_result_source = dump_result_source
     end
 
     def load(fetch_able)
-      converter_result = converter(fetch_able).call()
-      call_constructor(load_result_source, converter_result)
+      converter(fetch_able).call()
     end
 
     def dump(object)
-      converter_result = reverse_converter(object).call()
-      call_constructor(dump_result_source, converter_result)
+      reverse_converter(object).call()
     end
 
     def add_mapping(&block)
@@ -24,14 +22,6 @@ module Yaoc
     end
 
     protected
-
-    def call_constructor(call_able, args)
-      if args.is_a? Array
-        call_able.call(*args)
-      else
-        call_able.call(args)
-      end
-    end
 
     def apply_commands
       converter_builder.apply_commands!
@@ -71,11 +61,11 @@ module Yaoc
     end
 
     def converter(fetch_able)
-      converter_builder.converter(fetch_able)
+      converter_builder.converter(fetch_able, load_result_source)
     end
 
     def reverse_converter(fetch_able)
-      reverse_converter_builder.converter(fetch_able)
+      reverse_converter_builder.converter(fetch_able, dump_result_source)
     end
 
     def converter_builder
