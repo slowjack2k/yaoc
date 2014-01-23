@@ -16,8 +16,10 @@ describe Yaoc::ConverterBuilder do
     double("converter", call: nil)
   }
 
-  describe ".new" do
+  describe "#command_order" do
+
     it "applies command in recorded order as default" do
+      subject.command_order = :recorded_order
 
       expect(converter_class).to receive(:map).ordered.with(:id, :id, nil)
       expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
@@ -30,10 +32,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "applies command in reverse recorded order when wanted" do
-      subject = Yaoc::ConverterBuilder.new(:reverse_order).tap{|converter|
-        converter.stub(:converter_class).and_return(converter_class)
-      }
-
+      subject.command_order = :reverse_order
 
       expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
       expect(converter_class).to receive(:map).ordered.with(:id, :id, nil)
