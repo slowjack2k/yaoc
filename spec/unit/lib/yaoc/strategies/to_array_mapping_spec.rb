@@ -32,7 +32,7 @@ describe Yaoc::Strategies::ToArrayMapping do
 
     it "uses my converter proc" do
       subject.map(0, :id)
-      subject.map(3, :fullname, ->(source, result){ result[3] = "#{source.fetch(:name)} Hello World" })
+      subject.map(3, :fullname, ->(source, result){ fill_result_with_value(result, 3, "#{source.fetch(:name)} Hello World") })
 
       ext_expectation = expected_array.clone
       ext_expectation[3] = "#{ext_expectation[1]} Hello World"
