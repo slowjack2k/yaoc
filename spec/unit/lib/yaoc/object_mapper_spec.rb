@@ -3,17 +3,17 @@ require "spec_helper"
 describe Yaoc::ObjectMapper do
   subject{
     Yaoc::ObjectMapper.new(Struct.new(:id, :name)).tap{|mapper|
-      mapper.stub(:converter_class).and_return(converter_class)
-      mapper.stub(:reverse_converter_class).and_return(reverse_converter_class)
+      mapper.stub(:converter_builder).and_return(converter_builder)
+      mapper.stub(:reverse_converter_builder).and_return(reverse_converter_builder)
     }
   }
 
-  let(:converter_class){
-    double("converter_class", map: nil, new: converter)
+  let(:converter_builder){
+    double("converter_builder", rule: nil, apply_commands!: nil, converter: converter)
   }
 
-  let(:reverse_converter_class){
-    double("reverse_converter_class", map: nil, new: reverse_converter)
+  let(:reverse_converter_builder){
+    double("reverse_converter_builder", rule: nil, apply_commands!: nil, converter: reverse_converter)
   }
 
   let(:converter){
@@ -26,9 +26,10 @@ describe Yaoc::ObjectMapper do
 
   describe "#add_mapping" do
 
-    it "creates a mapper" do
+    it "creates a converter" do
 
-      expect(converter_class).to receive(:map).with(:id, :id2, :some_proc)
+      expect(converter_builder).to receive(:rule).with(to: :id, from: :id2, converter: :some_proc)
+
       subject.add_mapping do
         rule to: :id,
              from: :id2,
@@ -38,9 +39,9 @@ describe Yaoc::ObjectMapper do
 
     end
 
-    it "creates a revers mapper" do
+    it "creates a revers converter" do
 
-      expect(reverse_converter_class).to receive(:map).with(:id2, :id, :some_reverse_proc)
+      expect(reverse_converter_builder).to receive(:rule).with(to: :id2, from: :id, converter: :some_reverse_proc)
 
       subject.add_mapping do
         rule to: :id,
@@ -52,8 +53,8 @@ describe Yaoc::ObjectMapper do
     end
 
     it "uses defaults" do
-      expect(converter_class).to receive(:map).with(:id, :id, nil)
-      expect(reverse_converter_class).to receive(:map).with(:id, :id, nil)
+      expect(converter_builder).to receive(:rule).with(to: :id, from: :id, converter: nil)
+      expect(reverse_converter_builder).to receive(:rule).with(to: :id, from: :id, converter: nil)
 
       subject.add_mapping do
         rule to: :id
@@ -62,21 +63,23 @@ describe Yaoc::ObjectMapper do
     end
 
     it "allows to set a fetcher" do
+      expect(converter_builder).to receive(:fetcher=).with(:public_send)
+
       subject.add_mapping do
         fetcher :public_send
         rule to: :id
       end
 
-      expect(subject.send :fetcher_method).to eq(:public_send)
+
     end
 
     it "allows to set a reverse_fetcher" do
+      expect(reverse_converter_builder).to receive(:fetcher=).with(:fetch)
+
       subject.add_mapping do
         reverse_fetcher :fetch
         rule to: :id
       end
-
-      expect(subject.send :reverse_fetcher_method).to eq(:fetch)
     end
   end
 

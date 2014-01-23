@@ -1,15 +1,11 @@
 module Yaoc
 
   class ObjectMapper
-    attr_accessor :load_result_source, :dump_result_source,
-                  :forward_commands, :backward_commads
+    attr_accessor :load_result_source, :dump_result_source
 
     def initialize(load_result_source, dump_result_source=->(attrs){ attrs})
       self.load_result_source = load_result_source.respond_to?(:call) ? load_result_source : ->(attrs){load_result_source.new(attrs)}
       self.dump_result_source = dump_result_source.respond_to?(:call) ? dump_result_source : ->(attrs){dump_result_source.new(attrs)}
-
-      self.forward_commands = []
-      self.backward_commads = []
     end
 
     def load(fetch_able)
@@ -28,59 +24,46 @@ module Yaoc
     protected
 
     def apply_commands
-      reset_converters!
-
-      forward_commands.each &:call
-      backward_commads.each &:call
-    end
-
-    def reset_converters!
-      @reverse_converter_class = nil
-      @converter_class = nil
+      converter_builder.apply_commands!
+      reverse_converter_builder.apply_commands!
     end
 
     def rule(to: nil, from: to, converter: nil, reverse_converter: nil)
-      forward_commands.push    ->{ converter_class.map(to, from, converter) }
-      backward_commads.unshift ->{ reverse_converter_class.map(from, to, reverse_converter) }
+      converter_builder.rule(
+          to: to,
+          from: from,
+          converter: converter,
+      )
+
+      reverse_converter_builder.rule(
+          to: from,
+          from: to,
+          converter: reverse_converter,
+      )
     end
 
     def fetcher(new_fetcher)
-      @fetcher= new_fetcher
-    end
-
-    def fetcher_method
-      @fetcher ||= :fetch
+      converter_builder.fetcher = new_fetcher
     end
 
     def reverse_fetcher(new_fetcher)
-      @reverse_fetcher = new_fetcher
-    end
-
-    def reverse_fetcher_method
-      @reverse_fetcher ||= :public_send
+      reverse_converter_builder.fetcher = new_fetcher
     end
 
     def converter(fetch_able)
-      converter_class.new(fetch_able, fetcher_method)
-    end
-
-    def converter_class
-      @converter_class ||= new_converter_class
+      converter_builder.converter(fetch_able)
     end
 
     def reverse_converter(fetch_able)
-      reverse_converter_class.new(fetch_able, reverse_fetcher_method)
+      reverse_converter_builder.converter(fetch_able)
     end
 
-    def reverse_converter_class
-      @reverse_converter_class ||= new_converter_class
+    def converter_builder
+      @converter_builder ||= Yaoc::ConverterBuilder.new()
     end
 
-    def new_converter_class
-      Struct.new(:to_convert, :fetcher) do
-        include MappingBase
-        include Strategies::ToHashMapping
-      end
+    def reverse_converter_builder
+      @reverse_converter_builder ||= Yaoc::ConverterBuilder.new(:reverse_order, :public_send)
     end
 
   end
