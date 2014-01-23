@@ -200,6 +200,98 @@ puts mapper.dump(new_user3)
 
 ```
 
+### And how to use it with compositions?
+
+```ruby
+
+User4 = Struct.new(:id, :firstname, :lastname, :roles) do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+  end
+end
+
+OldUser4 = Struct.new(:o_id, :o_firstname, :o_lastname, :o_roles) do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+  end
+end
+
+
+Role = Struct.new(:id, :name) do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+  end
+end
+
+OldRole = Struct.new(:o_id, :o_name) do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+  end
+end
+
+
+role_mapper = Yaoc::ObjectMapper.new(Role, OldRole).tap do |mapper|
+  mapper.add_mapping do
+    fetcher :public_send
+
+    rule to: :id, from: :o_id
+    rule to: :name, from: :o_name
+
+  end
+end
+
+user_mapper = Yaoc::ObjectMapper.new(User4, OldUser4).tap do |mapper|
+  mapper.add_mapping do
+    fetcher :public_send
+
+    rule to: [:id, :firstname, :lastname],
+         from: [:o_id, :o_firstname, :o_lastname]
+
+    rule to: :roles,
+         from: :o_roles,
+         converter: ->(source, result){ result.merge({roles:  (source.o_roles || []).map{|role|  role_mapper.load(role)}}) },
+         reverse_converter: ->(source, result){ result.merge({o_roles:  (source.roles || []).map{|role|  role_mapper.dump(role)}}) }
+
+  end
+end
+
+
+old_user4 = OldUser4.new(o_id: 1,
+                         o_firstname: "firstname",
+                         o_lastname:"lastname",
+                         o_roles: [OldRole.new(o_id: 1, o_name: "admin"), OldRole.new(o_id: 2, o_name: "guest")] )
+new_user4 = user_mapper.load(old_user4)
+
+puts old_user4
+puts new_user4
+
+puts user_mapper.dump(new_user4)
+
+#<struct OldUser4 o_id=1, o_firstname="firstname", o_lastname="lastname",
+# o_roles=[#<struct OldRole o_id=1, o_name="admin">, #<struct OldRole o_id=2, o_name="guest">]>
+#<struct User4 id=1, firstname="firstname", lastname="lastname",
+# roles=[#<struct Role id=1, name="admin">, #<struct Role id=2, name="guest">]>
+#<struct OldUser4 o_id=1, o_firstname="firstname", o_lastname="lastname",
+# o_roles=[#<struct OldRole o_id=1, o_name="admin">, #<struct OldRole o_id=2, o_name="guest">]>
+
+``
+
 ## Contributing
 
 1. Fork it ( http://github.com/slowjack2k/yaoc/fork )
