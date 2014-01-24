@@ -1,5 +1,53 @@
 module Yaoc
 
+  class NormalizedParameters
+    attr_accessor :to_s, :from_s, :converter_s
+
+    def initialize(to, from, converter, object_converter, is_collection)
+      self.to_s = Array(to)
+      self.from_s = Array(from)
+      self.converter_s = Array(converter)
+
+      object_converter_s = Array(object_converter)
+      is_collection_s = Array(is_collection)
+
+      self.to_s.each_with_index do |to, index|
+        from_s[index] ||= to
+      end
+
+      object_converter_s.each_with_index do |object_converter, index|
+        converter_s[index] = converter_to_proc(to_s[index], from_s[index], object_converter, !!is_collection_s[index])
+      end
+
+    end
+
+    def each
+      return to_enum(__callee__) unless block_given?
+
+      self.to_s.each_with_index do |to, index|
+        yield to, from_s[index] , converter_s[index]
+      end
+    end
+
+    def converter_to_proc(to, from, converter, is_collection)
+      ->(source, result){
+        object_to_convert = source.public_send(fetcher, from)
+        converted_object = nil
+
+        if is_collection
+          converted_object = object_to_convert.map(&converter)
+        else
+          converter_as_proc = converter.to_proc
+          converted_object = converter_as_proc.call(object_to_convert)
+        end
+
+        fill_result_with_value(result, to, converted_object)
+      }
+    end
+
+  end
+
+
   class ConverterBuilder
     attr_accessor  :build_commands, :command_order,
                    :strategy, :all_commands_applied
@@ -17,15 +65,11 @@ module Yaoc
       apply_commands!
     end
 
-    def rule(to: nil, from: to, converter: nil)
+    def rule(to: nil, from: to, converter: nil, object_converter: nil, is_collection: nil)
       self.all_commands_applied = false
 
-      to_s = Array(to)
-      from_s = Array(from)
-      converter_s = Array(converter)
-
-      to_s.each_with_index do |to, index|
-        build_commands.push  ->{ converter_class.map(to, from_s[index] || to, converter_s[index]) }
+      NormalizedParameters.new(to, from, converter, object_converter, is_collection).each do |to, from, converter|
+        build_commands.push  ->{ converter_class.map(to, from , converter) }
       end
     end
 

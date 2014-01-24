@@ -37,18 +37,28 @@ module Yaoc
     end
 
     def rule(to: nil, from: to, converter: nil,
-             reverse_to: from, reverse_from: to, reverse_converter: nil)
+             reverse_to: from,
+             reverse_from: to,
+             reverse_converter: nil,
+             object_converter: nil,
+             is_collection: nil)
+
+      object_converter = Array(object_converter)
 
       converter_builder.rule(
           to: to,
           from: from,
           converter: converter,
+          object_converter: object_converter.map(&:converter),
+          is_collection: is_collection,
       )
 
       reverse_converter_builder.rule(
           to: reverse_to,
           from: reverse_from,
           converter: reverse_converter,
+          object_converter: object_converter.map(&:reverse_converter),
+          is_collection: is_collection,
       )
     end
 

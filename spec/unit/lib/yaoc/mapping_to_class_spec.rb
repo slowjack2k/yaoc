@@ -43,4 +43,11 @@ describe Yaoc::MappingToClass do
     end
   end
 
+  describe "#to_a" do
+    it "satisfies Array(*) when included into structs" do
+      expect(subject.to_a).to eq ([subject])
+    end
+  end
+
+
 end

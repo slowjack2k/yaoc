@@ -24,11 +24,26 @@ describe Yaoc::ObjectMapper do
     double("reverse_converter", call: nil)
   }
 
+  let(:expected_default_params){
+    {
+        to: :id,
+        from: :id,
+        converter: nil,
+        object_converter: [],
+        is_collection: nil
+    }
+  }
+
   describe "#add_mapping" do
 
     it "creates a converter" do
+      expected_params = expected_default_params.merge(
+          to: :id,
+          from: :id2,
+          converter: :some_proc
+      )
 
-      expect(converter_builder).to receive(:rule).with(to: :id, from: :id2, converter: :some_proc)
+      expect(converter_builder).to receive(:rule).with(expected_params)
 
       subject.add_mapping do
         rule to: :id,
@@ -40,8 +55,13 @@ describe Yaoc::ObjectMapper do
     end
 
     it "creates a revers converter" do
+      expected_params = expected_default_params.merge(
+          to: :id2,
+          from: :id,
+          converter: :some_reverse_proc
+      )
 
-      expect(reverse_converter_builder).to receive(:rule).with(to: :id2, from: :id, converter: :some_reverse_proc)
+      expect(reverse_converter_builder).to receive(:rule).with(expected_params)
 
       subject.add_mapping do
         rule to: :id,
@@ -52,9 +72,42 @@ describe Yaoc::ObjectMapper do
 
     end
 
+    it "allows to use another converter as converter" do
+      converter_double = double("converter")
+
+      expected_params = expected_default_params.merge(
+          from: :id2,
+          object_converter: [converter_double],
+          is_collection: false
+      )
+
+      expected_params_reverse = expected_default_params.merge(
+          to: :id2,
+          from: :id,
+          object_converter: [converter_double],
+          is_collection: false
+      )
+
+
+      expect(converter_builder).to receive(:rule).with(expected_params)
+      expect(reverse_converter_builder).to receive(:rule).with(expected_params_reverse)
+
+      expect(converter_double).to receive(:converter).and_return(converter_double)
+      expect(converter_double).to receive(:reverse_converter).and_return(converter_double)
+
+
+      subject.add_mapping do
+        rule to: :id,
+             from: :id2,
+             is_collection: false,
+             object_converter: converter_double
+      end
+    end
+
     it "uses defaults" do
-      expect(converter_builder).to receive(:rule).with(to: :id, from: :id, converter: nil)
-      expect(reverse_converter_builder).to receive(:rule).with(to: :id, from: :id, converter: nil)
+      expect(converter_builder).to receive(:rule).with(expected_default_params)
+
+      expect(reverse_converter_builder).to receive(:rule).with(expected_default_params)
 
       subject.add_mapping do
         rule to: :id
@@ -63,7 +116,12 @@ describe Yaoc::ObjectMapper do
     end
 
     it "accepts a reverse mapping for from and to" do
-      expect(reverse_converter_builder).to receive(:rule).with(to: :id_r, from: :id_r, converter: nil)
+      expected_params = expected_default_params.merge(
+          to: :id_r,
+          from: :id_r,
+      )
+
+      expect(reverse_converter_builder).to receive(:rule).with(expected_params)
 
       subject.add_mapping do
         rule to: :id, reverse_to: :id_r, reverse_from: :id_r
@@ -77,7 +135,6 @@ describe Yaoc::ObjectMapper do
         fetcher :public_send
         rule to: :id
       end
-
 
     end
 
@@ -107,6 +164,7 @@ describe Yaoc::ObjectMapper do
         rule to: :id, from: 0
       end
     end
+
   end
 
   describe "#load" do

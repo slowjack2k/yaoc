@@ -102,6 +102,29 @@ describe Yaoc::ConverterBuilder do
              from: [:r_id]
       end
     end
+
+    it "supports the use of a object converter" do
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, kind_of(Proc))
+      other_converter = :some_converter
+
+      subject.add_mapping do
+        rule to: :id,
+             object_converter: other_converter
+      end
+
+    end
+
+    it "supports the collection flag for object converters" do
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, kind_of(Proc))
+      other_converter = :some_converter
+
+      subject.add_mapping do
+        rule to: :id,
+             is_collection: true,
+             object_converter: other_converter
+      end
+
+    end
   end
 
   describe "#converter" do
@@ -121,4 +144,5 @@ describe Yaoc::ConverterBuilder do
       expect{subject.converter({})}.to raise_exception
     end
   end
+
 end

@@ -22,6 +22,10 @@ module Yaoc
           self.target_source.send(source_method, args)
         end
       end
+
+      def to_a # wenn included into struct's Array(...) call's to_a
+        [self]
+      end
     end
 
   end
