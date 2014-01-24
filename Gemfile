@@ -5,3 +5,4 @@ ruby "2.1.0"
 gemspec
 
 gem 'simplecov', require:  false, group: :test
+gem 'coveralls', require: false

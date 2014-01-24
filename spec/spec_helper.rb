@@ -1,6 +1,8 @@
 require 'bundler/setup'
 Bundler.require(:development)
 
+require 'coveralls'
+Coveralls.wear!
 
 begin
   if ENV["COVERAGE"]
