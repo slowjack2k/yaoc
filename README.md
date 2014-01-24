@@ -1,4 +1,4 @@
-# Yaoc
+# Yaoc [![Code Climate](https://codeclimate.com/github/slowjack
 
 Indentation of this gem is to learn and train a little ruby.
 
