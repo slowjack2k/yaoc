@@ -260,8 +260,8 @@ user_mapper = Yaoc::ObjectMapper.new(User4, OldUser4).tap do |mapper|
 
     rule to: :roles,
          from: :o_roles,
-         converter: ->(source, result){ fill_result_with_value(result, :roles,  (source.o_roles || []).map{|role|  role_mapper.load(role)}) },
-         reverse_converter: ->(source, result){ fill_result_with_value(result, :o_roles, (source.roles || []).map{|role|  role_mapper.dump(role)}) }
+         converter: ->(source, result){ fill_result_with_value(result, :roles,  Array(source.o_roles).map(&role_mapper.converter)) },
+         reverse_converter: ->(source, result){ fill_result_with_value(result, :o_roles, Array(source.roles).map(&role_mapper.reverse_converter)) }
 
   end
 end

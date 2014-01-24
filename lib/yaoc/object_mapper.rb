@@ -21,6 +21,14 @@ module Yaoc
       apply_commands
     end
 
+    def converter(fetch_able=nil)
+      converter_builder.converter(fetch_able, load_result_source)
+    end
+
+    def reverse_converter(fetch_able=nil)
+      reverse_converter_builder.converter(fetch_able, dump_result_source)
+    end
+
     protected
 
     def apply_commands
@@ -58,14 +66,6 @@ module Yaoc
 
     def reverse_strategy(new_strategy)
       reverse_converter_builder.strategy = new_strategy
-    end
-
-    def converter(fetch_able)
-      converter_builder.converter(fetch_able, load_result_source)
-    end
-
-    def reverse_converter(fetch_able)
-      reverse_converter_builder.converter(fetch_able, dump_result_source)
     end
 
     def converter_builder

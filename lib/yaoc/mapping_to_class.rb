@@ -7,7 +7,7 @@ module Yaoc
     end
 
     module InstanceMethods
-      def call
+      def call(*args)
         create_target(super)
       end
 

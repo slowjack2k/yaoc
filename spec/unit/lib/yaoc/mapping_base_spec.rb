@@ -53,20 +53,6 @@ describe Yaoc::MappingBase do
       Struct.new(:to_convert) do
         include Yaoc::MappingBase
 
-        def self.create_block(to, from)
-          -> (to_convert, result){
-            [to, from, to_convert, result]
-          }
-        end
-
-        def call
-          result = nil
-
-          converter_methods.map do |method_name|
-            self.public_send(method_name, to_convert, result)
-          end
-        end
-
         def fetcher
           "my_fetcher"
         end
@@ -82,6 +68,50 @@ describe Yaoc::MappingBase do
       expect(subject.new().fetcher).to eq :fetch
     end
 
+  end
+
+  describe "#call" do
+    it "delegates execution to strategy" do
+      mapper = subject.new()
+
+      expect(subject.mapping_strategy).to receive(:call).with mapper
+
+      mapper.call
+    end
+  end
+
+  describe "#to_proc" do
+    it "creates a wrapper around call" do
+      mapper = subject.new()
+      mapper_as_proc = mapper.to_proc
+      expect(mapper).to receive :call
+
+      mapper_as_proc.call(:some_thing)
+    end
+
+    it "changes 'to_convert' temporary" do
+      mapper = subject.new(:old_some_thing)
+      mapper_as_proc = mapper.to_proc
+
+      expect(mapper).to receive(:to_convert=).ordered.with(:some_thing)
+      expect(mapper).to receive(:to_convert=).ordered.with(:old_some_thing)
+
+      mapper_as_proc.call(:some_thing)
+    end
+
+    it "changes 'to_convert' even when a exception occurs" do
+      mapper = subject.new(:old_some_thing)
+      mapper_as_proc = mapper.to_proc
+
+      mapper.stub(:call) do
+        raise "MyException"
+      end
+
+      expect(mapper).to receive(:to_convert=).ordered.with(:some_thing)
+      expect(mapper).to receive(:to_convert=).ordered.with(:old_some_thing)
+
+      expect{mapper_as_proc.call(:some_thing)}.to raise_error "MyException"
+    end
   end
 
 end
