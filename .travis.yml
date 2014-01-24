@@ -1,0 +1,8 @@
+language: ruby
+bundler_args: --without tool
+rvm:
+  - 2.0.0
+  - 2.1.0
+notifications:
+  recipients:
+    - shad0wrunner@gmx.de
