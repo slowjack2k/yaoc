@@ -1,4 +1,4 @@
-# Yaoc [![Code Climate](https://codeclimate.com/github/slowjack2k/yaoc.png)](https://codeclimate.com/github/slowjack2k/yaoc) [![Build Status](https://travis-ci.org/slowjack2k/yaoc.png?branch=master)](https://travis-ci.org/slowjack2k/yaoc)
+# Yaoc [![Code Climate](https://codeclimate.com/github/slowjack2k/yaoc.png)](https://codeclimate.com/github/slowjack2k/yaoc) [![Build Status](https://travis-ci.org/slowjack2k/yaoc.png?branch=master)](https://travis-ci.org/slowjack2k/yaoc) [![Coverage Status](https://coveralls.io/repos/slowjack2k/yaoc/badge.png?branch=master)](https://coveralls.io/r/slowjack2k/yaoc?branch=master)
 
 Indentation of this gem is to learn and train a little ruby.
 
