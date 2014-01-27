@@ -11,5 +11,5 @@ require 'yaoc/object_mapper'
 Dir[File.join(File.expand_path(__dir__ ), "yaoc/helper/*.rb")].each { |f| require f }
 
 module Yaoc
-  include Yaoc::Helper
+
 end

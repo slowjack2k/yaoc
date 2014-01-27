@@ -7,16 +7,8 @@ feature "Fill existing objects", %q{
 } do
 
   given(:new_user_class){
-    Struct.new(:id, :firstname, :lastname, :roles) do
+    Yaoc::Helper::StructH(:id, :firstname, :lastname, :roles) do
       include Equalizer.new(:id, :firstname, :lastname, :roles)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
     end
   }
 

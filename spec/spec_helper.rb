@@ -1,8 +1,6 @@
 require 'bundler/setup'
 Bundler.require(:development)
 
-require 'coveralls'
-Coveralls.wear!
 
 begin
   if ENV["COVERAGE"]
@@ -12,6 +10,9 @@ begin
 
       add_filter "/spec/"
     end
+  else
+    require 'coveralls'
+    Coveralls.wear!
   end
 rescue LoadError
   warn "=" * 80
