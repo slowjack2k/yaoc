@@ -8,6 +8,8 @@ Dir[File.join(File.expand_path(__dir__ ), "yaoc/strategies/*.rb")].each { |f| re
 require 'yaoc/converter_builder'
 require 'yaoc/object_mapper'
 
-module Yaoc
+Dir[File.join(File.expand_path(__dir__ ), "yaoc/helper/*.rb")].each { |f| require f }
 
+module Yaoc
+  include Yaoc::Helper
 end
