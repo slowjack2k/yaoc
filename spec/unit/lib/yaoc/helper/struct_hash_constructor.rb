@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Yaoc::Helper::StructHashConstructor do
   subject{
-    Yaoc::Helper::StructH(:id, :name).new(id: 1, :name "no name")
+    Yaoc::Helper::StructH(:id, :name).new(id: 1, name: "no name")
   }
   it "creates a struct with a hash enabled constructor" do
     expect(subject.id).to eq 1
