@@ -8,12 +8,12 @@ module Yaoc
       self.dump_result_source = dump_result_source
     end
 
-    def load(fetch_able)
-      converter(fetch_able).call()
+    def load(fetch_able, object_to_fill=nil)
+      converter(fetch_able).call(object_to_fill)
     end
 
-    def dump(object)
-      reverse_converter(object).call()
+    def dump(object, object_to_fill=nil)
+      reverse_converter(object).call(object_to_fill)
     end
 
     def add_mapping(&block)

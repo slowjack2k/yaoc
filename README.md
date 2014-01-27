@@ -287,6 +287,68 @@ puts user_mapper.dump(new_user4)
 
 ```
 
+### And how can I add values to existing objects?
+
+```ruby
+OldUser5 = Struct.new(:id, :name)do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+  end
+end
+
+RoleThing = Struct.new(:id, :role)do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+  end
+end
+
+User5 = Struct.new(:id, :name,  :role)do
+  def initialize(params={})
+    super()
+
+    params.each do |attr, value|
+      self.public_send("#{attr}=", value)
+    end if params
+  end
+end
+
+
+user_mapper = Yaoc::ObjectMapper.new(User5, OldUser5).tap do |mapper|
+  mapper.add_mapping do
+    fetcher :public_send
+    rule to: [:id, :name]
+  end
+end
+
+role_mapper = Yaoc::ObjectMapper.new(User5, RoleThing).tap do |mapper|
+  mapper.add_mapping do
+    fetcher :public_send
+    rule to: [:role]
+  end
+end
+
+old_role = RoleThing.new(id: 1, role: "my_role")
+old_user5 = OldUser5.new(id: 1, name: "my fullname")
+new_user5 = user_mapper.load(old_user5)
+
+role_mapper.load(old_role, new_user5)
+
+puts old_user5
+puts new_user5
+
+#<struct OldUser5 id=1, name="my fullname">
+#<struct User5 id=1, name="my fullname", role="my_role">
+
+```
+
 ## Contributing
 
 1. Fork it ( http://github.com/slowjack2k/yaoc/fork )

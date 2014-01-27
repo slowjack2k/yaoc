@@ -173,6 +173,14 @@ describe Yaoc::ObjectMapper do
 
       subject.load({})
     end
+
+    it "uses an existing object for the result" do
+      preloaded_obj = Object.new
+
+      expect(converter).to receive(:call).with(preloaded_obj)
+
+      subject.load({}, preloaded_obj)
+    end
   end
 
   describe "#dump" do
@@ -181,6 +189,14 @@ describe Yaoc::ObjectMapper do
       expect(reverse_converter).to receive(:call)
 
       subject.dump({})
+    end
+
+    it "uses an existing object for the result" do
+      preloaded_obj = Object.new
+
+      expect(reverse_converter).to receive(:call).with(preloaded_obj)
+
+      subject.dump({}, preloaded_obj)
     end
 
   end
