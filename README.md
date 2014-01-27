@@ -26,25 +26,11 @@ Uptodate doc's look into the specs.
 
 require 'yaoc'
 
-User = Struct.new(:id, :firstname, :lastname, :role) do
-  def initialize(params={})
-    super()
+include Yaoc::Helper
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-   end
-end
+User = StructHE(:id, :firstname, :lastname, :role)
 
-OldUser = Struct.new(:id, :fullname, :r_role) do
-  def initialize(params={})
-    super()
-
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-   end
-end
+OldUser = StructHE(:id, :fullname, :r_role)
 
 mapper = Yaoc::ObjectMapper.new(User, OldUser).tap do |mapper|
   mapper.add_mapping do
@@ -87,6 +73,10 @@ puts mapper.dump(new_user)
 
 ```ruby
 
+require 'yaoc'
+
+include Yaoc::Helper
+
 OldUser2 = Struct.new(:id, :fullname, :r_role)
 
 User2 = Struct.new(:id, :firstname, :lastname, :role)
@@ -127,7 +117,7 @@ mapper = Yaoc::ObjectMapper.new(source, reverse_source).tap do |mapper|
 end
 
 old_user2 = OldUser2.new(1, "myfirst mysecond",  "admin" )
-new_user2 = mapper.load(old_user)
+new_user2 = mapper.load(old_user2)
 
 puts old_user2
 puts new_user2
@@ -136,6 +126,7 @@ new_user2.firstname = "no"
 new_user2.lastname = "name"
 
 puts mapper.dump(new_user2)
+
 
 #<struct OldUser2 id=1, fullname="myfirst mysecond", r_role="admin">
 #<struct User2 id=1, firstname="myfirst", lastname="mysecond", role="admin">
@@ -146,6 +137,13 @@ puts mapper.dump(new_user2)
 ### But my classes have positional constructor, what now?
 
 ```ruby
+
+require 'yaoc'
+
+include Yaoc::Helper
+
+puts "\n" * 5
+
 OldUser3 = Struct.new(:id, :fullname, :r_role)
 User3 = Struct.new(:id, :firstname, :lastname, :role)
 
@@ -179,7 +177,7 @@ mapper = Yaoc::ObjectMapper.new(User3, OldUser3).tap do |mapper|
 end
 
 old_user3 = OldUser3.new(1, "myfirst mysecond",  "admin" )
-new_user3 = mapper.load(old_user)
+new_user3 = mapper.load(old_user3)
 
 puts old_user3
 puts new_user3
@@ -199,46 +197,22 @@ puts mapper.dump(new_user3)
 
 ```ruby
 
-User4 = Struct.new(:id, :firstname, :lastname, :roles) do
-  def initialize(params={})
-    super()
+require 'yaoc'
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-  end
-end
-
-OldUser4 = Struct.new(:o_id, :o_firstname, :o_lastname, :o_roles) do
-  def initialize(params={})
-    super()
-
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-  end
-end
+include Yaoc::Helper
 
 
-Role = Struct.new(:id, :name) do
-  def initialize(params={})
-    super()
+puts "\n" * 5
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-  end
-end
 
-OldRole = Struct.new(:o_id, :o_name) do
-  def initialize(params={})
-    super()
+User4 = StructHE(:id, :firstname, :lastname, :roles)
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-  end
-end
+OldUser4 = StructHE(:o_id, :o_firstname, :o_lastname, :o_roles)
+
+
+Role = StructHE(:id, :name)
+
+OldRole = StructHE(:o_id, :o_name)
 
 
 role_mapper = Yaoc::ObjectMapper.new(Role, OldRole).tap do |mapper|
@@ -290,35 +264,17 @@ puts user_mapper.dump(new_user4)
 ### And how can I add values to existing objects?
 
 ```ruby
-OldUser5 = Struct.new(:id, :name)do
-  def initialize(params={})
-    super()
+require 'yaoc'
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-  end
-end
+include Yaoc::Helper
 
-RoleThing = Struct.new(:id, :role)do
-  def initialize(params={})
-    super()
+puts "\n" * 5
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-  end
-end
+OldUser5 = StructHE(:id, :name)
 
-User5 = Struct.new(:id, :name,  :role)do
-  def initialize(params={})
-    super()
+RoleThing = StructHE(:id, :role)
 
-    params.each do |attr, value|
-      self.public_send("#{attr}=", value)
-    end if params
-  end
-end
+User5 = StructHE(:id, :name,  :role)
 
 
 user_mapper = Yaoc::ObjectMapper.new(User5, OldUser5).tap do |mapper|
@@ -342,6 +298,7 @@ new_user5 = user_mapper.load(old_user5)
 role_mapper.load(old_role, new_user5)
 
 puts old_user5
+puts old_role
 puts new_user5
 
 #<struct OldUser5 id=1, name="my fullname">
