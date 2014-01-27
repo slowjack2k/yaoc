@@ -22,15 +22,11 @@ feature "Map objects", %q{
   }
 
   given(:load_result_object_class) {
-    Yaoc::Helper::StructH(:id, :name, :role, :foo, :bar) do
-      include Equalizer.new(:id, :name, :role, :foo, :bar)
-    end
+    Yaoc::Helper::StructHE(:id, :name, :role, :foo, :bar)
   }
 
   given(:dump_result_object_class) {
-    Yaoc::Helper::StructH(:id, :name, :fullrolename, :foo, :bar) do
-      include Equalizer.new(:id, :name, :fullrolename, :foo, :bar)
-    end
+    Yaoc::Helper::StructHE(:id, :name, :fullrolename, :foo, :bar)
   }
 
   given(:input_object){

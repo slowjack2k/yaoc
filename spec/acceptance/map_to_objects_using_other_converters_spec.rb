@@ -8,15 +8,11 @@ feature "Map objects reusing other existing converters", %q{
 
 
   given(:new_role_class){
-    Yaoc::Helper::StructH(:id, :name) do
-      include Equalizer.new(:id, :name)
-    end
+    Yaoc::Helper::StructHE(:id, :name)
   }
 
   given(:old_role_class){
-    Yaoc::Helper::StructH(:o_id, :o_name) do
-      include Equalizer.new(:o_id, :o_name)
-    end
+    Yaoc::Helper::StructHE(:o_id, :o_name)
   }
 
   given(:role_converter){
@@ -32,15 +28,11 @@ feature "Map objects reusing other existing converters", %q{
   }
 
   given(:new_user_class){
-    Yaoc::Helper::StructH(:id, :firstname, :lastname, :roles) do
-      include Equalizer.new(:id, :firstname, :lastname, :roles)
-    end
+    Yaoc::Helper::StructHE(:id, :firstname, :lastname, :roles)
   }
 
   given(:old_user_class){
-    Yaoc::Helper::StructH(:o_id, :o_firstname, :o_lastname, :o_roles) do
-      include Equalizer.new(:o_id, :o_firstname, :o_lastname, :o_roles)
-    end
+    Yaoc::Helper::StructHE(:o_id, :o_firstname, :o_lastname, :o_roles)
   }
 
   given(:user_converter){

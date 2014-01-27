@@ -7,15 +7,11 @@ feature "Fill existing objects", %q{
 } do
 
   given(:new_user_class){
-    Yaoc::Helper::StructH(:id, :firstname, :lastname, :roles) do
-      include Equalizer.new(:id, :firstname, :lastname, :roles)
-    end
+    Yaoc::Helper::StructHE(:id, :firstname, :lastname, :roles)
   }
 
   given(:old_user_class){
-    Yaoc::Helper::StructH(:o_id, :o_firstname, :o_lastname) do
-      include Equalizer.new(:o_id, :o_firstname, :o_lastname)
-    end
+    Yaoc::Helper::StructHE(:o_id, :o_firstname, :o_lastname)
   }
 
   given(:user_converter){

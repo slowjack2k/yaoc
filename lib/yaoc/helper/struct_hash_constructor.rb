@@ -23,5 +23,11 @@ module Yaoc
       end
     end
 
+    def StructHE(*args, &block)
+      StructH(*args, &block).tap do|new_class|
+        include Equalizer.new(*args)
+      end
+    end
+
   end
 end
