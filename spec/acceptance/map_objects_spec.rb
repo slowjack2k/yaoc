@@ -22,32 +22,14 @@ feature "Map objects", %q{
   }
 
   given(:load_result_object_class) {
-    Struct.new(:id, :name, :role, :foo, :bar) do
+    Yaoc::Helper::StructH(:id, :name, :role, :foo, :bar) do
       include Equalizer.new(:id, :name, :role, :foo, :bar)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
-
     end
   }
 
   given(:dump_result_object_class) {
-    Struct.new(:id, :name, :fullrolename, :foo, :bar) do
+    Yaoc::Helper::StructH(:id, :name, :fullrolename, :foo, :bar) do
       include Equalizer.new(:id, :name, :fullrolename, :foo, :bar)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
-
     end
   }
 

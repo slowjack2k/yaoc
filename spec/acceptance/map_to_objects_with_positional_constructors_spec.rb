@@ -30,17 +30,8 @@ feature "Map objects to classes with positional constructors", %q{
   }
 
   given(:dump_result_object_class) {
-    Struct.new(:id, :name) do
+    Yaoc::Helper::StructH(:id, :name) do
       include Equalizer.new(:id, :name)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
-
     end
   }
 

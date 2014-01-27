@@ -8,30 +8,14 @@ feature "Map objects reusing other existing converters", %q{
 
 
   given(:new_role_class){
-    Struct.new(:id, :name) do
+    Yaoc::Helper::StructH(:id, :name) do
       include Equalizer.new(:id, :name)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
     end
   }
 
   given(:old_role_class){
-    Struct.new(:o_id, :o_name) do
+    Yaoc::Helper::StructH(:o_id, :o_name) do
       include Equalizer.new(:o_id, :o_name)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
     end
   }
 
@@ -48,30 +32,14 @@ feature "Map objects reusing other existing converters", %q{
   }
 
   given(:new_user_class){
-    Struct.new(:id, :firstname, :lastname, :roles) do
+    Yaoc::Helper::StructH(:id, :firstname, :lastname, :roles) do
       include Equalizer.new(:id, :firstname, :lastname, :roles)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
     end
   }
 
   given(:old_user_class){
-    Struct.new(:o_id, :o_firstname, :o_lastname, :o_roles) do
+    Yaoc::Helper::StructH(:o_id, :o_firstname, :o_lastname, :o_roles) do
       include Equalizer.new(:o_id, :o_firstname, :o_lastname, :o_roles)
-
-      def initialize(params={})
-        super()
-
-        params.each do |attr, value|
-          self.public_send("#{attr}=", value)
-        end if params
-      end
     end
   }
 
