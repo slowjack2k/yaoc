@@ -19,7 +19,11 @@ module Yaoc
     end
 
     def call
-      self.class.mapping_strategy.call(self)
+      unless to_convert.nil?
+        self.class.mapping_strategy.call(self)
+      else
+        nil
+      end
     end
 
     def fill_result_with_value(result, key, value)

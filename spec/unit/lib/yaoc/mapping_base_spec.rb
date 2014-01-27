@@ -71,13 +71,21 @@ describe Yaoc::MappingBase do
   end
 
   describe "#call" do
-    it "delegates execution to strategy" do
-      mapper = subject.new()
+    let(:mapper){
+      subject.new(:some_thing)
+    }
 
+    it "delegates execution to strategy" do
       expect(subject.mapping_strategy).to receive(:call).with mapper
 
       mapper.call
     end
+
+    it "return nil when to_convert is nil" do
+      mapper.to_convert = nil
+      expect(mapper.call).to be_nil
+    end
+
   end
 
   describe "#to_proc" do

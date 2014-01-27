@@ -9,10 +9,14 @@ module Yaoc
     module InstanceMethods
       def call(pre_created_object=nil)
         source_converted_to_hash_or_array = super()
-        if pre_created_object.nil?
-          create_target_from_class(source_converted_to_hash_or_array)
+        unless source_converted_to_hash_or_array.nil?
+          if pre_created_object.nil?
+            create_target_from_class(source_converted_to_hash_or_array)
+          else
+            fill_target_object(source_converted_to_hash_or_array, pre_created_object)
+          end
         else
-          fill_target_object(source_converted_to_hash_or_array, pre_created_object)
+          nil
         end
       end
 

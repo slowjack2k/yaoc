@@ -25,6 +25,10 @@ describe Yaoc::MappingToClass do
           {:name => :new_name}
         }
 
+        def to_convert
+          :some_thing
+        end
+
       end.new(expected_class)
     }
 
@@ -60,6 +64,11 @@ describe Yaoc::MappingToClass do
       expect(created_obj).to eq obj
       expect(obj.name).to eq :new_name
       expect(obj.id).to eq :my_id
+    end
+
+    it "returns nil when nothing to convert" do
+      subject.stub(to_convert: nil)
+      expect(subject.call).to be_nil
     end
   end
 
