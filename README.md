@@ -345,6 +345,7 @@ puts old_user5
 puts new_user5
 
 #<struct OldUser5 id=1, name="my fullname">
+#<struct RoleThing id=1, role="my_role">
 #<struct User5 id=1, name="my fullname", role="my_role">
 
 ```
