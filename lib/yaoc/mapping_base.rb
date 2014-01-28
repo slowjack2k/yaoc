@@ -1,6 +1,5 @@
 module Yaoc
   module MappingBase
-    include AbstractType
 
     def self.included(other)
       other.extend(ClassMethods)
@@ -54,7 +53,6 @@ module Yaoc
     end
 
     module ClassMethods
-      include AbstractType
 
       def converter_proc(to, from, deferred=false)
         -> (to_convert, result){
