@@ -36,6 +36,10 @@ module Yaoc
         self._initialisation_proc_loaded
       end
 
+      def _needs_conversion?
+        _initialisation_proc_loaded? && ! nil?
+      end
+
     end
   end
 end
