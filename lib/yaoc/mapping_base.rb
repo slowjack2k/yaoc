@@ -72,7 +72,7 @@ module Yaoc
         @mapping_strategy
       end
 
-      def new_mapping(to: nil, from: to, converter: nil, lazy_loading: false)
+      def map(to: nil, from: to, converter: nil, lazy_loading: false)
         class_private_module(:Mapping).tap do |mod|
           method_implementation = converter || converter_proc(to, from, lazy_loading)
 
@@ -80,16 +80,6 @@ module Yaoc
           include mod
         end
       end
-
-      def map(to, from, block=nil, lazy_loading=false)
-        class_private_module(:Mapping).tap do |mod|
-          method_implementation = block || converter_proc(to, from, lazy_loading)
-
-          mod.send :define_method, "map_#{"%04d" %[converter_methods.count]}_#{from}_to_#{to}".to_sym, method_implementation
-          include mod
-        end
-      end
-      #alias_method :old_map, :map
 
       def converter_methods
         class_private_module(:Mapping).instance_methods(false).sort

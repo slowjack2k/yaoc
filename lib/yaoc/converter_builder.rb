@@ -76,7 +76,7 @@ module Yaoc
       self.all_commands_applied = false
 
       NormalizedParameters.new(to, from, converter, object_converter, is_collection, lazy_loading).each do |to, from, converter, lazy_loading|
-        build_commands.push  ->{ converter_class.map(to, from , converter, lazy_loading) }
+        build_commands.push  ->{ converter_class.map(to: to, from: from , converter: converter, lazy_loading: lazy_loading) }
       end
     end
 

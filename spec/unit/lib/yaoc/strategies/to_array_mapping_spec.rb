@@ -23,16 +23,16 @@ describe Yaoc::Strategies::ToArrayMapping do
   describe ".call" do
 
     it "creates a hash from a object" do
-      subject.new_mapping(to: 0, from: :id)
-      subject.new_mapping(to: 1, from: :name)
+      subject.map(to: 0, from: :id)
+      subject.map(to: 1, from: :name)
 
       expect(mapper.call).to eq(expected_array)
     end
 
 
     it "uses my converter proc" do
-      subject.new_mapping(to: 0, from: :id)
-      subject.new_mapping(to: 3, from: :fullname, converter: ->(source, result){ fill_result_with_value(result, 3, "#{source.fetch(:name)} Hello World") })
+      subject.map(to: 0, from: :id)
+      subject.map(to: 3, from: :fullname, converter: ->(source, result){ fill_result_with_value(result, 3, "#{source.fetch(:name)} Hello World") })
 
       ext_expectation = expected_array.clone
       ext_expectation[3] = "#{ext_expectation[1]} Hello World"
@@ -48,8 +48,8 @@ describe Yaoc::Strategies::ToArrayMapping do
       }
 
       it "uses custom fetcher methods" do
-        subject.new_mapping(to: 0, from: :id)
-        subject.new_mapping(to: 1, from: :name)
+        subject.map(to: 0, from: :id)
+        subject.map(to: 1, from: :name)
 
         def mapper.fetcher
           :public_send
@@ -59,8 +59,8 @@ describe Yaoc::Strategies::ToArrayMapping do
       end
 
       it "works with arrays" do
-        subject.new_mapping(to: 1, from: 0)
-        subject.new_mapping(to: 0, from: 1)
+        subject.map(to: 1, from: 0)
+        subject.map(to: 0, from: 1)
 
         def mapper.fetcher
           :[]
