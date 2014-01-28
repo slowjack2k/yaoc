@@ -17,7 +17,7 @@ describe Yaoc::MappingBase do
 
   describe "created module" do
     it "can be inspected" do
-      subject.map(:foo, :bar)
+      subject.new_mapping(to: :foo, from: :bar)
       expect(subject.class_private_module.inspect).to include("map_0000_bar_to_foo")
     end
   end
@@ -25,21 +25,21 @@ describe Yaoc::MappingBase do
   describe ".map" do
 
     it "creates a bunch of mapping methods" do
-      subject.map(:foo, :bar)
-      subject.map(:bar, :foo)
+      subject.new_mapping(to: :foo, from: :bar)
+      subject.new_mapping(to: :bar, from: :foo)
 
       expect(subject.new({bar: :my_to_convert, foo: :my_result}).call()).to eq [{:foo=>:my_to_convert, :bar=>:my_result},
                                                                                 {:foo=>:my_to_convert, :bar=>:my_result}]
     end
 
     it "uses my converter when provided" do
-      subject.map(:bar, :foo, ->(*){})
+      subject.new_mapping(to: :bar, from: :foo, converter: ->(*){})
 
       expect(subject.new(:my_to_convert).call()).to eq [nil]
     end
 
     it 'supports deferred mappings' do
-      subject.map(:bar, :foo, nil, true)
+      subject.new_mapping(to: :bar, from: :foo, lazy_loading: true)
       object_to_convert = {foo: [:my_result]}
 
       expect(object_to_convert).not_to receive :fetch
@@ -48,7 +48,7 @@ describe Yaoc::MappingBase do
     end
 
     it "returns results for deferred mappings" do
-      subject.map(:bar, :foo, nil, true)
+      subject.new_mapping(to: :bar, from: :foo, lazy_loading: true)
       object_to_convert = double("object_to_convert")
 
       result = subject.new(object_to_convert).call()
@@ -61,8 +61,8 @@ describe Yaoc::MappingBase do
 
   describe "#converter_methods" do
     it "preserves method order" do
-      subject.map(0, 1, ->(*){})
-      subject.map(1, :a, ->(*){})
+      subject.new_mapping(to: 0, from: 1, converter: ->(*){})
+      subject.new_mapping(to: 1, from: :a, converter: ->(*){})
 
       expect(subject.converter_methods).to eq [:map_0000_1_to_0, :map_0001_a_to_1]
     end

@@ -23,15 +23,15 @@ describe Yaoc::Strategies::ToHashMapping do
   describe "#call" do
 
     it "creates a hash from a object" do
-      subject.map(:id, :id)
-      subject.map(:name, :name)
+      subject.new_mapping(to: :id, from: :id)
+      subject.new_mapping(to: :name, from: :name)
 
       expect(mapper.call).to eq(expected_hash)
     end
 
     it "renames attributes" do
-      subject.map(:id, :id)
-      subject.map(:fullname, :name)
+      subject.new_mapping(to: :id)
+      subject.new_mapping(to: :fullname, from: :name)
 
       renamed_expectation = expected_hash.clone
       renamed_expectation[:fullname] = renamed_expectation.delete :name
@@ -40,8 +40,8 @@ describe Yaoc::Strategies::ToHashMapping do
     end
 
     it "uses my converter proc" do
-      subject.map(:id, :id)
-      subject.map(:name, :fullname, ->(source, result){ fill_result_with_value(result, :name, source.fetch(:name) + " Hello World") })
+      subject.new_mapping(to: :id)
+      subject.new_mapping(to: :name, from: :fullname, converter: ->(source, result){ fill_result_with_value(result, :name, source.fetch(:name) + " Hello World") })
 
       ext_expectation = expected_hash.clone
       ext_expectation[:name] += " Hello World"
@@ -55,8 +55,8 @@ describe Yaoc::Strategies::ToHashMapping do
       }
 
       it "uses custom fetcher methods" do
-        subject.map(:id, :id)
-        subject.map(:name, :name)
+        subject.new_mapping(to: :id)
+        subject.new_mapping(to: :name)
 
         def mapper.fetcher
           :public_send
@@ -66,8 +66,8 @@ describe Yaoc::Strategies::ToHashMapping do
       end
 
       it "works with arrays" do
-        subject.map(:id, 0)
-        subject.map(:name, 1)
+        subject.new_mapping(to: :id, from: 0)
+        subject.new_mapping(to: :name, from: 1)
 
         def mapper.fetcher
           :[]
