@@ -25,7 +25,7 @@ describe Yaoc::Helper::ToProcDelegator do
     expect(subject.first).to eq :some_value
   end
 
-  describe 'kind_of?' do
+  describe '#kind_of?' do
 
     it 'returns true when class is "real class"' do
       expect(subject).to be_kind_of Yaoc::Helper::ToProcDelegator
@@ -39,6 +39,17 @@ describe Yaoc::Helper::ToProcDelegator do
       expect(subject).not_to be_kind_of String
     end
 
+  end
+
+  describe '#nil?' do
+    it "returns true when delegate value is nil" do
+      subject = Yaoc::Helper::ToProcDelegator.new(->{nil})
+      expect(subject).to be_nil
+    end
+
+    it "returns false when delegate value is not nil" do
+      expect(subject).not_to be_nil
+    end
   end
 
 end

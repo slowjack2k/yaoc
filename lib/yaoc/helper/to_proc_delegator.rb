@@ -28,6 +28,10 @@ module Yaoc
         super || __getobj__.kind_of?(some_class)
       end
 
+      def nil?
+        __getobj__.nil?
+      end
+
     end
   end
 end
