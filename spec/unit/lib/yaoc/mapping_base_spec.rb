@@ -37,6 +37,26 @@ describe Yaoc::MappingBase do
 
       expect(subject.new(:my_to_convert).call()).to eq [nil]
     end
+
+    it 'supports deferred mappings' do
+      subject.map(:bar, :foo, nil, true)
+      object_to_convert = {foo: [:my_result]}
+
+      expect(object_to_convert).not_to receive :fetch
+
+      subject.new(object_to_convert).call()
+    end
+
+    it "returns results for deferred mappings" do
+      subject.map(:bar, :foo, nil, true)
+      object_to_convert = double("object_to_convert")
+
+      result = subject.new(object_to_convert).call()
+
+      expect(object_to_convert).to receive(:fetch).with(:foo).and_return([:my_result])
+
+      expect(result.first[:bar].first).to eq :my_result
+    end
   end
 
   describe "#converter_methods" do

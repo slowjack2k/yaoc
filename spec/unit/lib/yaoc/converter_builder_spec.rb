@@ -21,8 +21,8 @@ describe Yaoc::ConverterBuilder do
     it "applies command in recorded order as default" do
       subject.command_order = :recorded_order
 
-      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil)
-      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil, false)
+      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil, false)
 
       subject.add_mapping do
         rule to: :id
@@ -34,8 +34,8 @@ describe Yaoc::ConverterBuilder do
     it "applies command in reverse recorded order when wanted" do
       subject.command_order = :reverse_order
 
-      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
-      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil)
+      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil, false)
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil, false)
 
       subject.add_mapping do
         rule to: :id
@@ -65,7 +65,7 @@ describe Yaoc::ConverterBuilder do
   describe "#rule" do
     it "creates a converter" do
 
-      expect(converter_class).to receive(:map).with(:id, :id2, :some_proc)
+      expect(converter_class).to receive(:map).with(:id, :id2, :some_proc, false)
 
       subject.add_mapping do
         rule to: :id,
@@ -76,7 +76,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "uses defaults" do
-      expect(converter_class).to receive(:map).with(:id, :id, nil)
+      expect(converter_class).to receive(:map).with(:id, :id, nil, false)
 
       subject.add_mapping do
         rule to: :id
@@ -85,8 +85,8 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "allows to use array of attributes" do
-      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil)
-      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil, false)
+      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil, false)
 
       subject.add_mapping do
         rule to: [:id, :name]
@@ -94,8 +94,8 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "use the right 'to' when 'from' in arrays is missing" do
-      expect(converter_class).to receive(:map).ordered.with(:id, :r_id, nil)
-      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil)
+      expect(converter_class).to receive(:map).ordered.with(:id, :r_id, nil, false)
+      expect(converter_class).to receive(:map).ordered.with(:name, :name, nil, false)
 
       subject.add_mapping do
         rule to: [:id, :name],
@@ -104,7 +104,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "supports the use of a object converter" do
-      expect(converter_class).to receive(:map).ordered.with(:id, :id, kind_of(Proc))
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, kind_of(Proc), false)
       other_converter = :some_converter
 
       subject.add_mapping do
@@ -115,7 +115,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "supports the collection flag for object converters" do
-      expect(converter_class).to receive(:map).ordered.with(:id, :id, kind_of(Proc))
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, kind_of(Proc), false)
       other_converter = :some_converter
 
       subject.add_mapping do
@@ -124,6 +124,15 @@ describe Yaoc::ConverterBuilder do
              object_converter: other_converter
       end
 
+    end
+
+    it "supports lazy loading" do
+      expect(converter_class).to receive(:map).ordered.with(:id, :id, nil, true)
+
+      subject.add_mapping do
+        rule to: :id,
+             lazy_loading: true
+      end
     end
   end
 

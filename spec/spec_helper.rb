@@ -12,8 +12,6 @@ begin
 
       add_filter "/spec/"
     end
-  else
-
   end
 rescue LoadError
   warn "=" * 80
