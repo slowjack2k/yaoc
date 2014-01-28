@@ -32,6 +32,10 @@ module Yaoc
         __getobj__.nil?
       end
 
+      def _initialisation_proc_loaded?
+        self._initialisation_proc_loaded
+      end
+
     end
   end
 end
