@@ -54,19 +54,7 @@ module Yaoc
 
   end
 
-
-  class ConverterBuilder
-    attr_accessor  :build_commands, :command_order,
-                   :strategy, :all_commands_applied
-
-    def initialize(command_order=:recorded_order, fetcher=:fetch)
-      self.build_commands = []
-      self.command_order = command_order
-      self.fetcher = fetcher
-      self.strategy = :to_hash_mapping
-      self.all_commands_applied = false
-    end
-
+  module BuilderDSLMethods
     def add_mapping(&block)
       instance_eval &block
       apply_commands!
@@ -78,6 +66,38 @@ module Yaoc
       NormalizedParameters.new(to, from, converter, object_converter, is_collection, lazy_loading).each do |to, from, converter, lazy_loading|
         build_commands.push  ->{ converter_class.map(to: to, from: from , converter: converter, lazy_loading: lazy_loading) }
       end
+    end
+
+    def fetch_with(new_fetcher)
+      self.fetcher = new_fetcher
+    end
+
+    def with_strategy(new_strategy)
+      self.strategy = new_strategy
+    end
+
+    def build_commands_ordered
+      if command_order == :recorded_order
+        build_commands
+      else
+        build_commands.reverse
+      end
+    end
+  end
+
+
+  class ConverterBuilder
+    include BuilderDSLMethods
+
+    attr_accessor  :build_commands, :command_order,
+                   :strategy, :all_commands_applied
+
+    def initialize(command_order=:recorded_order, fetcher=:fetch)
+      self.build_commands = []
+      self.command_order = command_order
+      self.fetcher = fetcher
+      self.strategy = :to_hash_mapping
+      self.all_commands_applied = false
     end
 
     def apply_commands!
@@ -125,22 +145,6 @@ module Yaoc
 
     def fetcher
       @fetcher ||= :fetch
-    end
-
-    def fetch_with(new_fetcher)
-      self.fetcher = new_fetcher
-    end
-
-    def with_strategy(new_strategy)
-      self.strategy = new_strategy
-    end
-
-    def build_commands_ordered
-      if command_order == :recorded_order
-        build_commands
-      else
-        build_commands.reverse
-      end
     end
 
     def reset_converters!
