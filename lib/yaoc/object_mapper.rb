@@ -3,7 +3,7 @@ module Yaoc
   module MapperDSLMethods
     def add_mapping(&block)
       instance_eval &block
-      apply_commands
+      apply_commands!
     end
 
     def rule(to: nil, from: to, converter: nil,
@@ -80,7 +80,7 @@ module Yaoc
 
     protected
 
-    def apply_commands
+    def apply_commands!
       converter_builder.apply_commands!
       reverse_converter_builder.apply_commands!
     end
