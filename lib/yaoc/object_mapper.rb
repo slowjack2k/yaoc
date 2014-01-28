@@ -12,7 +12,8 @@ module Yaoc
         reverse_converter: nil,
         object_converter: nil,
         is_collection: nil,
-        lazy_loading: nil)
+        lazy_loading: nil,
+        reverse_lazy_loading: lazy_loading)
 
       object_converter = Array(object_converter)
 
@@ -31,7 +32,7 @@ module Yaoc
           converter: reverse_converter,
           object_converter: object_converter.map(&:reverse_converter),
           is_collection: is_collection,
-          lazy_loading: lazy_loading
+          lazy_loading: reverse_lazy_loading
       )
     end
 

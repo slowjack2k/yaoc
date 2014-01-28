@@ -28,6 +28,18 @@ module Yaoc
         super || __getobj__.kind_of?(some_class)
       end
 
+      def nil?
+        __getobj__.nil?
+      end
+
+      def _initialisation_proc_loaded?
+        self._initialisation_proc_loaded
+      end
+
+      def _needs_conversion?
+        _initialisation_proc_loaded? && ! nil?
+      end
+
     end
   end
 end
