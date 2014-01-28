@@ -1,5 +1,4 @@
 require "yaoc/version"
-require 'abstract_type'
 require 'yaoc/mapping_base'
 require 'yaoc/mapping_to_class'
 

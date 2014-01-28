@@ -1,6 +1,5 @@
 module Yaoc
   module MappingBase
-    include AbstractType
 
     def self.included(other)
       other.extend(ClassMethods)
@@ -30,6 +29,20 @@ module Yaoc
       result.tap{|taped_result| taped_result[key] = value}
     end
 
+    def fill_result_from_proc(result, key, proc, deferred=false)
+      value = if deferred
+                deferrer_strategy(proc)
+              else
+                proc.call
+              end
+
+      fill_result_with_value(result, key, value)
+    end
+
+    def deferrer_strategy(proc)
+      Yaoc::Helper::ToProcDelegator.new(proc)
+    end
+
 
     def converter_methods
       self.class.converter_methods
@@ -40,11 +53,14 @@ module Yaoc
     end
 
     module ClassMethods
-      include AbstractType
 
-      def converter_proc(to, from)
+      def converter_proc(to, from, deferred=false)
         -> (to_convert, result){
-          fill_result_with_value(result, to, to_convert.public_send(fetcher, from))
+          get_value_with = ->{
+            to_convert.public_send(fetcher, from)
+          }
+
+          fill_result_from_proc(result, to, get_value_with, deferred)
         }
       end
 
@@ -56,9 +72,11 @@ module Yaoc
         @mapping_strategy
       end
 
-      def map(to, from, block=nil)
+      def map(to: nil, from: to, converter: nil, lazy_loading: false)
         class_private_module(:Mapping).tap do |mod|
-          mod.send :define_method, "map_#{"%04d" %[converter_methods.count]}_#{from}_to_#{to}".to_sym, (block || converter_proc(to, from))
+          method_implementation = converter || converter_proc(to, from, lazy_loading)
+
+          mod.send :define_method, "map_#{"%04d" %[converter_methods.count]}_#{from}_to_#{to}".to_sym, method_implementation
           include mod
         end
       end

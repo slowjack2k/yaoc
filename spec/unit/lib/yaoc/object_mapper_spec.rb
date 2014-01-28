@@ -30,7 +30,8 @@ describe Yaoc::ObjectMapper do
         from: :id,
         converter: nil,
         object_converter: [],
-        is_collection: nil
+        is_collection: nil,
+        lazy_loading: nil,
     }
   }
 
