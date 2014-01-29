@@ -83,6 +83,10 @@ module Yaoc
         build_commands.reverse
       end
     end
+
+    def noop
+      ->(_, result){ result }
+    end
   end
 
 

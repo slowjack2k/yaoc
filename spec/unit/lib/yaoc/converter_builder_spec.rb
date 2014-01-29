@@ -161,6 +161,17 @@ describe Yaoc::ConverterBuilder do
              lazy_loading: true
       end
     end
+
+    it "supports a do nothing" do
+      expected_args = default_map_args.clone.merge({converter: kind_of(Proc)})
+
+      expect(converter_class).to receive(:map).ordered.with(expected_args)
+
+      subject.add_mapping do
+        rule to: :id,
+             converter: noop
+      end
+    end
   end
 
   describe "#converter" do
@@ -178,6 +189,12 @@ describe Yaoc::ConverterBuilder do
       subject.strategy = :to_array_mapping
 
       expect{subject.converter({})}.to raise_exception
+    end
+  end
+
+  describe "#noop" do
+    it "returns the input" do
+      expect(subject.noop.call(:some_thing, :expected_value)).to eq :expected_value
     end
   end
 
