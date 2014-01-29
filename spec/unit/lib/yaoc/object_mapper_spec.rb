@@ -88,6 +88,29 @@ describe Yaoc::ObjectMapper do
       end
     end
 
+    it "allows to use another converter as reverse converter" do
+      reverse_converter_double = double("reverse converter")
+
+      expected_params = expected_default_params.merge(
+          object_converter: [],
+      )
+
+      expected_params_reverse = expected_default_params.merge(
+          object_converter: [reverse_converter_double]
+      )
+
+
+      expect(converter_builder).to receive(:rule).with(expected_params)
+      expect(reverse_converter_builder).to receive(:rule).with(expected_params_reverse)
+
+      expect(reverse_converter_double).to receive(:reverse_converter).and_return(reverse_converter_double)
+
+      subject.add_mapping do
+        rule to: :id,
+             reverse_object_converter: reverse_converter_double
+      end
+    end
+
     it "accepts a reverse mapping for from and to" do
       expected_params = expected_default_params.merge(
           to: :id_r,
