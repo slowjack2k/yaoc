@@ -6,16 +6,20 @@ module Yaoc
       apply_commands!
     end
 
-    def rule(to: nil, from: to, converter: nil,
+    def rule(to: nil,
+        from: to,
+        converter: nil,
         reverse_to: from,
         reverse_from: to,
         reverse_converter: nil,
         object_converter: nil,
+        reverse_object_converter: object_converter,
         is_collection: nil,
         lazy_loading: nil,
         reverse_lazy_loading: lazy_loading)
 
       object_converter = Array(object_converter)
+      reverse_object_converter = Array(reverse_object_converter)
 
       converter_builder.rule(
           to: to,
@@ -30,7 +34,7 @@ module Yaoc
           to: reverse_to,
           from: reverse_from,
           converter: reverse_converter,
-          object_converter: object_converter.map(&:reverse_converter),
+          object_converter: reverse_object_converter.map(&:reverse_converter),
           is_collection: is_collection,
           lazy_loading: reverse_lazy_loading
       )
@@ -51,6 +55,11 @@ module Yaoc
     def reverse_strategy(new_strategy)
       reverse_converter_builder.strategy = new_strategy
     end
+
+    def noop
+      ->(_, result){ result }
+    end
+
   end
 
   class ObjectMapper

@@ -18,7 +18,7 @@ Or install it yourself as:
 
 ## Usage
 
-Uptodate doc's look into the specs.
+For uptodate doc's take a look into the specs.
 
 ### The resulting classes have hash enabled constructors?
 

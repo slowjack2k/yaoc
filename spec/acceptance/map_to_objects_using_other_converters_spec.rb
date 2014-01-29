@@ -49,6 +49,7 @@ feature "Map objects reusing other existing converters", %q{
         rule to: :roles,
              from: :o_roles,
              object_converter: other_converter,
+             reverse_object_converter: other_converter,
              is_collection: is_col
       end
     end
