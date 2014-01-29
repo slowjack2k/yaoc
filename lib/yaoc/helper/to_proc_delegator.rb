@@ -1,3 +1,5 @@
+require 'delegate'
+
 module Yaoc
   module Helper
     class ToProcDelegator < SimpleDelegator
