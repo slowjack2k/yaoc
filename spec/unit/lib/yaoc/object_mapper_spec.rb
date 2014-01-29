@@ -230,4 +230,10 @@ describe Yaoc::ObjectMapper do
 
   end
 
+  describe "#noop" do
+    it "returns the input" do
+      expect(subject.noop.call(:some_thing, :expected_value)).to eq :expected_value
+    end
+  end
+
 end

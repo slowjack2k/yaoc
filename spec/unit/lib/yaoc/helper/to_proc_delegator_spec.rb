@@ -41,6 +41,12 @@ describe Yaoc::Helper::ToProcDelegator do
 
   end
 
+  describe '#class' do
+    it 'is the lazy loaded object class' do
+      expect(subject.class).to eq Array
+    end
+  end
+
   describe '#nil?' do
     it "returns true when delegate value is nil" do
       subject = Yaoc::Helper::ToProcDelegator.new(->{nil})
@@ -49,6 +55,31 @@ describe Yaoc::Helper::ToProcDelegator do
 
     it "returns false when delegate value is not nil" do
       expect(subject).not_to be_nil
+    end
+  end
+
+  describe '#_initialisation_proc_loaded?' do
+    it "returns true, when __getobj__ was accessed" do
+      expect(subject._initialisation_proc_loaded?).to be_falsy
+      subject.__getobj__
+      expect(subject._initialisation_proc_loaded?).to be_truthy
+    end
+  end
+
+  describe '_needs_conversion?' do
+    it 'returns true when the object was loaded and __getobj__ is not nil' do
+      subject.__getobj__
+      expect(subject._needs_conversion?).to be_truthy
+    end
+
+    it 'returns false when the object was not' do
+      expect(subject._needs_conversion?).to be_falsy
+    end
+
+    it 'returns false when the object was loaded but is nil' do
+      subject.__getobj__
+      subject.__setobj__(nil)
+      expect(subject._needs_conversion?).to be_falsy
     end
   end
 

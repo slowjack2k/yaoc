@@ -55,6 +55,11 @@ module Yaoc
     def reverse_strategy(new_strategy)
       reverse_converter_builder.strategy = new_strategy
     end
+
+    def noop
+      ->(_, result){ result }
+    end
+
   end
 
   class ObjectMapper
