@@ -101,7 +101,7 @@ module Yaoc
 
     module TransformationCommandsClassMethods
       def converter_proc(to, from, deferred=false)
-        # will be executed in instance context later through :define_method
+        # will be executed in mapper object instance context later through :define_method
         -> (to_convert, result){
           get_value_with = ->{
             to_convert.public_send(fetcher, from)
@@ -111,6 +111,6 @@ module Yaoc
         }
       end
     end
-    
+
   end
 end
