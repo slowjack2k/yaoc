@@ -6,12 +6,20 @@ module Yaoc
 
     public
 
-    def self.create(to, from, deferred=false, proc=nil, fetcher_proc=nil)
+    def self.deferred_source
+      TransformationDeferredCommand
+    end
+
+    def self.default_source
+      TransformationCommand
+    end
+
+    def self.create(to: nil, from: nil, deferred: false, conversion_proc: nil, fetcher_proc: nil)
       # will be executed in mapper object instance context later through :define_method
-      tc_source = deferred ? TransformationDeferredCommand : TransformationCommand
+      tc_source = deferred ? deferred_source : default_source
 
       -> (to_convert, result){
-        tc_source.new(to, from, fetcher, proc, fetcher_proc).call(to_convert, result)
+        tc_source.new(to: to, from: from, fetch_method: fetcher, conversion_proc: conversion_proc, fetcher_proc: fetcher_proc).call(to_convert, result)
       }
     end
 
@@ -19,11 +27,11 @@ module Yaoc
       result.tap{|taped_result| taped_result[key] = value}
     end
 
-    def initialize(to, from, fetcher, proc=nil, fetcher_proc=nil)
+    def initialize(to: nil, from: nil, fetch_method: nil, conversion_proc: nil, fetcher_proc: nil)
       self.to = to
       self.from = from
-      self.proc = proc
-      self.fetcher = fetcher
+      self.proc = conversion_proc
+      self.fetcher = fetch_method
       self.value_fetcher_proc = fetcher_proc || ->(to_convert, fetcher, from){ to_convert.public_send(fetcher, from)}
     end
 

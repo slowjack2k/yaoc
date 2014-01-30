@@ -45,7 +45,7 @@ module Yaoc
 
       def map(to: nil, from: to, converter: nil, lazy_loading: false)
         class_private_module(:Mapping).tap do |mod|
-          method_implementation = TransformationCommand.create(to, from, lazy_loading, converter)
+          method_implementation = TransformationCommand.create(to: to, from: from, deferred: lazy_loading, conversion_proc: converter)
 
           mod.send :define_method, "map_#{"%04d" %[converter_methods.count]}_#{from}_to_#{to}".to_sym, method_implementation
           include mod

@@ -48,7 +48,7 @@ module Yaoc
         end
       }
 
-      TransformationCommand.create(to, from, deferred, nil, get_value_with)
+      TransformationCommand.create(to: to, from: from, deferred: deferred, fetcher_proc: get_value_with)
     end
 
   end
