@@ -41,7 +41,7 @@ describe Yaoc::Strategies::ToHashMapping do
 
     it "uses my converter proc" do
       subject.map(to: :id)
-      subject.map(to: :name, from: :fullname, converter: ->(source, result){ fill_result_with_value(result, :name, source.fetch(:name) + " Hello World") })
+      subject.map(to: :name, from: :fullname, converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :name, source.fetch(:name) + " Hello World") })
 
       ext_expectation = expected_hash.clone
       ext_expectation[:name] += " Hello World"

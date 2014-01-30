@@ -39,12 +39,12 @@ mapper = Yaoc::ObjectMapper.new(User, OldUser).tap do |mapper|
 
     rule to: :firstname,
          from: :fullname,
-         converter: ->(source, result){ fill_result_with_value(result, :firstname, source.fullname.split().first) },
-         reverse_converter: ->(source, result){ fill_result_with_value(result, :fullname,  "#{source.firstname} #{source.lastname}") }
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :firstname, source.fullname.split().first) },
+         reverse_converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :fullname,  "#{source.firstname} #{source.lastname}") }
 
     rule to: :lastname,
          from: :fullname,
-         converter: ->(source, result){ fill_result_with_value(result, :lastname, source.fullname.split().last ) },
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :lastname, source.fullname.split().last ) },
          reverse_converter: ->(source, result){ result }
 
     rule to: :id
@@ -104,12 +104,12 @@ mapper = Yaoc::ObjectMapper.new(source, reverse_source).tap do |mapper|
 
     rule to: :firstname,
          from: :fullname,
-         converter: ->(source, result){ fill_result_with_value(result, :firstname,  source.fullname.split().first ) },
-         reverse_converter: ->(source, result){ fill_result_with_value(result, :fullname, "#{source.firstname} #{source.lastname}") }
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :firstname,  source.fullname.split().first ) },
+         reverse_converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :fullname, "#{source.firstname} #{source.lastname}") }
 
     rule to: :lastname,
          from: :fullname,
-         converter: ->(source, result){ fill_result_with_value(result, :lastname,  source.fullname.split().last) },
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :lastname,  source.fullname.split().last) },
          reverse_converter: ->(source, result){ result }
 
     rule to: :id
@@ -147,6 +147,16 @@ puts "\n" * 5
 OldUser3 = Struct.new(:id, :fullname, :r_role)
 User3 = Struct.new(:id, :firstname, :lastname, :role)
 
+# alternative to proc for converter
+converter = Yaoc::TransformationCommand.create(to: 1,
+                                               from: :fullname,
+                                               deferred: false,
+                                               fetcher_proc: ->(source, fetcher, from){source.fullname.split().first} )
+
+reverse_converter = Yaoc::TransformationCommand.create(to: 1,
+                                                       from: :first_and_lastname,
+                                                       deferred: false,
+                                                       fetcher_proc: ->(source, fetcher, from){ "#{source.firstname} #{source.lastname}"} )
 
 mapper = Yaoc::ObjectMapper.new(User3, OldUser3).tap do |mapper|
   mapper.add_mapping do
@@ -161,8 +171,8 @@ mapper = Yaoc::ObjectMapper.new(User3, OldUser3).tap do |mapper|
     rule to: 1,
          from: :fullname,
 
-         converter: ->(source, result){ fill_result_with_value(result, 1, source.fullname.split().first)  },
-         reverse_converter: ->(source, result){ fill_result_with_value(result, 1,  "#{source.firstname} #{source.lastname}") }
+         converter: converter,
+         reverse_converter: reverse_converter
 
     rule to: 2,
          from: :fullname,
@@ -186,6 +196,7 @@ new_user3.firstname = "no"
 new_user3.lastname = "name"
 
 puts mapper.dump(new_user3)
+
 
 #<struct OldUser3 id=1, fullname="myfirst mysecond", r_role="admin">
 #<struct User3 id=1, firstname="myfirst", lastname="mysecond", role="admin">

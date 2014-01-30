@@ -12,8 +12,8 @@ feature "Map objects", %q{
         fetcher :public_send
         reverse_fetcher :public_send
         rule to: :name,
-             converter: ->(source, result){ fill_result_with_value(result, :name, "#{source[:name]} Hello World") },
-             reverse_converter: ->(source, result){ fill_result_with_value(result, :name, source.name) }
+             converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :name, "#{source[:name]} Hello World") },
+             reverse_converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :name, source.name) }
         rule to: :role, from: :fullrolename
         rule to: :id
         rule to: [:foo, :bar]
