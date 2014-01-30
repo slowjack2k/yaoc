@@ -41,25 +41,5 @@ module Yaoc
       value_fetcher_proc.call(to_convert, fetcher, from)
     end
 
-    def fill_result_with_value(*args)
-      TransformationCommand.fill_result_with_value(*args)
-    end
-
-  end
-
-  class TransformationDeferredCommand < TransformationCommand
-
-    def value(time_saved_to_convert)
-      proc = ->{
-        value_fetcher_proc.call(time_saved_to_convert, fetcher, from)
-      }
-
-      TransformationDeferredCommand.deferrer_strategy(proc)
-    end
-
-    def self.deferrer_strategy(proc)
-      Yaoc::Helper::ToProcDelegator.new(proc)
-    end
-
   end
 end

@@ -4,6 +4,7 @@ Dir[File.join(File.expand_path(__dir__ ), "yaoc/helper/*.rb")].each { |f| requir
 
 require 'yaoc/mapping_base'
 require 'yaoc/transformation_command'
+require 'yaoc/transformation_deferred_command'
 require 'yaoc/mapping_to_class'
 
 Dir[File.join(File.expand_path(__dir__ ), "yaoc/strategies/*.rb")].each { |f| require f }
