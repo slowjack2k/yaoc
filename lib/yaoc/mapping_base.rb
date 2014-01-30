@@ -3,6 +3,8 @@ module Yaoc
 
     def self.included(other)
       other.extend(ClassMethods)
+      other.send(:include, TransformationCommands)
+      other.extend(TransformationCommandsClassMethods)
     end
 
     def to_proc
@@ -25,25 +27,6 @@ module Yaoc
       end
     end
 
-    def fill_result_with_value(result, key, value)
-      result.tap{|taped_result| taped_result[key] = value}
-    end
-
-    def fill_result_from_proc(result, key, proc, deferred=false)
-      value = if deferred
-                deferrer_strategy(proc)
-              else
-                proc.call
-              end
-
-      fill_result_with_value(result, key, value)
-    end
-
-    def deferrer_strategy(proc)
-      Yaoc::Helper::ToProcDelegator.new(proc)
-    end
-
-
     def converter_methods
       self.class.converter_methods
     end
@@ -53,16 +36,6 @@ module Yaoc
     end
 
     module ClassMethods
-
-      def converter_proc(to, from, deferred=false)
-        -> (to_convert, result){
-          get_value_with = ->{
-            to_convert.public_send(fetcher, from)
-          }
-
-          fill_result_from_proc(result, to, get_value_with, deferred)
-        }
-      end
 
       def mapping_strategy=(new_strat)
         @mapping_strategy = new_strat
@@ -105,5 +78,39 @@ module Yaoc
       end
 
     end
+
+    module TransformationCommands
+      def fill_result_with_value(result, key, value)
+        result.tap{|taped_result| taped_result[key] = value}
+      end
+
+      def fill_result_from_proc(result, key, proc, deferred=false)
+        value = if deferred
+                  deferrer_strategy(proc)
+                else
+                  proc.call
+                end
+
+        fill_result_with_value(result, key, value)
+      end
+
+      def deferrer_strategy(proc)
+        Yaoc::Helper::ToProcDelegator.new(proc)
+      end
+    end
+
+    module TransformationCommandsClassMethods
+      def converter_proc(to, from, deferred=false)
+        # will be executed in instance context later through :define_method
+        -> (to_convert, result){
+          get_value_with = ->{
+            to_convert.public_send(fetcher, from)
+          }
+
+          fill_result_from_proc(result, to, get_value_with, deferred)
+        }
+      end
+    end
+    
   end
 end
