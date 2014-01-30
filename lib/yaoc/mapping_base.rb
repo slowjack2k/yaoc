@@ -3,8 +3,6 @@ module Yaoc
 
     def self.included(other)
       other.extend(ClassMethods)
-      other.send(:include, TransformationCommands)
-      other.extend(TransformationCommandsClassMethods)
     end
 
     def to_proc
@@ -47,7 +45,7 @@ module Yaoc
 
       def map(to: nil, from: to, converter: nil, lazy_loading: false)
         class_private_module(:Mapping).tap do |mod|
-          method_implementation = converter || converter_proc(to, from, lazy_loading)
+          method_implementation = TransformationCommand.create(to, from, lazy_loading, converter)
 
           mod.send :define_method, "map_#{"%04d" %[converter_methods.count]}_#{from}_to_#{to}".to_sym, method_implementation
           include mod
@@ -77,39 +75,6 @@ module Yaoc
         end
       end
 
-    end
-
-    module TransformationCommands
-      def fill_result_with_value(result, key, value)
-        result.tap{|taped_result| taped_result[key] = value}
-      end
-
-      def fill_result_from_proc(result, key, proc, deferred=false)
-        value = if deferred
-                  deferrer_strategy(proc)
-                else
-                  proc.call
-                end
-
-        fill_result_with_value(result, key, value)
-      end
-
-      def deferrer_strategy(proc)
-        Yaoc::Helper::ToProcDelegator.new(proc)
-      end
-    end
-
-    module TransformationCommandsClassMethods
-      def converter_proc(to, from, deferred=false)
-        # will be executed in mapper object instance context later through :define_method
-        -> (to_convert, result){
-          get_value_with = ->{
-            to_convert.public_send(fetcher, from)
-          }
-
-          fill_result_from_proc(result, to, get_value_with, deferred)
-        }
-      end
     end
 
   end
