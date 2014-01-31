@@ -304,9 +304,16 @@ end
 
 old_role = RoleThing.new(id: 1, role: "my_role")
 old_user5 = OldUser5.new(id: 1, name: "my fullname")
+
 new_user5 = user_mapper.load(old_user5)
 
 role_mapper.load(old_role, new_user5)
+
+# OR
+#
+# mapper_chain = Yaoc::MapperChain.new(user_mapper, role_mapper)
+# new_user5 = mapper_chain.load([old_user5, old_role])
+
 
 puts old_user5
 puts old_role

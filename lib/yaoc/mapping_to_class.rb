@@ -16,7 +16,7 @@ module Yaoc
             fill_target_object(source_converted_to_hash_or_array, pre_created_object)
           end
         else
-          nil
+          pre_created_object
         end
       end
 

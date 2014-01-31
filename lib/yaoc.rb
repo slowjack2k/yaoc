@@ -11,6 +11,7 @@ Dir[File.join(File.expand_path(__dir__ ), "yaoc/strategies/*.rb")].each { |f| re
 
 require 'yaoc/converter_builder'
 require 'yaoc/object_mapper'
+require 'yaoc/mapper_chain'
 
 module Yaoc
 
