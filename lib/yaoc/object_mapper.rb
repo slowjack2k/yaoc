@@ -18,8 +18,8 @@ module Yaoc
         lazy_loading: nil,
         reverse_lazy_loading: lazy_loading)
 
-      object_converter = Array(object_converter)
-      reverse_object_converter = Array(reverse_object_converter)
+      object_converter = Array(object_converter).map{|converter| converter.is_a?(Symbol) ? registry.for(converter) : converter}
+      reverse_object_converter = Array(reverse_object_converter).map{|converter| converter.is_a?(Symbol) ? registry.for(converter) : converter}
 
       converter_builder.rule(
           to: to,
@@ -60,16 +60,21 @@ module Yaoc
       ->(_, result){ result }
     end
 
+    def register_as(name)
+      registry.add(name, self)
+    end
+
   end
 
   class ObjectMapper
     include MapperDSLMethods
 
-    attr_accessor :load_result_source, :dump_result_source
+    attr_accessor :load_result_source, :dump_result_source, :registry
 
-    def initialize(load_result_source, dump_result_source=nil)
+    def initialize(load_result_source, dump_result_source=nil, registry=Yaoc::MapperRegistry)
       self.load_result_source = load_result_source
       self.dump_result_source = dump_result_source
+      self.registry = registry
     end
 
     def load(fetch_able, object_to_fill=nil)

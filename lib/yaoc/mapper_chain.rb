@@ -2,6 +2,10 @@ module Yaoc
   class MapperChain
     attr_accessor :converter, :last_result, :next_result
 
+    def self.registry
+      Yaoc::MapperRegistry
+    end
+
     def initialize(*converter)
       self.converter = converter
     end
@@ -44,6 +48,10 @@ module Yaoc
     end
 
     protected
+
+    def converter=(new_converter)
+      @converter = new_converter.map{|converter| converter.is_a?(Symbol) ? MapperChain.registry.for(converter) : converter}
+    end
 
     def converter_iterator
       @converter_iterator ||= self.converter.each

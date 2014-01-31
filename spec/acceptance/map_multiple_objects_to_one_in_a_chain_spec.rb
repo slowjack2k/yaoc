@@ -10,18 +10,20 @@ feature 'Map multiple objects to one', %q{
     Yaoc::MapperChain.new(first_mapper, second_mapper)
   }
 
-  given(:first_mapper){
+  given!(:first_mapper){
     Yaoc::ObjectMapper.new(new_user_class, old_user_class).tap do |mapper|
       mapper.add_mapping do
+        register_as :first_mapper
         fetcher :public_send
         rule to: :id
       end
     end
   }
 
-  given(:second_mapper){
+  given!(:second_mapper){
     Yaoc::ObjectMapper.new(new_user_class, old_user_class).tap do |mapper|
       mapper.add_mapping do
+        register_as :second_mapper
         fetcher :public_send
         rule to: :names
       end
@@ -50,15 +52,24 @@ feature 'Map multiple objects to one', %q{
     )
   }
 
-  scenario "loads an result object from multiple input object" do
+  scenario 'loads an result object from multiple input object' do
     converted_user = mapper_chain.load_all([existing_old_user, existing_old_user])
 
     expect(converted_user.id).to eq 'existing_user_2'
     expect(converted_user.names).to eq ['first_name', 'second_name']
   end
 
-  scenario "dumps an result object from multiple input object" do
+  scenario 'dumps an result object from multiple input object' do
     converted_user = mapper_chain.dump_all([existing_user, existing_user])
+
+    expect(converted_user.id).to eq 'existing_user_2'
+    expect(converted_user.names).to eq ['first_name', 'second_name']
+  end
+
+  scenario 'symbols as converter' do
+    mapper_chain = Yaoc::MapperChain.new(:first_mapper, :second_mapper)
+
+    converted_user = mapper_chain.load_all([existing_old_user, existing_old_user])
 
     expect(converted_user.id).to eq 'existing_user_2'
     expect(converted_user.names).to eq ['first_name', 'second_name']

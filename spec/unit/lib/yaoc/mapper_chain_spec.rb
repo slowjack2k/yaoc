@@ -48,6 +48,24 @@ describe Yaoc::MapperChain do
     )
   }
 
+  describe '.new' do
+    subject{
+      Yaoc::MapperChain
+    }
+
+    it 'converts symbols into converter' do
+      registry = double('registry')
+
+      expect(registry).to receive(:for).with(:one)
+      expect(registry).to receive(:for).with(:two)
+      expect(registry).to receive(:for).with(:three)
+
+      subject.stub(registry: registry)
+
+      subject.new(:one, :two, :three)
+    end
+  end
+
   describe '#load_all' do
     it 'converts multiple input objects into one result object' do
       converted_user = subject.load_all([existing_old_user, existing_old_user])
@@ -85,6 +103,14 @@ describe Yaoc::MapperChain do
       expect(converted_user.id).to eq 'existing_user_2'
       expect(converted_user.names).to eq ["first_name", "second_name"]
     end
+
+    it 'raises an exception when too many values are passed' do
+      subject.load_first(existing_old_user)
+      subject.load_next(existing_old_user)
+
+      expect{subject.load_next(existing_old_user)}.to raise_error "ToManyInputObjects"
+    end
+
   end
 
   describe '#dump_all' do
