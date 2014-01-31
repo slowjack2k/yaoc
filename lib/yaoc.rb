@@ -1,7 +1,11 @@
 require "yaoc/version"
 
-Dir[File.join(File.expand_path(__dir__ ), "yaoc/helper/*.rb")].each { |f| require f }
+require 'yaoc/helper/struct_hash_constructor'
+require 'yaoc/helper/to_proc_delegator'
+require 'yaoc/helper/thread_local_storage'
+require 'yaoc/helper/scope'
 
+require 'yaoc/mapper_registry'
 require 'yaoc/mapping_base'
 require 'yaoc/transformation_command'
 require 'yaoc/transformation_deferred_command'

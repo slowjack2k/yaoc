@@ -236,4 +236,12 @@ describe Yaoc::ObjectMapper do
     end
   end
 
+  describe '#to_s' do
+    it 'returns a readable representation' do
+      subject.dump_result_source = Object
+      subject.load_result_source = nil
+      expect(subject.to_s).to eq "Object <=> "
+    end
+  end
+
 end

@@ -88,7 +88,19 @@ module Yaoc
       reverse_converter_builder.converter(fetch_able, dump_result_source)
     end
 
+    def to_s
+      "#{dump_result_source_name} <=> #{load_result_source_name}"
+    end
+
     protected
+
+    def dump_result_source_name
+      dump_result_source.respond_to?(:name) ?  dump_result_source.name : dump_result_source.to_s
+    end
+
+    def load_result_source_name
+      load_result_source.respond_to?(:name) ? load_result_source.name : load_result_source.to_s
+    end
 
     def apply_commands!
       converter_builder.apply_commands!
