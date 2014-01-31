@@ -50,16 +50,15 @@ feature 'Map multiple objects to one', %q{
     )
   }
 
-  scenario "creates an result object from an input object" do
-    converted_user = mapper_chain.load([existing_old_user, existing_old_user])
+  scenario "loads an result object from multiple input object" do
+    converted_user = mapper_chain.load_all([existing_old_user, existing_old_user])
 
     expect(converted_user.id).to eq 'existing_user_2'
     expect(converted_user.names).to eq ['first_name', 'second_name']
   end
 
-  scenario "dumps an result object as source object defered" do
-    converted_user = mapper_chain.dump([existing_user, existing_user])
-    new_names = ["new_name1", "new_name2"]
+  scenario "dumps an result object from multiple input object" do
+    converted_user = mapper_chain.dump_all([existing_user, existing_user])
 
     expect(converted_user.id).to eq 'existing_user_2'
     expect(converted_user.names).to eq ['first_name', 'second_name']

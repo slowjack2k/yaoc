@@ -44,7 +44,7 @@ puts "\n" * 5
 
 mapper_chain = Yaoc::MapperChain.new(user_mapper, role_mapper)
 
-new_user5 = mapper_chain.load([old_user5, old_role])
+new_user5 = mapper_chain.load_all([old_user5, old_role])
 
 
 puts old_user5

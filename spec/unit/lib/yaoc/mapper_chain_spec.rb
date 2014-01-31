@@ -48,9 +48,9 @@ describe Yaoc::MapperChain do
     )
   }
 
-  describe '#load' do
+  describe '#load_all' do
     it 'converts multiple input objects into one result object' do
-      converted_user = subject.load([existing_old_user, existing_old_user])
+      converted_user = subject.load_all([existing_old_user, existing_old_user])
 
       expect(converted_user.id).to eq 'existing_user_2'
       expect(converted_user.names).to eq ['first_name', 'second_name']
@@ -59,7 +59,7 @@ describe Yaoc::MapperChain do
     it 'fills an existing object' do
       user = new_user_class.new
 
-      converted_user = subject.load([existing_old_user, existing_old_user], user)
+      converted_user = subject.load_all([existing_old_user, existing_old_user], user)
 
       expect(converted_user.id).to eq 'existing_user_2'
       expect(converted_user.names).to eq ['first_name', 'second_name']
@@ -68,9 +68,28 @@ describe Yaoc::MapperChain do
     end
   end
 
-  describe '#dump' do
+  describe '#load_first' do
+    it 'converts the first object into the result object' do
+      converted_user = subject.load_first(existing_old_user)
+
+      expect(converted_user.id).to eq 'existing_user_2'
+      expect(converted_user.names).to be_nil
+    end
+  end
+
+  describe '#load_next' do
+    it 'converts the next object into the result object' do
+      subject.load_first(existing_old_user)
+      converted_user = subject.load_next(existing_old_user)
+
+      expect(converted_user.id).to eq 'existing_user_2'
+      expect(converted_user.names).to eq ["first_name", "second_name"]
+    end
+  end
+
+  describe '#dump_all' do
     it 'converts multiple input objects into one result object' do
-      converted_user = subject.dump([existing_user, existing_user])
+      converted_user = subject.dump_all([existing_user, existing_user])
 
       expect(converted_user.o_id).to eq 'existing_user_2'
       expect(converted_user.o_names).to eq ['first_name', 'second_name']
@@ -78,12 +97,32 @@ describe Yaoc::MapperChain do
 
     it 'fills an existing object' do
       user = old_user_class.new
-      converted_user = subject.dump([existing_user, existing_user], user)
+      converted_user = subject.dump_all([existing_user, existing_user], user)
 
       expect(converted_user.o_id).to eq 'existing_user_2'
       expect(converted_user.o_names).to eq ['first_name', 'second_name']
 
       expect(converted_user.object_id).to eq user.object_id
+    end
+  end
+
+
+  describe '#dump_first' do
+    it 'dumps the first object into the result object' do
+      converted_user = subject.dump_first(existing_user)
+
+      expect(converted_user.o_id).to eq 'existing_user_2'
+      expect(converted_user.o_names).to be_nil
+    end
+  end
+
+  describe '#dump_next' do
+    it 'dumps the next object into the result object' do
+      subject.dump_first(existing_user)
+      converted_user = subject.dump_next(existing_user)
+
+      expect(converted_user.o_id).to eq 'existing_user_2'
+      expect(converted_user.o_names).to eq ['first_name', 'second_name']
     end
   end
 end
