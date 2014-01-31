@@ -226,8 +226,9 @@ Role = StructHE(:id, :name)
 OldRole = StructHE(:o_id, :o_name)
 
 
-role_mapper = Yaoc::ObjectMapper.new(Role, OldRole).tap do |mapper|
+Yaoc::ObjectMapper.new(Role, OldRole).tap do |mapper|
   mapper.add_mapping do
+    register_as :role_mapper
     fetcher :public_send
 
     rule to: :id, from: :o_id
@@ -245,7 +246,7 @@ user_mapper = Yaoc::ObjectMapper.new(User4, OldUser4).tap do |mapper|
 
     rule to: :roles,
          from: :o_roles,
-         object_converter: role_mapper,
+         object_converter: :role_mapper,
          is_collection: true
 
   end
@@ -304,9 +305,16 @@ end
 
 old_role = RoleThing.new(id: 1, role: "my_role")
 old_user5 = OldUser5.new(id: 1, name: "my fullname")
+
 new_user5 = user_mapper.load(old_user5)
 
 role_mapper.load(old_role, new_user5)
+
+# OR
+#
+# mapper_chain = Yaoc::MapperChain.new(user_mapper, role_mapper)
+# new_user5 = mapper_chain.load_all([old_user5, old_role])
+
 
 puts old_user5
 puts old_role
