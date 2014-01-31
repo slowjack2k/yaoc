@@ -193,6 +193,18 @@ describe Yaoc::ObjectMapper do
       end
     end
 
+    it 'allows to register the mapper globaly' do
+      registry_double=double('registry')
+      subject.registry = registry_double
+
+      expect(registry_double).to receive(:add).with(:mapper_name, subject)
+
+      subject.add_mapping do
+        register_as :mapper_name
+      end
+
+    end
+
 
   end
 
@@ -233,6 +245,14 @@ describe Yaoc::ObjectMapper do
   describe "#noop" do
     it "returns the input" do
       expect(subject.noop.call(:some_thing, :expected_value)).to eq :expected_value
+    end
+  end
+
+  describe '#to_s' do
+    it 'returns a readable representation' do
+      subject.dump_result_source = Object
+      subject.load_result_source = nil
+      expect(subject.to_s).to eq "Object <=> "
     end
   end
 
