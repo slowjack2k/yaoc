@@ -18,7 +18,65 @@ Or install it yourself as:
 
 ## Usage
 
-For uptodate doc's take a look into the specs.
+### What does it do in a high level?
+
+You say transform an object of class A into an object of class B:
+
+```ruby
+
+mapper =Yaoc::ObjectMapper.new(B, A) # yes, first what you want, then where to get it
+
+```
+
+Then you define some rules how it should be done:
+
+
+```ruby
+
+mapper.add_mapping do
+    fetcher :public_send
+    strategy :to_hash_mapping # default or :to_array_mapping
+
+    rule to: :role, from: :r_role
+
+    rule to: :firstname,
+         from: :fullname,
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :firstname, source.fullname.split().first) },
+         reverse_converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :fullname,  "#{source.firstname} #{source.lastname}") }
+
+    rule to: :lastname,
+         from: :fullname,
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :lastname, source.fullname.split().last ) },
+         reverse_converter: ->(source, result){ result }
+
+    rule to: :id
+end
+
+```
+
+After this you can transform an object of class A into an object of class B:
+
+```ruby
+
+mapper.load(A.new)
+
+
+```
+
+
+Or reverse:
+
+```ruby
+
+mapper.dump(B.new)
+
+
+```
+
+Depending on ```strategy``` or ```reverse_strategy``` the input object is first
+transformed into a Hash or Array and after this passed to the class constructor.
+
+
 
 ### The resulting classes have hash enabled constructors?
 
