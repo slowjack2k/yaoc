@@ -6,7 +6,7 @@ module Yaoc
       @scope ||= Helper::Scope.new("mappings")
     end
 
-    def register(key, mapper)
+    def add(key, mapper)
       scope[key.to_sym] = mapper
     end
 
