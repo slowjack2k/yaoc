@@ -23,16 +23,13 @@ Or install it yourself as:
 You say transform an object of class A into an object of class B:
 
 ```ruby
-
 mapper =Yaoc::ObjectMapper.new(B, A) # yes, first what you want, then where to get it
-
 ```
 
 Then you define some rules how it should be done:
 
 
 ```ruby
-
 mapper.add_mapping do
     fetcher :public_send
     strategy :to_hash_mapping # default or :to_array_mapping
@@ -51,32 +48,37 @@ mapper.add_mapping do
 
     rule to: :id
 end
-
 ```
 
 After this you can transform an object of class A into an object of class B:
 
 ```ruby
-
 mapper.load(A.new)
-
-
 ```
 
 
 Or reverse:
 
 ```ruby
-
 mapper.dump(B.new)
-
-
 ```
 
 Depending on ```strategy``` or ```reverse_strategy``` the input object is first
 transformed into a Hash or Array and after this passed to the class constructor.
 
+You can also pass an existing object to load and dump:
 
+
+```ruby
+b = B.new
+mapper.load(A.new, b)
+
+a = A.new
+mapper.dump(B.new, a)
+```
+
+In this case setters with matching name to the hash key
+are invoked with the hash value as value.
 
 ### The resulting classes have hash enabled constructors?
 
