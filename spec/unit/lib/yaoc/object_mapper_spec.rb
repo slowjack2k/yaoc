@@ -193,7 +193,7 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it 'allows to register the mapper globaly' do
+    it 'allows to register the mapper globally' do
       registry_double=double('registry')
       subject.registry = registry_double
 

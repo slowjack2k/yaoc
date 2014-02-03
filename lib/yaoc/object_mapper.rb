@@ -61,7 +61,7 @@ module Yaoc
     end
 
     def register_as(name)
-      registry.add(name, self)
+      registry.add(name, self) unless name.nil?
     end
 
   end
