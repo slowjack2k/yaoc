@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe Yaoc::MapperChain do
+describe Yaoc::ManyToOneMapperChain do
 
   subject{
-    Yaoc::MapperChain.new(first_mapper, second_mapper)
+    Yaoc::ManyToOneMapperChain.new(first_mapper, second_mapper)
   }
 
   let(:first_mapper){
@@ -50,7 +50,7 @@ describe Yaoc::MapperChain do
 
   describe '.new' do
     subject{
-      Yaoc::MapperChain
+      Yaoc::ManyToOneMapperChain
     }
 
     it 'converts symbols into converter' do
