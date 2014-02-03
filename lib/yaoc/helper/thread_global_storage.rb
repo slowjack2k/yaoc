@@ -1,14 +1,25 @@
 module Yaoc
   module Helper
-    class ThreadLocalStorage
+    require 'thread'
+
+    class ThreadGlobalStorage
       class << self
         private :new
       end
 
       attr_accessor :data
 
+      @mutex = Mutex.new
+
+      def self.mutex
+        @mutex
+      end
+
       def self.for(scope_name="default")
-        Thread.current["_#{name}_#{scope_name}"] ||= new
+        mutex.synchronize {
+          @storage ||= {}
+          @storage[scope_name] ||= new
+        }
       end
 
       def initialize
@@ -16,7 +27,9 @@ module Yaoc
       end
 
       def []=(key, value)
-        self.data[key]=value
+        mutex.synchronize {
+          self.data[key]=value
+        }
       end
 
       def [](key)
@@ -24,13 +37,19 @@ module Yaoc
       end
 
       def clear!
-        self.data.clear
+        mutex.synchronize {
+          self.data.clear
+        }
       end
 
       def fetch(*args, &block)
         self.data.fetch(*args, &block)
       end
 
+      def mutex
+        self.class.mutex
+      end
+      
     end
   end
 end
