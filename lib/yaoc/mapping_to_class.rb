@@ -8,7 +8,7 @@ module Yaoc
 
     module InstanceMethods
       def call(pre_created_object=nil)
-        source_converted_to_hash_or_array = super()
+        source_converted_to_hash_or_array = to_hash_or_array()
         unless source_converted_to_hash_or_array.nil?
           if pre_created_object.nil?
             create_target_from_class(source_converted_to_hash_or_array)
@@ -19,6 +19,7 @@ module Yaoc
           pre_created_object
         end
       end
+      alias_method :to_object, :call
 
       def source_method
         self.target_source.respond_to?(:call) ? :call : :new

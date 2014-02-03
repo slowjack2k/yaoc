@@ -4,13 +4,13 @@ module Yaoc
 
       attr_accessor :scope_name, :storage_source
 
-      def initialize(scope_name="default", storage_source=ThreadLocalStorage)
+      def initialize(scope_name="default", storage_source=ThreadGlobalStorage)
         self.scope_name  = scope_name
         self.storage_source = storage_source
       end
 
       def storage
-        storage_source.for(scope_name).data
+        storage_source.for(scope_name)
       end
 
       def []=(key, value)

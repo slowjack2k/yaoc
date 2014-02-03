@@ -3,6 +3,7 @@ require "yaoc/version"
 require 'yaoc/helper/struct_hash_constructor'
 require 'yaoc/helper/to_proc_delegator'
 require 'yaoc/helper/thread_local_storage'
+require 'yaoc/helper/thread_global_storage'
 require 'yaoc/helper/scope'
 
 require 'yaoc/mapper_registry'
@@ -15,7 +16,8 @@ Dir[File.join(File.expand_path(__dir__ ), "yaoc/strategies/*.rb")].each { |f| re
 
 require 'yaoc/converter_builder'
 require 'yaoc/object_mapper'
-require 'yaoc/mapper_chain'
+require 'yaoc/many_to_one_mapper_chain'
+require 'yaoc/one_to_many_mapper_chain'
 
 module Yaoc
 

@@ -7,7 +7,7 @@ describe Yaoc::Helper::Scope do
     end
 
     def for(*args)
-      self
+      data
     end
 
     def data

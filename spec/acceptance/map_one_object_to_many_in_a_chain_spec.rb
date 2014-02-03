@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-feature 'Map multiple objects to one', %q{
+feature 'Map multiple one object to many', %q{
    In order to convert objects in lesser steps
    as a lib user
-   I want to be able to chain converters and input objects
+   I want to be able to chain converters and get multiple objects out of one
 } do
 
   given(:mapper_chain){
-    Yaoc::ManyToOneMapperChain.new(first_mapper, second_mapper)
+    Yaoc::OneToManyMapperChain.new(first_mapper, second_mapper)
   }
 
   given!(:first_mapper){
@@ -52,27 +52,27 @@ feature 'Map multiple objects to one', %q{
     )
   }
 
-  scenario 'loads an result object from multiple input object' do
-    converted_user = mapper_chain.load_all([existing_old_user, existing_old_user])
+  scenario 'loads multiple result object from one input object' do
+    converted_users = mapper_chain.load_all(existing_old_user)
 
-    expect(converted_user.id).to eq 'existing_user_2'
-    expect(converted_user.names).to eq ['first_name', 'second_name']
+    expect(converted_users[0].id).to eq 'existing_user_2'
+    expect(converted_users[1].names).to eq ['first_name', 'second_name']
   end
 
-  scenario 'dumps an result object from multiple input object' do
-    converted_user = mapper_chain.dump_all([existing_user, existing_user])
+  scenario 'dumps multiple result object from one input object' do
+    converted_users = mapper_chain.dump_all(existing_user)
 
-    expect(converted_user.id).to eq 'existing_user_2'
-    expect(converted_user.names).to eq ['first_name', 'second_name']
+    expect(converted_users[0].id).to eq 'existing_user_2'
+    expect(converted_users[1].names).to eq ['first_name', 'second_name']
   end
 
   scenario 'symbols as converter' do
-    mapper_chain = Yaoc::ManyToOneMapperChain.new(:first_mapper, :second_mapper)
+    mapper_chain = Yaoc::OneToManyMapperChain.new(:first_mapper, :second_mapper)
 
-    converted_user = mapper_chain.load_all([existing_old_user, existing_old_user])
+    converted_users = mapper_chain.load_all(existing_old_user)
 
-    expect(converted_user.id).to eq 'existing_user_2'
-    expect(converted_user.names).to eq ['first_name', 'second_name']
+    expect(converted_users[0].id).to eq 'existing_user_2'
+    expect(converted_users[1].names).to eq ['first_name', 'second_name']
   end
 
 end

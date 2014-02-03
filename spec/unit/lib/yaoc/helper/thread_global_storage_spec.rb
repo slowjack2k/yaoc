@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Yaoc::Helper::ThreadLocalStorage do
+describe Yaoc::Helper::ThreadGlobalStorage do
   subject{
-    Yaoc::Helper::ThreadLocalStorage
+    Yaoc::Helper::ThreadGlobalStorage
   }
 
   let(:storage){
@@ -10,7 +10,7 @@ describe Yaoc::Helper::ThreadLocalStorage do
   }
 
   describe '.for' do
-    it 'creates a new object for every thread' do
+    it 'creates a new object for all threads' do
       subject.for
 
       threat_one_object_id = nil
@@ -44,7 +44,6 @@ describe Yaoc::Helper::ThreadLocalStorage do
     storage.clear!
 
     expect(storage['key']).to be_nil
-
   end
 
 end
