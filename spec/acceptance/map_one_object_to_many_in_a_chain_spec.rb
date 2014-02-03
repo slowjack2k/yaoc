@@ -67,12 +67,12 @@ feature 'Map multiple one object to many', %q{
   end
 
   scenario 'symbols as converter' do
-    mapper_chain = Yaoc::ManyToOneMapperChain.new(:first_mapper, :second_mapper)
+    mapper_chain = Yaoc::OneToManyMapperChain.new(:first_mapper, :second_mapper)
 
-    converted_user = mapper_chain.load_all([existing_old_user, existing_old_user])
+    converted_users = mapper_chain.load_all(existing_old_user)
 
-    expect(converted_user.id).to eq 'existing_user_2'
-    expect(converted_user.names).to eq ['first_name', 'second_name']
+    expect(converted_users[0].id).to eq 'existing_user_2'
+    expect(converted_users[1].names).to eq ['first_name', 'second_name']
   end
 
 end
