@@ -35,7 +35,7 @@ module Yaoc
     protected
 
     def converter=(new_converter)
-      @converter = new_converter.map{|converter| converter.is_a?(Symbol) ? ManyToOneMapperChain.registry.for(converter) : converter}
+      @converter = new_converter.map{|converter| converter.is_a?(Symbol) ? OneToManyMapperChain.registry.for(converter) : converter}
     end
 
     def each_object_with_converter(objects_to_fill)
