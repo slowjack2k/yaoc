@@ -21,7 +21,7 @@ describe Yaoc::MapperRegistry do
 
   describe '.scope_storage' do
     it 'supports the change of scope storage' do
-      expect {subject.scope_storage(Yaoc::Helper::ThreadLocalStorage)}.not_to raise_error
+      expect {subject.scope_storage(ScopedStorage::ThreadLocalStorage)}.not_to raise_error
     end
 
   end

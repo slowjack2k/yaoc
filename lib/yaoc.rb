@@ -1,10 +1,9 @@
 require "yaoc/version"
 
+require 'scoped_storage'
+
 require 'yaoc/helper/struct_hash_constructor'
 require 'yaoc/helper/to_proc_delegator'
-require 'yaoc/helper/thread_local_storage'
-require 'yaoc/helper/thread_global_storage'
-require 'yaoc/helper/scope'
 
 require 'yaoc/mapper_registry'
 require 'yaoc/mapping_base'
