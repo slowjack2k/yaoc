@@ -11,7 +11,7 @@ module Yaoc
       object_converter_s = Array(object_converter)
       is_collection_s = Array(is_collection)
 
-      self.to_s.each_with_index do |to, index|
+      to_s.each_with_index do |to, index|
         from_s[index] ||= to
         lazy_loading_s[index] ||= false
       end
@@ -28,7 +28,7 @@ module Yaoc
     def each
       return to_enum(__callee__) unless block_given?
 
-      self.to_s.each_with_index do |to, index|
+      to_s.each_with_index do |to, index|
         yield to, from_s[index] , converter_s[index], lazy_loading_s[index]
       end
     end
@@ -106,7 +106,7 @@ module Yaoc
     end
 
     def converter(fetch_able, target_source = nil)
-      raise 'BuildCommandsNotExecuted' unless self.all_commands_applied?
+      fail 'BuildCommandsNotExecuted' unless self.all_commands_applied?
       converter_class.new(fetch_able, fetcher, target_source || ->(attrs) { attrs })
     end
 

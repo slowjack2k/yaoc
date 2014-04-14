@@ -1,5 +1,2 @@
-AllCops:
-  Exclude:
-    - spec/support/*.rb
 
 inherit_from: rubocop-todo.yml

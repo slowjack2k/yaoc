@@ -112,7 +112,7 @@ describe Yaoc::MappingBase do
       mapper_as_proc = mapper.to_proc
 
       mapper.stub(:call) do
-        raise 'MyException'
+        fail 'MyException'
       end
 
       expect(mapper).to receive(:to_convert=).ordered.with(:some_thing)

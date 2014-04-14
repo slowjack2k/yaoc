@@ -16,7 +16,7 @@ module Yaoc
     end
 
     def load_next(input_object)
-      self.next_result = converter_iterator.next.load(input_object, self.next_result)
+      self.next_result = converter_iterator.next.load(input_object, next_result)
     rescue StopIteration
       raise 'ToManyInputObjects'
     end
@@ -35,7 +35,7 @@ module Yaoc
     end
 
     def dump_next(input_object)
-      self.next_result = converter_iterator.next.dump(input_object, self.next_result)
+      self.next_result = converter_iterator.next.dump(input_object, next_result)
     end
 
     def dump_all(input_objects, object_to_fill = nil)
@@ -53,12 +53,12 @@ module Yaoc
     end
 
     def converter_iterator
-      @converter_iterator ||= self.converter.each
+      @converter_iterator ||= converter.each
     end
 
     def each_object_with_converter(input_objects)
       it_input_objects = input_objects.each
-      it_converters = self.converter.each
+      it_converters = converter.each
 
       loop do
         begin
