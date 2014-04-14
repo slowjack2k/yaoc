@@ -7,7 +7,6 @@ describe Yaoc::ConverterBuilder do
     end
   end
 
-
   let(:converter_class)do
     double("converter_class", map: nil, new: converter)
   end
@@ -115,7 +114,6 @@ describe Yaoc::ConverterBuilder do
     it "use the right 'to' when 'from' in arrays is missing" do
       expected_args_first = default_map_args.clone.merge(from: :r_id)
       expected_args_second = default_map_args.clone.merge(to: :name, from: :name)
-
 
       expect(converter_class).to receive(:map).ordered.with(expected_args_first)
       expect(converter_class).to receive(:map).ordered.with(expected_args_second)

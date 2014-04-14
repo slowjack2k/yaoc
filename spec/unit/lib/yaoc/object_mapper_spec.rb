@@ -74,13 +74,11 @@ describe Yaoc::ObjectMapper do
           object_converter: [converter_double]
       )
 
-
       expect(converter_builder).to receive(:rule).with(expected_params)
       expect(reverse_converter_builder).to receive(:rule).with(expected_params_reverse)
 
       expect(converter_double).to receive(:converter).and_return(converter_double)
       expect(converter_double).to receive(:reverse_converter).and_return(converter_double)
-
 
       subject.add_mapping do
         rule to: :id,
@@ -98,7 +96,6 @@ describe Yaoc::ObjectMapper do
       expected_params_reverse = expected_default_params.merge(
           object_converter: [reverse_converter_double]
       )
-
 
       expect(converter_builder).to receive(:rule).with(expected_params)
       expect(reverse_converter_builder).to receive(:rule).with(expected_params_reverse)
@@ -204,7 +201,6 @@ describe Yaoc::ObjectMapper do
       end
 
     end
-
 
   end
 

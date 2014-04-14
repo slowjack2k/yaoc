@@ -6,7 +6,6 @@ feature "Map objects reusing other existing converters", %q{
    I want to map object from an input object to an output object and reverse with a given converter
 } do
 
-
   given(:new_role_class)do
     Yaoc::Helper::StructHE(:id, :name)
   end
@@ -54,7 +53,6 @@ feature "Map objects reusing other existing converters", %q{
       end
     end
   end
-
 
   context "composition is a collection" do
     given(:is_collection)do

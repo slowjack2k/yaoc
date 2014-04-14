@@ -88,7 +88,6 @@ describe Yaoc::OneToManyMapperChain do
     end
   end
 
-
   describe '#dump_all' do
     it 'converts one input object into multiple result object' do
       converted_users = subject.dump_all(existing_user)

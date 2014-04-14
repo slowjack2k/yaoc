@@ -10,7 +10,6 @@ puts "\n" * 5
 OldUser3 = Struct.new(:id, :fullname, :r_role)
 User3 = Struct.new(:id, :firstname, :lastname, :role)
 
-
 converter = Yaoc::TransformationCommand.create(to: 1,
                                                from: :fullname,
                                                deferred: false,
@@ -59,7 +58,6 @@ new_user3.firstname = "no"
 new_user3.lastname = "name"
 
 puts mapper.dump(new_user3)
-
 
 puts "\n" * 5
 

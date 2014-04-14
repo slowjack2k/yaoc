@@ -88,7 +88,6 @@ module Yaoc
     end
   end
 
-
   class ConverterBuilder
     include BuilderDSLMethods
 

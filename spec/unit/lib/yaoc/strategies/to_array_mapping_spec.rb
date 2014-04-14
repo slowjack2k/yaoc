@@ -29,7 +29,6 @@ describe Yaoc::Strategies::ToArrayMapping do
       expect(mapper.call).to eq(expected_array)
     end
 
-
     it "uses my converter proc" do
       subject.map(to: 0, from: :id)
       subject.map(to: 3, from: :fullname, converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, 3, "#{source.fetch(:name)} Hello World") })

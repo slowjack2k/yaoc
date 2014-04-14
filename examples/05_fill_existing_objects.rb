@@ -13,7 +13,6 @@ RoleThing = StructHE(:id, :role)
 
 User5 = StructHE(:id, :name,  :role)
 
-
 user_mapper = Yaoc::ObjectMapper.new(User5, OldUser5).tap do |mapper|
   mapper.add_mapping do
     fetcher :public_send
@@ -45,7 +44,6 @@ puts "\n" * 5
 mapper_chain = Yaoc::ManyToOneMapperChain.new(user_mapper, role_mapper)
 
 new_user5 = mapper_chain.load_all([old_user5, old_role])
-
 
 puts old_user5
 puts old_role

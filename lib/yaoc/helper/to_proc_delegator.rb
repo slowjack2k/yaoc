@@ -12,7 +12,6 @@ module Yaoc
         end
       end
 
-
       def __getobj__
         unless self._initialisation_proc_loaded
           self._initialisation_proc_loaded = true

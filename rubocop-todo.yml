@@ -8,7 +8,7 @@
 # Offence count: 6
 # Cop supports --auto-correct.
 Alias:
-  Enabled: true
+  Enabled: false
 
 # Offence count: 4
 AmbiguousOperator:
@@ -32,7 +32,7 @@ Documentation:
 # Offence count: 31
 # Cop supports --auto-correct.
 EmptyLines:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 1
 EmptyLinesAroundAccessModifier:

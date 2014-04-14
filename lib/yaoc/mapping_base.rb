@@ -26,7 +26,6 @@ module Yaoc
     end
     alias_method :to_hash_or_array, :call
 
-
     def converter_methods
       self.class.converter_methods
     end

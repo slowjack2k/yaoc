@@ -43,7 +43,6 @@ describe Yaoc::MappingToClass do
       subject.call
     end
 
-
     it "splattes args when conversion result is an array" do
       creator = ->(*args){}
       subject.class.mapping_strategy = ->(obj){
@@ -77,6 +76,5 @@ describe Yaoc::MappingToClass do
       expect(subject.to_a).to eq ([subject])
     end
   end
-
 
 end

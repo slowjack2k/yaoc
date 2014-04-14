@@ -57,6 +57,4 @@ new_user2.lastname = "name"
 
 puts mapper.dump(new_user2)
 
-
-
 puts "\n" * 5

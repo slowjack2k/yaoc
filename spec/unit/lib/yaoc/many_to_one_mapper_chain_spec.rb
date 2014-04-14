@@ -132,7 +132,6 @@ describe Yaoc::ManyToOneMapperChain do
     end
   end
 
-
   describe '#dump_first' do
     it 'dumps the first object into the result object' do
       converted_user = subject.dump_first(existing_user)
