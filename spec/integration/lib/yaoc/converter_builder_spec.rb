@@ -5,7 +5,7 @@ describe Yaoc::ConverterBuilder do
     ot = other_converter
     is_col = is_collection
 
-    Yaoc::ConverterBuilder.new().tap do|converter|
+    Yaoc::ConverterBuilder.new.tap do|converter|
       converter.add_mapping do
         fetch_with :[]
         rule to: :id,
@@ -18,7 +18,7 @@ describe Yaoc::ConverterBuilder do
   end
 
   let(:other_converter)do
-    Class.new() do
+    Class.new do
       def to_proc
         @proc ||= ->(index, *args)do
           [nil, nil, :my_result_1, nil,  :my_result_2][index]

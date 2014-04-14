@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Yaoc::ConverterBuilder do
   subject do
-    Yaoc::ConverterBuilder.new().tap do|converter|
+    Yaoc::ConverterBuilder.new.tap do|converter|
       converter.stub(:converter_class).and_return(converter_class)
     end
   end
@@ -174,7 +174,7 @@ describe Yaoc::ConverterBuilder do
 
   describe "#converter" do
     it "creates a new converter class with the wanted strategy" do
-      subject = Yaoc::ConverterBuilder.new()
+      subject = Yaoc::ConverterBuilder.new
       subject.add_mapping do
         with_strategy :to_array_mapping
       end
@@ -183,7 +183,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "raises an exception when not all commands are applied" do
-      subject = Yaoc::ConverterBuilder.new()
+      subject = Yaoc::ConverterBuilder.new
       subject.strategy = :to_array_mapping
 
       expect{subject.converter({})}.to raise_exception

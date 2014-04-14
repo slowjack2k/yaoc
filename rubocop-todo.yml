@@ -69,7 +69,7 @@ LineLength:
 # Offence count: 19
 # Cop supports --auto-correct.
 MethodCallParentheses:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 4
 # Configuration parameters: CountComments.

@@ -111,7 +111,7 @@ module Yaoc
     end
 
     def converter_builder
-      @converter_builder ||= Yaoc::ConverterBuilder.new()
+      @converter_builder ||= Yaoc::ConverterBuilder.new
     end
 
     def reverse_converter_builder

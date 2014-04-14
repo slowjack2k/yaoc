@@ -34,12 +34,12 @@ mapper = Yaoc::ObjectMapper.new(source, reverse_source).tap do |mapper|
 
     rule to: :firstname,
          from: :fullname,
-         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :firstname,  source.fullname.split().first ) },
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :firstname,  source.fullname.split.first ) },
          reverse_converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :fullname, "#{source.firstname} #{source.lastname}") }
 
     rule to: :lastname,
          from: :fullname,
-         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :lastname,  source.fullname.split().last) },
+         converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :lastname,  source.fullname.split.last) },
          reverse_converter: ->(source, result){ result }
 
     rule to: :id

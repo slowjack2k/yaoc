@@ -133,7 +133,7 @@ module Yaoc
       sym.to_s
          .split("_")
          .map(&:capitalize)
-         .join()
+         .join
          .to_sym
     end
 

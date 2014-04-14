@@ -28,8 +28,8 @@ describe Yaoc::MappingBase do
       subject.map(to: :foo, from: :bar)
       subject.map(to: :bar, from: :foo)
 
-      expect(subject.new(bar: :my_to_convert, foo: :my_result).call()).to eq [{foo: :my_to_convert, bar: :my_result},
-                                                                              {foo: :my_to_convert, bar: :my_result}]
+      expect(subject.new(bar: :my_to_convert, foo: :my_result).call).to eq [{foo: :my_to_convert, bar: :my_result},
+                                                                            {foo: :my_to_convert, bar: :my_result}]
     end
 
     it "delegates to TransformationCommand.create" do
@@ -61,11 +61,11 @@ describe Yaoc::MappingBase do
     end
 
     it "uses in class declared fetcher" do
-      expect(subject_with_fetcher.new().fetcher).to eq "my_fetcher"
+      expect(subject_with_fetcher.new.fetcher).to eq "my_fetcher"
     end
 
     it "uses build in fetcher without a fetcher definition" do
-      expect(subject.new().fetcher).to eq :fetch
+      expect(subject.new.fetcher).to eq :fetch
     end
 
   end
@@ -90,7 +90,7 @@ describe Yaoc::MappingBase do
 
   describe "#to_proc" do
     it "creates a wrapper around call" do
-      mapper = subject.new()
+      mapper = subject.new
       mapper_as_proc = mapper.to_proc
       expect(mapper).to receive :call
 

@@ -15,7 +15,7 @@ module Yaoc
       def __getobj__
         unless self._initialisation_proc_loaded
           self._initialisation_proc_loaded = true
-          __setobj__(self._initialisation_proc.call())
+          __setobj__(self._initialisation_proc.call)
         end
 
         super
