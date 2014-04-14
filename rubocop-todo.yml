@@ -50,7 +50,7 @@ FavorSprintf:
 # Offence count: 37
 # Cop supports --auto-correct.
 FinalNewline:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 8
 # Cop supports --auto-correct.
