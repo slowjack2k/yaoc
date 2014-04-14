@@ -21,14 +21,14 @@ mapper = Yaoc::ObjectMapper.new(User, OldUser).tap do |mapper|
 
     rule to: :lastname,
          from: :fullname,
-         converter: ->(source, result) { Yaoc::TransformationCommand.fill_result_with_value(result, :lastname, source.fullname.split.last ) },
+         converter: ->(source, result) { Yaoc::TransformationCommand.fill_result_with_value(result, :lastname, source.fullname.split.last) },
          reverse_converter: ->(source, result) { result }
 
     rule to: :id
   end
 end
 
-old_user = OldUser.new(id: 1, fullname: "myfirst mysecond", r_role: "admin" )
+old_user = OldUser.new(id: 1, fullname: "myfirst mysecond", r_role: "admin")
 new_user = mapper.load(old_user)
 
 puts "\n" * 5

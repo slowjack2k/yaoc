@@ -13,12 +13,12 @@ User3 = Struct.new(:id, :firstname, :lastname, :role)
 converter = Yaoc::TransformationCommand.create(to: 1,
                                                from: :fullname,
                                                deferred: false,
-                                               fetcher_proc: ->(source, fetcher, from) {source.fullname.split.first } )
+                                               fetcher_proc: ->(source, fetcher, from) {source.fullname.split.first })
 
 reverse_converter = Yaoc::TransformationCommand.create(to: 1,
                                                        from: :first_and_lastname,
                                                        deferred: false,
-                                                       fetcher_proc: ->(source, fetcher, from) { "#{source.firstname} #{source.lastname}" } )
+                                                       fetcher_proc: ->(source, fetcher, from) { "#{source.firstname} #{source.lastname}" })
 
 mapper = Yaoc::ObjectMapper.new(User3, OldUser3).tap do |mapper|
   mapper.add_mapping do
@@ -48,7 +48,7 @@ mapper = Yaoc::ObjectMapper.new(User3, OldUser3).tap do |mapper|
   end
 end
 
-old_user3 = OldUser3.new(1, "myfirst mysecond",  "admin" )
+old_user3 = OldUser3.new(1, "myfirst mysecond",  "admin")
 new_user3 = mapper.load(old_user3)
 
 puts old_user3
