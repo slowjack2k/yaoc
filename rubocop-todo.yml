@@ -169,7 +169,7 @@ TrailingBlankLines:
 # Offence count: 9
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
 TrailingComma:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 4
 # Configuration parameters: ExactNameMatch, AllowPredicates, Whitelist.
