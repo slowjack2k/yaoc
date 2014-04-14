@@ -58,7 +58,7 @@ describe Yaoc::TransformationCommand do
       Yaoc::TransformationCommand.new(to: :id, from: :name, fetch_method: :fetch, fetcher_proc: value_fetcher)
     end
 
-    let(:value_fetcher) { double('value fetcher proc')}
+    let(:value_fetcher) { double('value fetcher proc') }
 
     it 'uses a given proc for value fetching' do
       expect(value_fetcher).to receive(:call).with(source, :fetch, :name).and_return(:some_thing_to_store)

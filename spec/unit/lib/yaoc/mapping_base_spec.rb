@@ -33,16 +33,16 @@ describe Yaoc::MappingBase do
     end
 
     it "delegates to TransformationCommand.create" do
-      expect(Yaoc::TransformationCommand).to receive(:create).with(to: :bar, from: :foo, deferred: false, conversion_proc: kind_of(Proc)).and_return(->(*){})
-      subject.map(to: :bar, from: :foo, converter: ->(*){})
+      expect(Yaoc::TransformationCommand).to receive(:create).with(to: :bar, from: :foo, deferred: false, conversion_proc: kind_of(Proc)).and_return(->(*) {})
+      subject.map(to: :bar, from: :foo, converter: ->(*) {})
     end
 
   end
 
   describe "#converter_methods" do
     it "preserves method order" do
-      subject.map(to: 0, from: 1, converter: ->(*){})
-      subject.map(to: 1, from: :a, converter: ->(*){})
+      subject.map(to: 0, from: 1, converter: ->(*) {})
+      subject.map(to: 1, from: :a, converter: ->(*) {})
 
       expect(subject.converter_methods).to eq [:map_0000_1_to_0, :map_0001_a_to_1]
     end
@@ -118,7 +118,7 @@ describe Yaoc::MappingBase do
       expect(mapper).to receive(:to_convert=).ordered.with(:some_thing)
       expect(mapper).to receive(:to_convert=).ordered.with(:old_some_thing)
 
-      expect{mapper_as_proc.call(:some_thing)}.to raise_error "MyException"
+      expect { mapper_as_proc.call(:some_thing) }.to raise_error "MyException"
     end
   end
 

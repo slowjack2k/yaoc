@@ -24,7 +24,7 @@ module Yaoc
     end
 
     def self.fill_result_with_value(result, key, value)
-      result.tap{|taped_result| taped_result[key] = value}
+      result.tap { |taped_result| taped_result[key] = value }
     end
 
     def initialize(to: nil, from: nil, fetch_method: nil, conversion_proc: nil, fetcher_proc: nil)
@@ -32,7 +32,7 @@ module Yaoc
       self.from = from
       self.proc = conversion_proc
       self.fetcher = fetch_method
-      self.value_fetcher_proc = fetcher_proc || ->(to_convert, fetcher, from){ to_convert.public_send(fetcher, from)}
+      self.value_fetcher_proc = fetcher_proc || ->(to_convert, fetcher, from) { to_convert.public_send(fetcher, from) }
     end
 
     def call(to_convert, result)

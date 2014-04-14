@@ -49,7 +49,7 @@ describe Yaoc::Helper::ToProcDelegator do
 
   describe '#nil?' do
     it "returns true when delegate value is nil" do
-      subject = Yaoc::Helper::ToProcDelegator.new(->{nil})
+      subject = Yaoc::Helper::ToProcDelegator.new(-> { nil })
       expect(subject).to be_nil
     end
 

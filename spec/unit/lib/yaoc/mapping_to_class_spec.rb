@@ -37,14 +37,14 @@ describe Yaoc::MappingToClass do
     end
 
     it "can use a lambda for creation" do
-      creator = ->(*args){}
+      creator = ->(*args) {}
       expect(creator).to receive :call
       subject.target_source = creator
       subject.call
     end
 
     it "splattes args when conversion result is an array" do
-      creator = ->(*args){}
+      creator = ->(*args) {}
       subject.class.mapping_strategy = ->(obj){
         [1, 2]
       }

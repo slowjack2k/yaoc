@@ -108,7 +108,7 @@ describe Yaoc::ManyToOneMapperChain do
       subject.load_first(existing_old_user)
       subject.load_next(existing_old_user)
 
-      expect{subject.load_next(existing_old_user)}.to raise_error "ToManyInputObjects"
+      expect { subject.load_next(existing_old_user) }.to raise_error "ToManyInputObjects"
     end
 
   end

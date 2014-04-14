@@ -14,7 +14,7 @@ describe Yaoc::TransformationDeferredCommand do
   end
 
   describe '#value' do
-    let(:value_fetcher) { double('value fetcher proc')}
+    let(:value_fetcher) { double('value fetcher proc') }
 
     it 'deferres access to source object' do
       expect(source).not_to receive :fetch

@@ -186,7 +186,7 @@ describe Yaoc::ConverterBuilder do
       subject = Yaoc::ConverterBuilder.new
       subject.strategy = :to_array_mapping
 
-      expect{subject.converter({})}.to raise_exception
+      expect { subject.converter({}) }.to raise_exception
     end
   end
 

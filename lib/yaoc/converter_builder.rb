@@ -59,7 +59,7 @@ module Yaoc
       self.all_commands_applied = false
 
       NormalizedParameters.new(to, from, converter, object_converter, is_collection, lazy_loading).each do |to, from, converter, lazy_loading|
-        build_commands.push  ->{ converter_class.map(to: to, from: from , converter: converter, lazy_loading: lazy_loading) }
+        build_commands.push  -> { converter_class.map(to: to, from: from , converter: converter, lazy_loading: lazy_loading) }
       end
     end
 
@@ -80,7 +80,7 @@ module Yaoc
     end
 
     def noop
-      ->(_, result){ result }
+      ->(_, result) { result }
     end
   end
 
@@ -107,7 +107,7 @@ module Yaoc
 
     def converter(fetch_able, target_source=nil)
       raise "BuildCommandsNotExecuted" unless self.all_commands_applied?
-      converter_class.new(fetch_able, fetcher, target_source || ->(attrs){ attrs})
+      converter_class.new(fetch_able, fetcher, target_source || ->(attrs) { attrs })
     end
 
     def fetcher=(new_fetcher)

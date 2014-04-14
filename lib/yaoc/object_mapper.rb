@@ -17,8 +17,8 @@ module Yaoc
         lazy_loading: nil,
         reverse_lazy_loading: lazy_loading)
 
-      object_converter = Array(object_converter).map{|converter| converter.is_a?(Symbol) ? registry.for(converter) : converter}
-      reverse_object_converter = Array(reverse_object_converter).map{|converter| converter.is_a?(Symbol) ? registry.for(converter) : converter}
+      object_converter = Array(object_converter).map { |converter| converter.is_a?(Symbol) ? registry.for(converter) : converter }
+      reverse_object_converter = Array(reverse_object_converter).map { |converter| converter.is_a?(Symbol) ? registry.for(converter) : converter }
 
       converter_builder.rule(
           to: to,
@@ -56,7 +56,7 @@ module Yaoc
     end
 
     def noop
-      ->(_, result){ result }
+      ->(_, result) { result }
     end
 
     def register_as(name)

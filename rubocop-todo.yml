@@ -64,7 +64,7 @@ Lambda:
 
 # Offence count: 104
 LineLength:
-  Max: 183
+  Max: 500
 
 # Offence count: 19
 # Cop supports --auto-correct.
@@ -132,7 +132,7 @@ SpaceAfterNot:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, EnforcedStyleForEmptyBraces, SpaceBeforeBlockParameters.
 SpaceAroundBlockBraces:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 18
 # Cop supports --auto-correct.
