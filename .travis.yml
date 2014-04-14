@@ -6,5 +6,5 @@ notifications:
     - shad0wrunner@gmx.de
 
 script:
-  - bundle exec rspec
-  - bundle exec rubocop
+  - bundle exec rake spec
+  - bundle exec rake rubocop
