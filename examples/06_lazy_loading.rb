@@ -38,7 +38,3 @@ puts new_user6.names.inspect
 puts new_user6
 
 puts "\n" * 5
-
-
-
-

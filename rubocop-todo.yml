@@ -164,7 +164,7 @@ StringLiterals:
 # Offence count: 3
 # Cop supports --auto-correct.
 TrailingBlankLines:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 9
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.

@@ -50,7 +50,3 @@ puts old_role
 puts new_user5
 
 puts "\n" * 5
-
-
-
-
