@@ -26,4 +26,4 @@ def self.feature(*args, &block)
   describe(*args, &block)
 end
 
-RSpec.configuration.include Capybara::Features, :capybara_feature => true
+RSpec.configuration.include Capybara::Features, capybara_feature: true

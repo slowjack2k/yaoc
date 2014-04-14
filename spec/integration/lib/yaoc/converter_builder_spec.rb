@@ -40,7 +40,7 @@ describe Yaoc::ConverterBuilder do
 
     it "creates a converter proc" do
       expect(other_converter.to_proc).to receive(:call).with(2).and_return(:my_result)
-      expect(subject.converter(nil, nil).map_0000_name_to_id({:name => 2},{})).to eq(id: :my_result)
+      expect(subject.converter(nil, nil).map_0000_name_to_id({name: 2},{})).to eq(id: :my_result)
     end
 
     context "value to convert is a collection" do
@@ -49,7 +49,7 @@ describe Yaoc::ConverterBuilder do
       end
 
       it "creates a converter proc for collections" do
-        expect(subject.converter(nil, nil).map_0000_name_to_id({:name => [2, 4]},{})).to eq(id: [:my_result_1, :my_result_2])
+        expect(subject.converter(nil, nil).map_0000_name_to_id({name: [2, 4]},{})).to eq(id: [:my_result_1, :my_result_2])
       end
 
     end

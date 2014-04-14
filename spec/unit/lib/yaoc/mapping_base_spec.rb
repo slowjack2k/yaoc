@@ -28,8 +28,8 @@ describe Yaoc::MappingBase do
       subject.map(to: :foo, from: :bar)
       subject.map(to: :bar, from: :foo)
 
-      expect(subject.new(bar: :my_to_convert, foo: :my_result).call()).to eq [{:foo=>:my_to_convert, :bar=>:my_result},
-                                                                              {:foo=>:my_to_convert, :bar=>:my_result}]
+      expect(subject.new(bar: :my_to_convert, foo: :my_result).call()).to eq [{foo: :my_to_convert, bar: :my_result},
+                                                                              {foo: :my_to_convert, bar: :my_result}]
     end
 
     it "delegates to TransformationCommand.create" do

@@ -1,6 +1,7 @@
 module Yaoc
   class TransformationCommand
     protected
+
     attr_accessor :to, :from, :fetcher , :proc, :value_fetcher_proc
 
     public
