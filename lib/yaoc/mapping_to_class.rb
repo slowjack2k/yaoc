@@ -6,7 +6,7 @@ module Yaoc
     end
 
     module InstanceMethods
-      def call(pre_created_object=nil)
+      def call(pre_created_object = nil)
         source_converted_to_hash_or_array = to_hash_or_array
         unless source_converted_to_hash_or_array.nil?
           if pre_created_object.nil?

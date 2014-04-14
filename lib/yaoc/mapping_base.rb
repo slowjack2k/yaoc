@@ -56,7 +56,7 @@ module Yaoc
       end
 
       # inspired by Avdi Grimm, rubytapas.com 028-macros-and-modules
-      def class_private_module(name=:Mapping)
+      def class_private_module(name = :Mapping)
         if const_defined?(name, false)
           const_get(name)
         else

@@ -137,7 +137,7 @@ SpaceAroundBlockBraces:
 # Offence count: 18
 # Cop supports --auto-correct.
 SpaceAroundEqualsInParameterDefault:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 7
 # Cop supports --auto-correct.

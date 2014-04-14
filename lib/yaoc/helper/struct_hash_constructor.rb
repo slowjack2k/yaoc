@@ -6,7 +6,7 @@ module Yaoc
       end
 
       module Initializer
-        def initialize(params={})
+        def initialize(params = {})
           super()
 
           params.each do |attr, value|

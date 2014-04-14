@@ -90,7 +90,7 @@ module Yaoc
     attr_accessor  :build_commands, :command_order,
                    :strategy, :all_commands_applied
 
-    def initialize(command_order=:recorded_order, fetcher=:fetch)
+    def initialize(command_order = :recorded_order, fetcher = :fetch)
       self.build_commands = []
       self.command_order = command_order
       self.fetcher = fetcher
@@ -105,7 +105,7 @@ module Yaoc
       build_commands_ordered.each &:call
     end
 
-    def converter(fetch_able, target_source=nil)
+    def converter(fetch_able, target_source = nil)
       raise "BuildCommandsNotExecuted" unless self.all_commands_applied?
       converter_class.new(fetch_able, fetcher, target_source || ->(attrs) { attrs })
     end

@@ -10,7 +10,7 @@ module Yaoc
       self.converter = converter
     end
 
-    def load_first(input_object, object_to_fill=nil)
+    def load_first(input_object, object_to_fill = nil)
       converter_iterator.rewind
       self.next_result = converter_iterator.next.load(input_object, object_to_fill)
     end
@@ -21,7 +21,7 @@ module Yaoc
       raise "ToManyInputObjects"
     end
 
-    def load_all(input_objects, object_to_fill=nil)
+    def load_all(input_objects, object_to_fill = nil)
       each_object_with_converter(input_objects) do |converter, input_object|
         object_to_fill = converter.load(input_object, object_to_fill)
       end
@@ -29,7 +29,7 @@ module Yaoc
       self.last_result = object_to_fill
     end
 
-    def dump_first(input_object, object_to_fill=nil)
+    def dump_first(input_object, object_to_fill = nil)
       converter_iterator.rewind
       self.next_result = converter_iterator.next.dump(input_object, object_to_fill)
     end
@@ -38,7 +38,7 @@ module Yaoc
       self.next_result = converter_iterator.next.dump(input_object, self.next_result)
     end
 
-    def dump_all(input_objects, object_to_fill=nil)
+    def dump_all(input_objects, object_to_fill = nil)
       each_object_with_converter(input_objects) do |converter, input_object|
         object_to_fill = converter.dump(input_object, object_to_fill)
       end

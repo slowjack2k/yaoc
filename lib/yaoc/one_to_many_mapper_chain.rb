@@ -10,7 +10,7 @@ module Yaoc
       self.converter = converter
     end
 
-    def load_all(input_object, objects_to_fill=[])
+    def load_all(input_object, objects_to_fill = [])
       objects_to_fill = Array(objects_to_fill)
       results = []
 
@@ -21,7 +21,7 @@ module Yaoc
       self.last_result = results
     end
 
-    def dump_all(input_object, objects_to_fill=nil)
+    def dump_all(input_object, objects_to_fill = nil)
       objects_to_fill = Array(objects_to_fill)
       results = []
 

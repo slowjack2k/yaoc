@@ -69,25 +69,25 @@ module Yaoc
 
     attr_accessor :load_result_source, :dump_result_source, :registry
 
-    def initialize(load_result_source, dump_result_source=nil, registry=Yaoc::MapperRegistry)
+    def initialize(load_result_source, dump_result_source = nil, registry = Yaoc::MapperRegistry)
       self.load_result_source = load_result_source
       self.dump_result_source = dump_result_source
       self.registry = registry
     end
 
-    def load(fetch_able, object_to_fill=nil)
+    def load(fetch_able, object_to_fill = nil)
       converter(fetch_able).call(object_to_fill)
     end
 
-    def dump(object, object_to_fill=nil)
+    def dump(object, object_to_fill = nil)
       reverse_converter(object).call(object_to_fill)
     end
 
-    def converter(fetch_able=nil)
+    def converter(fetch_able = nil)
       converter_builder.converter(fetch_able, load_result_source)
     end
 
-    def reverse_converter(fetch_able=nil)
+    def reverse_converter(fetch_able = nil)
       reverse_converter_builder.converter(fetch_able, dump_result_source)
     end
 
