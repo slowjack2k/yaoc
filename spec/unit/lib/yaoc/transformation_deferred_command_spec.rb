@@ -6,7 +6,7 @@ describe Yaoc::TransformationDeferredCommand do
   end
 
   let(:source)do
-    {name: 'my_name'}
+    { name: 'my_name' }
   end
 
   let(:result)do

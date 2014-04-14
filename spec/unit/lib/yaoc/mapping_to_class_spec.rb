@@ -22,7 +22,7 @@ describe Yaoc::MappingToClass do
         include Yaoc::MappingToClass
 
         self.mapping_strategy = ->(obj){
-          {name: :new_name}
+          { name: :new_name }
         }
 
         def to_convert

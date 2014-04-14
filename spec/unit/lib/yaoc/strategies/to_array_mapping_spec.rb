@@ -13,7 +13,7 @@ describe Yaoc::Strategies::ToArrayMapping do
   end
 
   let(:source_object)do
-    {id: 1, name: "paul"}
+    { id: 1, name: "paul" }
   end
 
   let(:expected_array)do

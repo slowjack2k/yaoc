@@ -148,7 +148,7 @@ SpaceAroundOperators:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SupportedStyles.
 SpaceInsideHashLiteralBraces:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 10
 # Cop supports --auto-correct.

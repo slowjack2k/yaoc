@@ -13,11 +13,11 @@ describe Yaoc::Strategies::ToHashMapping do
   end
 
   let(:source_object)do
-    {id: 1, name: "paul"}
+    { id: 1, name: "paul" }
   end
 
   let(:expected_hash)do
-    {id: 1, name: "paul"}
+    { id: 1, name: "paul" }
   end
 
   describe "#call" do
