@@ -106,7 +106,7 @@ module Yaoc
     end
 
     def converter(fetch_able, target_source = nil)
-      raise "BuildCommandsNotExecuted" unless self.all_commands_applied?
+      raise 'BuildCommandsNotExecuted' unless self.all_commands_applied?
       converter_class.new(fetch_able, fetcher, target_source || ->(attrs) { attrs })
     end
 
@@ -131,7 +131,7 @@ module Yaoc
 
     def sym_as_module_name(sym)
       sym.to_s
-         .split("_")
+         .split('_')
          .map(&:capitalize)
          .join
          .to_sym

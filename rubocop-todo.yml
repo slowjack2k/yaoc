@@ -159,7 +159,7 @@ SpaceInsideParens:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 StringLiterals:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 3
 # Cop supports --auto-correct.

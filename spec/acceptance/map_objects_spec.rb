@@ -1,6 +1,6 @@
-require "spec_helper"
+require 'spec_helper'
 
-feature "Map objects", %q{
+feature 'Map objects', %q{
    In order to map object
    as a lib user
    I want to map object from an input object to an output object and reverse
@@ -34,20 +34,20 @@ feature "Map objects", %q{
   end
 
   given(:load_result_object)do
-    load_result_object_class.new(id: 1, name: "paul", role: "admin", foo: "some thing", bar: "some other thing")
+    load_result_object_class.new(id: 1, name: 'paul', role: 'admin', foo: 'some thing', bar: 'some other thing')
   end
 
   given(:dump_result_object)do
-    dump_result_object_class.new(id: 1, name: "paul", fullrolename: "admin", foo: "some thing", bar: "some other thing")
+    dump_result_object_class.new(id: 1, name: 'paul', fullrolename: 'admin', foo: 'some thing', bar: 'some other thing')
   end
 
-  scenario "creates an result object from an input_object" do
-    load_result_object.name += " Hello World"
+  scenario 'creates an result object from an input_object' do
+    load_result_object.name += ' Hello World'
 
     expect(mapper.load(input_object)).to eq load_result_object
   end
 
-  scenario "dumps an result object as result object" do
+  scenario 'dumps an result object as result object' do
     expect(mapper.dump(load_result_object)).to eq dump_result_object
   end
 

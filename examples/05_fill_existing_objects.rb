@@ -27,8 +27,8 @@ role_mapper = Yaoc::ObjectMapper.new(User5, RoleThing).tap do |mapper|
   end
 end
 
-old_role = RoleThing.new(id: 1, role: "my_role")
-old_user5 = OldUser5.new(id: 1, name: "my fullname")
+old_role = RoleThing.new(id: 1, role: 'my_role')
+old_user5 = OldUser5.new(id: 1, name: 'my fullname')
 new_user5 = user_mapper.load(old_user5)
 
 role_mapper.load(old_role, new_user5)

@@ -35,7 +35,7 @@ module Yaoc
       end
 
       def fill_target_object(attribute_hash, pre_created_object)
-        raise "UnexpectedStrategy" unless attribute_hash.respond_to? :each_pair
+        raise 'UnexpectedStrategy' unless attribute_hash.respond_to? :each_pair
 
         attribute_hash.each_pair do |key, value|
           pre_created_object.send("#{key}=", value)

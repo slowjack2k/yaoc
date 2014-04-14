@@ -1,6 +1,6 @@
-require "spec_helper"
+require 'spec_helper'
 
-feature "Map objects to classes with positional constructors", %q{
+feature 'Map objects to classes with positional constructors', %q{
    In order to map objects with positional constructors
    as a lib user
    I want to map object from an input object to an output object and reverse with a given mapping strategy
@@ -40,18 +40,18 @@ feature "Map objects to classes with positional constructors", %q{
   end
 
   given(:load_result_object)do
-    load_result_object_class.new(1,"paul")
+    load_result_object_class.new(1,'paul')
   end
 
   given(:dump_result_object)do
-    dump_result_object_class.new(id: 1, name: "paul")
+    dump_result_object_class.new(id: 1, name: 'paul')
   end
 
-  scenario "creates an result object from an input_object" do
+  scenario 'creates an result object from an input_object' do
     expect(mapper.load(input_object)).to eq load_result_object
   end
 
-  scenario "dumps an result object as result object" do
+  scenario 'dumps an result object as result object' do
     expect(mapper.dump(load_result_object)).to eq dump_result_object
   end
 

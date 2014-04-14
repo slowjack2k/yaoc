@@ -46,14 +46,14 @@ mapper = Yaoc::ObjectMapper.new(source, reverse_source).tap do |mapper|
   end
 end
 
-old_user2 = OldUser2.new(1, "myfirst mysecond",  "admin")
+old_user2 = OldUser2.new(1, 'myfirst mysecond',  'admin')
 new_user2 = mapper.load(old_user2)
 
 puts old_user2
 puts new_user2
 
-new_user2.firstname = "no"
-new_user2.lastname = "name"
+new_user2.firstname = 'no'
+new_user2.lastname = 'name'
 
 puts mapper.dump(new_user2)
 

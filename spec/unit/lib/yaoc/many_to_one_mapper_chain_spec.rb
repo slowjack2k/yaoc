@@ -101,14 +101,14 @@ describe Yaoc::ManyToOneMapperChain do
       converted_user = subject.load_next(existing_old_user)
 
       expect(converted_user.id).to eq 'existing_user_2'
-      expect(converted_user.names).to eq ["first_name", "second_name"]
+      expect(converted_user.names).to eq ['first_name', 'second_name']
     end
 
     it 'raises an exception when too many values are passed' do
       subject.load_first(existing_old_user)
       subject.load_next(existing_old_user)
 
-      expect { subject.load_next(existing_old_user) }.to raise_error "ToManyInputObjects"
+      expect { subject.load_next(existing_old_user) }.to raise_error 'ToManyInputObjects'
     end
 
   end

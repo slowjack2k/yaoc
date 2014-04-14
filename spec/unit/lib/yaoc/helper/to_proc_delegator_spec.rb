@@ -48,18 +48,18 @@ describe Yaoc::Helper::ToProcDelegator do
   end
 
   describe '#nil?' do
-    it "returns true when delegate value is nil" do
+    it 'returns true when delegate value is nil' do
       subject = Yaoc::Helper::ToProcDelegator.new(-> { nil })
       expect(subject).to be_nil
     end
 
-    it "returns false when delegate value is not nil" do
+    it 'returns false when delegate value is not nil' do
       expect(subject).not_to be_nil
     end
   end
 
   describe '#_initialisation_proc_loaded?' do
-    it "returns true, when __getobj__ was accessed" do
+    it 'returns true, when __getobj__ was accessed' do
       expect(subject._initialisation_proc_loaded?).to be_falsy
       subject.__getobj__
       expect(subject._initialisation_proc_loaded?).to be_truthy

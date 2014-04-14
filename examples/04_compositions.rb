@@ -42,9 +42,9 @@ user_mapper = Yaoc::ObjectMapper.new(User4, OldUser4).tap do |mapper|
 end
 
 old_user4 = OldUser4.new(o_id: 1,
-                         o_firstname: "firstname",
-                         o_lastname:"lastname",
-                         o_roles: [OldRole.new(o_id: 1, o_name: "admin"), OldRole.new(o_id: 2, o_name: "guest")])
+                         o_firstname: 'firstname',
+                         o_lastname:'lastname',
+                         o_roles: [OldRole.new(o_id: 1, o_name: 'admin'), OldRole.new(o_id: 2, o_name: 'guest')])
 new_user4 = user_mapper.load(old_user4)
 
 puts old_user4

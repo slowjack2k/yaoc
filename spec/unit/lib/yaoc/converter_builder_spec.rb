@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Yaoc::ConverterBuilder do
   subject do
@@ -8,11 +8,11 @@ describe Yaoc::ConverterBuilder do
   end
 
   let(:converter_class)do
-    double("converter_class", map: nil, new: converter)
+    double('converter_class', map: nil, new: converter)
   end
 
   let(:converter)do
-    double("converter", call: nil)
+    double('converter', call: nil)
   end
 
   let(:default_map_args)do
@@ -24,9 +24,9 @@ describe Yaoc::ConverterBuilder do
     }
   end
 
-  describe "#command_order" do
+  describe '#command_order' do
 
-    it "applies command in recorded order as default" do
+    it 'applies command in recorded order as default' do
       subject.command_order = :recorded_order
 
       expected_args_first = default_map_args.clone
@@ -44,7 +44,7 @@ describe Yaoc::ConverterBuilder do
 
     end
 
-    it "applies command in reverse recorded order when wanted" do
+    it 'applies command in reverse recorded order when wanted' do
       subject.command_order = :reverse_order
 
       expected_args_first = default_map_args.clone.merge(to: :name, from: :name)
@@ -61,9 +61,9 @@ describe Yaoc::ConverterBuilder do
     end
   end
 
-  describe "#add_mapping" do
+  describe '#add_mapping' do
 
-    it "delegates to internal methods" do
+    it 'delegates to internal methods' do
       expect(subject).to receive(:rule).with(to: :id, from: :from, converter: :converter)
 
       subject.add_mapping do
@@ -78,8 +78,8 @@ describe Yaoc::ConverterBuilder do
 
   end
 
-  describe "#rule" do
-    it "creates a converter" do
+  describe '#rule' do
+    it 'creates a converter' do
       expect(converter_class).to receive(:map).with(to: :id, from: :id2, converter: :some_proc, lazy_loading: false)
 
       subject.add_mapping do
@@ -90,7 +90,7 @@ describe Yaoc::ConverterBuilder do
 
     end
 
-    it "uses defaults" do
+    it 'uses defaults' do
       expect(converter_class).to receive(:map).with(default_map_args)
 
       subject.add_mapping do
@@ -99,7 +99,7 @@ describe Yaoc::ConverterBuilder do
 
     end
 
-    it "allows to use array of attributes" do
+    it 'allows to use array of attributes' do
       expected_args_first = default_map_args.clone
       expected_args_second = default_map_args.clone.merge(to: :name, from: :name)
 
@@ -124,7 +124,7 @@ describe Yaoc::ConverterBuilder do
       end
     end
 
-    it "supports the use of a object converter" do
+    it 'supports the use of a object converter' do
       expect(converter_class).to receive(:map).ordered.with(to: :id, from: :id, converter: kind_of(Proc), lazy_loading: false)
       other_converter = :some_converter
 
@@ -135,7 +135,7 @@ describe Yaoc::ConverterBuilder do
 
     end
 
-    it "supports the collection flag for object converters" do
+    it 'supports the collection flag for object converters' do
       expected_args = default_map_args.clone.merge(converter: kind_of(Proc))
 
       expect(converter_class).to receive(:map).ordered.with(expected_args)
@@ -149,7 +149,7 @@ describe Yaoc::ConverterBuilder do
 
     end
 
-    it "supports lazy loading" do
+    it 'supports lazy loading' do
       expected_args = default_map_args.clone.merge(lazy_loading: true)
 
       expect(converter_class).to receive(:map).ordered.with(expected_args)
@@ -160,7 +160,7 @@ describe Yaoc::ConverterBuilder do
       end
     end
 
-    it "supports a do nothing" do
+    it 'supports a do nothing' do
       expected_args = default_map_args.clone.merge(converter: kind_of(Proc))
 
       expect(converter_class).to receive(:map).ordered.with(expected_args)
@@ -172,8 +172,8 @@ describe Yaoc::ConverterBuilder do
     end
   end
 
-  describe "#converter" do
-    it "creates a new converter class with the wanted strategy" do
+  describe '#converter' do
+    it 'creates a new converter class with the wanted strategy' do
       subject = Yaoc::ConverterBuilder.new
       subject.add_mapping do
         with_strategy :to_array_mapping
@@ -182,7 +182,7 @@ describe Yaoc::ConverterBuilder do
       expect(subject.send(:converter_class).mapping_strategy).to eq(Yaoc::Strategies::ToArrayMapping)
     end
 
-    it "raises an exception when not all commands are applied" do
+    it 'raises an exception when not all commands are applied' do
       subject = Yaoc::ConverterBuilder.new
       subject.strategy = :to_array_mapping
 
@@ -190,8 +190,8 @@ describe Yaoc::ConverterBuilder do
     end
   end
 
-  describe "#noop" do
-    it "returns the input" do
+  describe '#noop' do
+    it 'returns the input' do
       expect(subject.noop.call(:some_thing, :expected_value)).to eq :expected_value
     end
   end

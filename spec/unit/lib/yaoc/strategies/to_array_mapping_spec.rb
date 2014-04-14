@@ -1,4 +1,4 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Yaoc::Strategies::ToArrayMapping do
   subject do
@@ -13,23 +13,23 @@ describe Yaoc::Strategies::ToArrayMapping do
   end
 
   let(:source_object)do
-    { id: 1, name: "paul" }
+    { id: 1, name: 'paul' }
   end
 
   let(:expected_array)do
-    [1, "paul"]
+    [1, 'paul']
   end
 
-  describe ".call" do
+  describe '.call' do
 
-    it "creates a hash from a object" do
+    it 'creates a hash from a object' do
       subject.map(to: 0, from: :id)
       subject.map(to: 1, from: :name)
 
       expect(mapper.call).to eq(expected_array)
     end
 
-    it "uses my converter proc" do
+    it 'uses my converter proc' do
       subject.map(to: 0, from: :id)
       subject.map(to: 3, from: :fullname, converter: ->(source, result) { Yaoc::TransformationCommand.fill_result_with_value(result, 3, "#{source.fetch(:name)} Hello World") })
 
@@ -41,12 +41,12 @@ describe Yaoc::Strategies::ToArrayMapping do
       expect(mapper.call).to eq(ext_expectation)
     end
 
-    context "changed fetcher method" do
+    context 'changed fetcher method' do
       let(:source_object)do
-        Struct.new(:id, :name).new(1, "paul")
+        Struct.new(:id, :name).new(1, 'paul')
       end
 
-      it "uses custom fetcher methods" do
+      it 'uses custom fetcher methods' do
         subject.map(to: 0, from: :id)
         subject.map(to: 1, from: :name)
 
@@ -57,7 +57,7 @@ describe Yaoc::Strategies::ToArrayMapping do
         expect(mapper.call).to eq(expected_array)
       end
 
-      it "works with arrays" do
+      it 'works with arrays' do
         subject.map(to: 1, from: 0)
         subject.map(to: 0, from: 1)
 
@@ -65,7 +65,7 @@ describe Yaoc::Strategies::ToArrayMapping do
           :[]
         end
 
-        mapper.to_convert = [1, "paul"]
+        mapper.to_convert = [1, 'paul']
 
         expect(mapper.call).to eq(expected_array.reverse)
       end

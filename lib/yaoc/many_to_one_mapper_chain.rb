@@ -18,7 +18,7 @@ module Yaoc
     def load_next(input_object)
       self.next_result = converter_iterator.next.load(input_object, self.next_result)
     rescue StopIteration
-      raise "ToManyInputObjects"
+      raise 'ToManyInputObjects'
     end
 
     def load_all(input_objects, object_to_fill = nil)
