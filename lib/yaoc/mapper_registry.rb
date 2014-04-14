@@ -17,6 +17,5 @@ module Yaoc
     def for(key)
       scope[key.to_sym]
     end
-
   end
 end

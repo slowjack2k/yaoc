@@ -28,6 +28,5 @@ module Yaoc
         include Equalizer.new(*args)
       end
     end
-
   end
 end

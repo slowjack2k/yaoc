@@ -19,5 +19,4 @@ require 'yaoc/many_to_one_mapper_chain'
 require 'yaoc/one_to_many_mapper_chain'
 
 module Yaoc
-
 end

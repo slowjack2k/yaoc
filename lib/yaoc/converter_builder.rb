@@ -1,5 +1,4 @@
 module Yaoc
-
   class NormalizedParameters
     attr_accessor :to_s, :from_s, :converter_s, :lazy_loading_s
 
@@ -24,7 +23,6 @@ module Yaoc
                                                !!is_collection_s[index],
                                                !!lazy_loading_s[index])
       end
-
     end
 
     def each
@@ -36,7 +34,6 @@ module Yaoc
     end
 
     def converter_to_proc(to, from, converter, is_collection, deferred)
-
       get_value_with = ->(source, fetcher, from)do
         object_to_convert = source.public_send(fetcher, from)
 
@@ -50,7 +47,6 @@ module Yaoc
 
       TransformationCommand.create(to: to, from: from, deferred: deferred, fetcher_proc: get_value_with)
     end
-
   end
 
   module BuilderDSLMethods
@@ -152,7 +148,5 @@ module Yaoc
     def reset_converters!
       @converter_class = nil
     end
-
   end
-
 end

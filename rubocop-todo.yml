@@ -36,12 +36,12 @@ EmptyLines:
 
 # Offence count: 1
 EmptyLinesAroundAccessModifier:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 34
 # Cop supports --auto-correct.
 EmptyLinesAroundBody:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 1
 FavorSprintf:

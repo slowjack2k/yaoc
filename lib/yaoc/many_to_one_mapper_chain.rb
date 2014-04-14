@@ -39,7 +39,6 @@ module Yaoc
     end
 
     def dump_all(input_objects, object_to_fill=nil)
-
       each_object_with_converter(input_objects) do |converter, input_object|
         object_to_fill = converter.dump(input_object, object_to_fill)
       end
@@ -73,6 +72,5 @@ module Yaoc
         end
       end
     end
-
   end
 end

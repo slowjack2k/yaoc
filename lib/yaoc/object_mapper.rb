@@ -1,5 +1,4 @@
 module Yaoc
-
   module MapperDSLMethods
     def add_mapping(&block)
       instance_eval &block
@@ -63,7 +62,6 @@ module Yaoc
     def register_as(name)
       registry.add(name, self) unless name.nil?
     end
-
   end
 
   class ObjectMapper
@@ -119,6 +117,5 @@ module Yaoc
     def reverse_converter_builder
       @reverse_converter_builder ||= Yaoc::ConverterBuilder.new(:reverse_order, :public_send)
     end
-
   end
 end

@@ -1,6 +1,5 @@
 module Yaoc
   module MappingToClass
-
     def self.included(other)
       other.send(:include, MappingBase)
       other.send(:include, InstanceMethods)
@@ -49,6 +48,5 @@ module Yaoc
         [self]
       end
     end
-
   end
 end

@@ -1,6 +1,5 @@
 module Yaoc
   module MappingBase
-
     def self.included(other)
       other.extend(ClassMethods)
     end
@@ -35,7 +34,6 @@ module Yaoc
     end
 
     module ClassMethods
-
       def mapping_strategy=(new_strat)
         @mapping_strategy = new_strat
       end
@@ -59,7 +57,6 @@ module Yaoc
 
       # inspired by Avdi Grimm, rubytapas.com 028-macros-and-modules
       def class_private_module(name=:Mapping)
-
         if const_defined?(name, false)
           const_get(name)
         else
@@ -75,8 +72,6 @@ module Yaoc
           const_set(name, new_mod)
         end
       end
-
     end
-
   end
 end

@@ -39,13 +39,11 @@ module Yaoc
     end
 
     def each_object_with_converter(objects_to_fill)
-
       converter.each_with_index do |converter, index|
         object_to_fill = objects_to_fill[index]
 
         yield converter, object_to_fill
       end
     end
-
   end
 end

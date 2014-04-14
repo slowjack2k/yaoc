@@ -1,6 +1,5 @@
 module Yaoc
   class TransformationCommand
-
     protected
     attr_accessor :to, :from, :fetcher , :proc, :value_fetcher_proc
 
@@ -36,18 +35,15 @@ module Yaoc
     end
 
     def call(to_convert, result)
-
       unless proc.nil?
         instance_exec(to_convert, result, &proc)
       else
         TransformationCommand.fill_result_with_value(result, to, value(to_convert))
       end
-
     end
 
     def value(to_convert)
       value_fetcher_proc.call(to_convert, fetcher, from)
     end
-
   end
 end
