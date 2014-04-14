@@ -1,29 +1,29 @@
 require "spec_helper"
 
 describe Yaoc::ConverterBuilder do
-  subject{
-    Yaoc::ConverterBuilder.new().tap{|converter|
+  subject do
+    Yaoc::ConverterBuilder.new().tap do|converter|
       converter.stub(:converter_class).and_return(converter_class)
-    }
-  }
+    end
+  end
 
 
-  let(:converter_class){
+  let(:converter_class)do
     double("converter_class", map: nil, new: converter)
-  }
+  end
 
-  let(:converter){
+  let(:converter)do
     double("converter", call: nil)
-  }
+  end
 
-  let(:default_map_args){
+  let(:default_map_args)do
     {
         to: :id,
         from: :id,
         converter: nil,
         lazy_loading: false
     }
-  }
+  end
 
   describe "#command_order" do
 

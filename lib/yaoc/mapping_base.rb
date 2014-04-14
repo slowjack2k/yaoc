@@ -6,7 +6,7 @@ module Yaoc
     end
 
     def to_proc
-      ->(to_convert){
+      ->(to_convert)do
         old_to_convert = self.to_convert
         begin
           self.to_convert = to_convert
@@ -14,7 +14,7 @@ module Yaoc
         ensure
           self.to_convert = old_to_convert
         end
-      }
+      end
     end
 
     def call

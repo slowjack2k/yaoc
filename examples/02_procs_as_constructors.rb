@@ -11,21 +11,21 @@ OldUser2 = Struct.new(:id, :fullname, :r_role)
 
 User2 = Struct.new(:id, :firstname, :lastname, :role)
 
-reverse_source = ->(attrs){
+reverse_source = ->(attrs)do
   OldUser2.new.tap do |old_user|
     attrs.each_pair do |key, value|
       old_user.public_send "#{key}=", value
     end
   end
-}
+end
 
-source = ->(attrs){
+source = ->(attrs)do
   User2.new.tap do |old_user|
     attrs.each_pair do |key, value|
       old_user.public_send "#{key}=", value
     end
   end
-}
+end
 
 mapper = Yaoc::ObjectMapper.new(source, reverse_source).tap do |mapper|
   mapper.add_mapping do

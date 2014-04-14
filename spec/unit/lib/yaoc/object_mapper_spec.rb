@@ -1,30 +1,30 @@
 require "spec_helper"
 
 describe Yaoc::ObjectMapper do
-  subject{
-    Yaoc::ObjectMapper.new(Struct.new(:id, :name)).tap{|mapper|
+  subject do
+    Yaoc::ObjectMapper.new(Struct.new(:id, :name)).tap do|mapper|
       mapper.stub(:converter_builder).and_return(converter_builder)
       mapper.stub(:reverse_converter_builder).and_return(reverse_converter_builder)
-    }
-  }
+    end
+  end
 
-  let(:converter_builder){
+  let(:converter_builder)do
     double("converter_builder", rule: nil, apply_commands!: nil, converter: converter)
-  }
+  end
 
-  let(:reverse_converter_builder){
+  let(:reverse_converter_builder)do
     double("reverse_converter_builder", rule: nil, apply_commands!: nil, converter: reverse_converter)
-  }
+  end
 
-  let(:converter){
+  let(:converter)do
     double("converter", call: nil)
-  }
+  end
 
-  let(:reverse_converter){
+  let(:reverse_converter)do
     double("reverse_converter", call: nil)
-  }
+  end
 
-  let(:expected_default_params){
+  let(:expected_default_params)do
     {
         to: :id,
         from: :id,
@@ -33,7 +33,7 @@ describe Yaoc::ObjectMapper do
         is_collection: nil,
         lazy_loading: nil,
     }
-  }
+  end
 
   describe "#add_mapping" do
 

@@ -1,24 +1,24 @@
 require "spec_helper"
 
 describe Yaoc::Strategies::ToHashMapping do
-  subject{
+  subject do
     Struct.new(:to_convert) do
       include Yaoc::MappingBase
       self.mapping_strategy = Yaoc::Strategies::ToHashMapping
     end
-  }
+  end
 
-  let(:mapper){
+  let(:mapper)do
     subject.new(source_object)
-  }
+  end
 
-  let(:source_object){
+  let(:source_object)do
     {id: 1, name: "paul"}
-  }
+  end
 
-  let(:expected_hash){
+  let(:expected_hash)do
     {id: 1, name: "paul"}
-  }
+  end
 
   describe "#call" do
 
@@ -50,9 +50,9 @@ describe Yaoc::Strategies::ToHashMapping do
     end
 
     context "changed fetcher method" do
-      let(:source_object){
+      let(:source_object)do
         Struct.new(:id, :name).new(1, "paul")
-      }
+      end
 
       it "uses custom fetcher methods" do
         subject.map(to: :id)

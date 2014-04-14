@@ -1,15 +1,15 @@
 require 'spec_helper'
 
 describe Yaoc::Helper::ToProcDelegator do
-  subject{
+  subject do
     Yaoc::Helper::ToProcDelegator.new(lazy_proc)
-  }
+  end
 
-  let(:lazy_proc){
-    ->{
+  let(:lazy_proc)do
+    ->do
       [:some_value]
-    }
-  }
+    end
+  end
 
   it 'evaluates a proc not with initialisation' do
     expect(lazy_proc).not_to receive :call

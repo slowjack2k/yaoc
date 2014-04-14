@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Yaoc::MappingBase do
-  subject{
+  subject do
     Struct.new(:to_convert) do
       include Yaoc::MappingBase
 
@@ -13,7 +13,7 @@ describe Yaoc::MappingBase do
       }
 
     end
-  }
+  end
 
   describe "created module" do
     it "can be inspected" do
@@ -49,7 +49,7 @@ describe Yaoc::MappingBase do
   end
 
   describe "#fetcher" do
-    let(:subject_with_fetcher){
+    let(:subject_with_fetcher)do
       Struct.new(:to_convert) do
         include Yaoc::MappingBase
 
@@ -58,7 +58,7 @@ describe Yaoc::MappingBase do
         end
 
       end
-    }
+    end
 
     it "uses in class declared fetcher" do
       expect(subject_with_fetcher.new().fetcher).to eq "my_fetcher"
@@ -71,9 +71,9 @@ describe Yaoc::MappingBase do
   end
 
   describe "#call" do
-    let(:mapper){
+    let(:mapper)do
       subject.new(:some_thing)
-    }
+    end
 
     it "delegates execution to strategy" do
       expect(subject.mapping_strategy).to receive(:call).with mapper

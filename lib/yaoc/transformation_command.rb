@@ -18,9 +18,9 @@ module Yaoc
       # will be executed in mapper object instance context later through :define_method
       tc_source = deferred ? deferred_source : default_source
 
-      -> (to_convert, result){
+      -> (to_convert, result)do
         tc_source.new(to: to, from: from, fetch_method: fetcher, conversion_proc: conversion_proc, fetcher_proc: fetcher_proc).call(to_convert, result)
-      }
+      end
     end
 
     def self.fill_result_with_value(result, key, value)

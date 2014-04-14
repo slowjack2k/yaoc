@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Yaoc::Helper::StructHashConstructor do
-  subject{
+  subject do
     Yaoc::Helper::StructH(:id, :name).new(id: 1, name: "no name")
-  }
+  end
 
   it "creates a struct with a hash enabled constructor" do
     expect(subject.id).to eq 1
@@ -11,9 +11,9 @@ describe Yaoc::Helper::StructHashConstructor do
   end
 
   context "with equal support" do
-    subject{
+    subject do
       Yaoc::Helper::StructHE(:id, :name)
-    }
+    end
 
     it "returns true when all attributes are equal" do
       first = subject.new(id: 1, name: "no name")

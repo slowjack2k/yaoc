@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Yaoc::MappingToClass do
-  subject{
+  subject do
     Struct.new(:target_source) do
       include Yaoc::MappingToClass
 
@@ -10,14 +10,14 @@ describe Yaoc::MappingToClass do
       }
 
     end.new(expected_class)
-  }
+  end
 
-  let(:expected_class){
+  let(:expected_class)do
     Struct.new(:id)
-  }
+  end
 
   describe "#call" do
-    subject{
+    subject do
       Struct.new(:target_source) do
         include Yaoc::MappingToClass
 
@@ -30,7 +30,7 @@ describe Yaoc::MappingToClass do
         end
 
       end.new(expected_class)
-    }
+    end
 
     it "creates on object of the wanted kind" do
       expect(subject.call).to be_kind_of expected_class

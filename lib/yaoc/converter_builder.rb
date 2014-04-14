@@ -37,7 +37,7 @@ module Yaoc
 
     def converter_to_proc(to, from, converter, is_collection, deferred)
 
-      get_value_with = ->(source, fetcher, from){
+      get_value_with = ->(source, fetcher, from)do
         object_to_convert = source.public_send(fetcher, from)
 
         if is_collection
@@ -46,7 +46,7 @@ module Yaoc
           converter_as_proc = converter.to_proc
           converter_as_proc.call(object_to_convert)
         end
-      }
+      end
 
       TransformationCommand.create(to: to, from: from, deferred: deferred, fetcher_proc: get_value_with)
     end

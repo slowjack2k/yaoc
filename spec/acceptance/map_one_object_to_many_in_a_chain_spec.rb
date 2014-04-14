@@ -6,11 +6,11 @@ feature 'Map multiple one object to many', %q{
    I want to be able to chain converters and get multiple objects out of one
 } do
 
-  given(:mapper_chain){
+  given(:mapper_chain)do
     Yaoc::OneToManyMapperChain.new(first_mapper, second_mapper)
-  }
+  end
 
-  given!(:first_mapper){
+  given!(:first_mapper)do
     Yaoc::ObjectMapper.new(new_user_class, old_user_class).tap do |mapper|
       mapper.add_mapping do
         register_as :first_mapper
@@ -18,9 +18,9 @@ feature 'Map multiple one object to many', %q{
         rule to: :id
       end
     end
-  }
+  end
 
-  given!(:second_mapper){
+  given!(:second_mapper)do
     Yaoc::ObjectMapper.new(new_user_class, old_user_class).tap do |mapper|
       mapper.add_mapping do
         register_as :second_mapper
@@ -28,29 +28,29 @@ feature 'Map multiple one object to many', %q{
         rule to: :names
       end
     end
-  }
+  end
 
-  given(:new_user_class){
+  given(:new_user_class)do
     Yaoc::Helper::StructHE(:id, :names)
-  }
+  end
 
-  given(:old_user_class){
+  given(:old_user_class)do
     Yaoc::Helper::StructHE(:id, :names)
-  }
+  end
 
-  given(:existing_old_user){
+  given(:existing_old_user)do
     old_user_class.new(
         id: 'existing_user_2',
         names: ['first_name', 'second_name']
     )
-  }
+  end
 
-  given(:existing_user){
+  given(:existing_user)do
     new_user_class.new(
         id: 'existing_user_2',
         names: ['first_name', 'second_name']
     )
-  }
+  end
 
   scenario 'loads multiple result object from one input object' do
     converted_users = mapper_chain.load_all(existing_old_user)

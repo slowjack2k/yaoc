@@ -7,15 +7,15 @@ feature "Map objects reusing other existing converters", %q{
 } do
 
 
-  given(:new_role_class){
+  given(:new_role_class)do
     Yaoc::Helper::StructHE(:id, :name)
-  }
+  end
 
-  given(:old_role_class){
+  given(:old_role_class)do
     Yaoc::Helper::StructHE(:o_id, :o_name)
-  }
+  end
 
-  given(:role_converter){
+  given(:role_converter)do
     Yaoc::ObjectMapper.new(new_role_class, old_role_class).tap do |mapper|
       mapper.add_mapping do
         fetcher :public_send
@@ -25,17 +25,17 @@ feature "Map objects reusing other existing converters", %q{
 
       end
     end
-  }
+  end
 
-  given(:new_user_class){
+  given(:new_user_class)do
     Yaoc::Helper::StructHE(:id, :firstname, :lastname, :roles)
-  }
+  end
 
-  given(:old_user_class){
+  given(:old_user_class)do
     Yaoc::Helper::StructHE(:o_id, :o_firstname, :o_lastname, :o_roles)
-  }
+  end
 
-  given(:user_converter){
+  given(:user_converter)do
     other_converter = role_converter
     is_col = is_collection
 
@@ -53,15 +53,15 @@ feature "Map objects reusing other existing converters", %q{
              is_collection: is_col
       end
     end
-  }
+  end
 
 
   context "composition is a collection" do
-    given(:is_collection){
+    given(:is_collection)do
       true
-    }
+    end
 
-    given(:old_user) {
+    given(:old_user) do
       old_user_class.new(
           o_id: "user_1",
           o_firstname: "o firstname",
@@ -72,9 +72,9 @@ feature "Map objects reusing other existing converters", %q{
               old_role_class.new(o_id: "role_3", o_name: "guest"),
           ]
       )
-    }
+    end
 
-    given(:expected_new_user) {
+    given(:expected_new_user) do
       new_user_class.new(
           id: "user_1",
           firstname: "o firstname",
@@ -85,7 +85,7 @@ feature "Map objects reusing other existing converters", %q{
               new_role_class.new(id: "role_3", name: "guest"),
           ]
       )
-    }
+    end
 
     scenario "creates a new user from the old one" do
       expect(user_converter.load(old_user)).to eq expected_new_user
@@ -98,11 +98,11 @@ feature "Map objects reusing other existing converters", %q{
   end
 
   context "composition is a single value" do
-    given(:is_collection){
+    given(:is_collection)do
       false
-    }
+    end
 
-    given(:old_user) {
+    given(:old_user) do
       old_user_class.new(
           o_id: "user_1",
           o_firstname: "o firstname",
@@ -110,16 +110,16 @@ feature "Map objects reusing other existing converters", %q{
           o_roles: old_role_class.new(o_id: "role_1", o_name: "admin, ruth, guest")
 
       )
-    }
+    end
 
-    given(:expected_new_user) {
+    given(:expected_new_user) do
       new_user_class.new(
           id: "user_1",
           firstname: "o firstname",
           lastname: "o lastname",
           roles: new_role_class.new(id: "role_1", name: "admin, ruth, guest")
       )
-    }
+    end
 
     scenario "creates a new user from the old one" do
       expect(user_converter.load(old_user)).to eq expected_new_user

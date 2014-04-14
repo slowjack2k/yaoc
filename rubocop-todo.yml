@@ -17,7 +17,7 @@ AmbiguousOperator:
 # Offence count: 120
 # Cop supports --auto-correct.
 Blocks:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 12
 # Cop supports --auto-correct.

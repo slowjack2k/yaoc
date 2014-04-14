@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Yaoc::MapperRegistry do
-  subject{
+  subject do
     Yaoc::MapperRegistry
-  }
+  end
 
   describe '.add' do
     it "registers an object" do

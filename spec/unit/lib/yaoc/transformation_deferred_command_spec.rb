@@ -1,17 +1,17 @@
 require 'spec_helper'
 
 describe Yaoc::TransformationDeferredCommand do
-  subject{
+  subject do
     Yaoc::TransformationDeferredCommand.new(to: :id, from: :name, fetch_method: :fetch)
-  }
+  end
 
-  let(:source){
+  let(:source)do
     {name: 'my_name'}
-  }
+  end
 
-  let(:result){
+  let(:result)do
     {}
-  }
+  end
 
   describe '#value' do
     let(:value_fetcher) { double('value fetcher proc')}
