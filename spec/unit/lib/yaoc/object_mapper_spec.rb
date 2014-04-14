@@ -191,7 +191,7 @@ describe Yaoc::ObjectMapper do
     end
 
     it 'allows to register the mapper globally' do
-      registry_double=double('registry')
+      registry_double = double('registry')
       subject.registry = registry_double
 
       expect(registry_double).to receive(:add).with(:mapper_name, subject)

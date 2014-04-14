@@ -111,7 +111,7 @@ module Yaoc
     end
 
     def fetcher=(new_fetcher)
-      @fetcher= new_fetcher
+      @fetcher = new_fetcher
     end
 
     protected
