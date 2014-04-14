@@ -5,12 +5,12 @@ module Capybara
   module Features
     def self.included(base)
       base.instance_eval do
-        alias_method :background, :before
-        alias_method :scenario, :it
-        alias_method :xscenario, :xit
-        alias_method :given, :let
-        alias_method :given!, :let!
-        alias_method :feature, :describe
+        alias :background :before
+        alias :scenario :it
+        alias :xscenario :xit
+        alias :given :let
+        alias :given! :let!
+        alias :feature :describe
       end
     end
   end

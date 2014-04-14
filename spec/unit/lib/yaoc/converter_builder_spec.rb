@@ -48,7 +48,7 @@ describe Yaoc::ConverterBuilder do
     it "applies command in reverse recorded order when wanted" do
       subject.command_order = :reverse_order
 
-      expected_args_first = default_map_args.clone.merge({to: :name, from: :name})
+      expected_args_first = default_map_args.clone.merge(to: :name, from: :name)
       expected_args_second = default_map_args.clone
 
       expect(converter_class).to receive(:map).ordered.with(expected_args_first)
@@ -102,7 +102,7 @@ describe Yaoc::ConverterBuilder do
 
     it "allows to use array of attributes" do
       expected_args_first = default_map_args.clone
-      expected_args_second = default_map_args.clone.merge({to: :name, from: :name})
+      expected_args_second = default_map_args.clone.merge(to: :name, from: :name)
 
       expect(converter_class).to receive(:map).ordered.with(expected_args_first)
       expect(converter_class).to receive(:map).ordered.with(expected_args_second)
@@ -113,8 +113,8 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "use the right 'to' when 'from' in arrays is missing" do
-      expected_args_first = default_map_args.clone.merge({from: :r_id})
-      expected_args_second = default_map_args.clone.merge({to: :name, from: :name})
+      expected_args_first = default_map_args.clone.merge(from: :r_id)
+      expected_args_second = default_map_args.clone.merge(to: :name, from: :name)
 
 
       expect(converter_class).to receive(:map).ordered.with(expected_args_first)
@@ -138,7 +138,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "supports the collection flag for object converters" do
-      expected_args = default_map_args.clone.merge({converter: kind_of(Proc)})
+      expected_args = default_map_args.clone.merge(converter: kind_of(Proc))
 
       expect(converter_class).to receive(:map).ordered.with(expected_args)
       other_converter = :some_converter
@@ -152,7 +152,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "supports lazy loading" do
-      expected_args = default_map_args.clone.merge({lazy_loading: true})
+      expected_args = default_map_args.clone.merge(lazy_loading: true)
 
       expect(converter_class).to receive(:map).ordered.with(expected_args)
 
@@ -163,7 +163,7 @@ describe Yaoc::ConverterBuilder do
     end
 
     it "supports a do nothing" do
-      expected_args = default_map_args.clone.merge({converter: kind_of(Proc)})
+      expected_args = default_map_args.clone.merge(converter: kind_of(Proc))
 
       expect(converter_class).to receive(:map).ordered.with(expected_args)
 

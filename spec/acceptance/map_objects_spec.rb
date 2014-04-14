@@ -34,11 +34,11 @@ feature "Map objects", %q{
   end
 
   given(:load_result_object)do
-    load_result_object_class.new({id: 1, name: "paul", role: "admin", foo: "some thing", bar: "some other thing"})
+    load_result_object_class.new(id: 1, name: "paul", role: "admin", foo: "some thing", bar: "some other thing")
   end
 
   given(:dump_result_object)do
-    dump_result_object_class.new({id: 1, name: "paul", fullrolename: "admin", foo: "some thing", bar: "some other thing"})
+    dump_result_object_class.new(id: 1, name: "paul", fullrolename: "admin", foo: "some thing", bar: "some other thing")
   end
 
   scenario "creates an result object from an input_object" do

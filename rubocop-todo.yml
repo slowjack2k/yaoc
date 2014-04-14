@@ -23,7 +23,7 @@ Blocks:
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles.
 BracesAroundHashParameters:
-  Enabled: false
+  Enabled: true
 
 # Offence count: 23
 Documentation:

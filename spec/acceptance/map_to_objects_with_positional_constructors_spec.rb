@@ -44,7 +44,7 @@ feature "Map objects to classes with positional constructors", %q{
   end
 
   given(:dump_result_object)do
-    dump_result_object_class.new({id: 1, name: "paul"})
+    dump_result_object_class.new(id: 1, name: "paul")
   end
 
   scenario "creates an result object from an input_object" do

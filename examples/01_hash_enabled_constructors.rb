@@ -28,7 +28,7 @@ mapper = Yaoc::ObjectMapper.new(User, OldUser).tap do |mapper|
   end
 end
 
-old_user = OldUser.new({id: 1, fullname: "myfirst mysecond", r_role: "admin" })
+old_user = OldUser.new(id: 1, fullname: "myfirst mysecond", r_role: "admin" )
 new_user = mapper.load(old_user)
 
 puts "\n" * 5
