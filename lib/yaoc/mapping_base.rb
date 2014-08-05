@@ -46,13 +46,18 @@ module Yaoc
         class_private_module(:Mapping).tap do |mod|
           method_implementation = TransformationCommand.create(to: to, from: from, deferred: lazy_loading, conversion_proc: converter)
 
-          mod.send :define_method, "map_#{"%04d" % [converter_methods.count]}_#{from}_to_#{to}".to_sym, method_implementation
+          method_name = "map_#{"%04d" % [converter_methods.count]}_#{from}_to_#{to}".to_sym
+          converter_methods << method_name
+
+          converter_methods.sort!.uniq!
+
+          mod.send :define_method, method_name, method_implementation
           include mod
         end
       end
 
       def converter_methods
-        class_private_module(:Mapping).instance_methods(false).sort
+        @converter_methods ||= []
       end
 
       # inspired by Avdi Grimm, rubytapas.com 028-macros-and-modules

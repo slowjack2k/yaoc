@@ -1,5 +1,17 @@
 module Yaoc
   class TransformationCommand
+    module WithProc
+      def call(to_convert, result)
+        instance_exec(to_convert, result, &proc)
+      end
+    end
+
+    module WithoutProc
+      def call(to_convert, result)
+        TransformationCommand.fill_result_with_value(result, to, value(to_convert))
+      end
+    end
+
     protected
 
     attr_accessor :to, :from, :fetcher , :proc, :value_fetcher_proc
@@ -33,6 +45,16 @@ module Yaoc
       self.proc = conversion_proc
       self.fetcher = fetch_method
       self.value_fetcher_proc = fetcher_proc || ->(to_convert, fetcher, from) { to_convert.public_send(fetcher, from) }
+    end
+
+    def proc=(new_proc)
+      @proc = new_proc
+
+      if new_proc.nil?
+        extend WithoutProc
+      else
+        extend WithProc
+      end
     end
 
     def call(to_convert, result)
