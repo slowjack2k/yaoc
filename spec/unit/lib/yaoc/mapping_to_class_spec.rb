@@ -1,7 +1,7 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Yaoc::MappingToClass do
-  subject{
+  subject do
     Struct.new(:target_source) do
       include Yaoc::MappingToClass
 
@@ -10,19 +10,19 @@ describe Yaoc::MappingToClass do
       }
 
     end.new(expected_class)
-  }
+  end
 
-  let(:expected_class){
+  let(:expected_class)do
     Struct.new(:id)
-  }
+  end
 
-  describe "#call" do
-    subject{
+  describe '#call' do
+    subject do
       Struct.new(:target_source) do
         include Yaoc::MappingToClass
 
         self.mapping_strategy = ->(obj){
-          {:name => :new_name}
+          { name: :new_name }
         }
 
         def to_convert
@@ -30,22 +30,21 @@ describe Yaoc::MappingToClass do
         end
 
       end.new(expected_class)
-    }
+    end
 
-    it "creates on object of the wanted kind" do
+    it 'creates on object of the wanted kind' do
       expect(subject.call).to be_kind_of expected_class
     end
 
-    it "can use a lambda for creation" do
-      creator = ->(*args){}
+    it 'can use a lambda for creation' do
+      creator = ->(*args) {}
       expect(creator).to receive :call
       subject.target_source = creator
       subject.call
     end
 
-
-    it "splattes args when conversion result is an array" do
-      creator = ->(*args){}
+    it 'splattes args when conversion result is an array' do
+      creator = ->(*args) {}
       subject.class.mapping_strategy = ->(obj){
         [1, 2]
       }
@@ -57,7 +56,7 @@ describe Yaoc::MappingToClass do
       subject.call
     end
 
-    it "fills an existing object instead of create a new one" do
+    it 'fills an existing object instead of create a new one' do
       obj = Struct.new(:id, :name).new(:my_id)
       created_obj = subject.call(obj)
 
@@ -66,17 +65,16 @@ describe Yaoc::MappingToClass do
       expect(obj.id).to eq :my_id
     end
 
-    it "returns nil when nothing to convert" do
+    it 'returns nil when nothing to convert' do
       subject.stub(to_convert: nil)
       expect(subject.call).to be_nil
     end
   end
 
-  describe "#to_a" do
-    it "satisfies Array(*) when included into structs" do
+  describe '#to_a' do
+    it 'satisfies Array(*) when included into structs' do
       expect(subject.to_a).to eq ([subject])
     end
   end
-
 
 end

@@ -1,5 +1,4 @@
 module Yaoc
-
   module MapperDSLMethods
     def add_mapping(&block)
       instance_eval &block
@@ -18,8 +17,8 @@ module Yaoc
         lazy_loading: nil,
         reverse_lazy_loading: lazy_loading)
 
-      object_converter = Array(object_converter).map{|converter| converter.is_a?(Symbol) ? registry.for(converter) : converter}
-      reverse_object_converter = Array(reverse_object_converter).map{|converter| converter.is_a?(Symbol) ? registry.for(converter) : converter}
+      object_converter = Array(object_converter).map { |converter| converter.is_a?(Symbol) ? registry.for(converter) : converter }
+      reverse_object_converter = Array(reverse_object_converter).map { |converter| converter.is_a?(Symbol) ? registry.for(converter) : converter }
 
       converter_builder.rule(
           to: to,
@@ -57,13 +56,12 @@ module Yaoc
     end
 
     def noop
-      ->(_, result){ result }
+      ->(_, result) { result }
     end
 
     def register_as(name)
       registry.add(name, self) unless name.nil?
     end
-
   end
 
   class ObjectMapper
@@ -71,25 +69,25 @@ module Yaoc
 
     attr_accessor :load_result_source, :dump_result_source, :registry
 
-    def initialize(load_result_source, dump_result_source=nil, registry=Yaoc::MapperRegistry)
+    def initialize(load_result_source, dump_result_source = nil, registry = Yaoc::MapperRegistry)
       self.load_result_source = load_result_source
       self.dump_result_source = dump_result_source
       self.registry = registry
     end
 
-    def load(fetch_able, object_to_fill=nil)
+    def load(fetch_able, object_to_fill = nil)
       converter(fetch_able).call(object_to_fill)
     end
 
-    def dump(object, object_to_fill=nil)
+    def dump(object, object_to_fill = nil)
       reverse_converter(object).call(object_to_fill)
     end
 
-    def converter(fetch_able=nil)
+    def converter(fetch_able = nil)
       converter_builder.converter(fetch_able, load_result_source)
     end
 
-    def reverse_converter(fetch_able=nil)
+    def reverse_converter(fetch_able = nil)
       reverse_converter_builder.converter(fetch_able, dump_result_source)
     end
 
@@ -113,12 +111,11 @@ module Yaoc
     end
 
     def converter_builder
-      @converter_builder ||= Yaoc::ConverterBuilder.new()
+      @converter_builder ||= Yaoc::ConverterBuilder.new
     end
 
     def reverse_converter_builder
       @reverse_converter_builder ||= Yaoc::ConverterBuilder.new(:reverse_order, :public_send)
     end
-
   end
 end

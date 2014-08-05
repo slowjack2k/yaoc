@@ -6,11 +6,11 @@ module Yaoc
       end
 
       module Initializer
-        def initialize(params={})
+        def initialize(params = {})
           super()
 
           params.each do |attr, value|
-            self.public_send("#{attr}=", value)
+            public_send("#{attr}=", value)
           end if params
         end
       end
@@ -28,6 +28,5 @@ module Yaoc
         include Equalizer.new(*args)
       end
     end
-
   end
 end

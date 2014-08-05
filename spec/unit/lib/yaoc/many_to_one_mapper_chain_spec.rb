@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe Yaoc::ManyToOneMapperChain do
 
-  subject{
+  subject do
     Yaoc::ManyToOneMapperChain.new(first_mapper, second_mapper)
-  }
+  end
 
-  let(:first_mapper){
+  let(:first_mapper)do
     Yaoc::ObjectMapper.new(new_user_class, old_user_class).tap do |mapper|
       mapper.add_mapping do
         fetcher :public_send
@@ -14,9 +14,9 @@ describe Yaoc::ManyToOneMapperChain do
              from: :o_id
       end
     end
-  }
+  end
 
-  let(:second_mapper){
+  let(:second_mapper)do
     Yaoc::ObjectMapper.new(new_user_class, old_user_class).tap do |mapper|
       mapper.add_mapping do
         fetcher :public_send
@@ -24,34 +24,34 @@ describe Yaoc::ManyToOneMapperChain do
              from: :o_names
       end
     end
-  }
+  end
 
-  let(:new_user_class){
+  let(:new_user_class)do
     Yaoc::Helper::StructHE(:id, :names)
-  }
+  end
 
-  let(:old_user_class){
+  let(:old_user_class)do
     Yaoc::Helper::StructHE(:o_id, :o_names)
-  }
+  end
 
-  let(:existing_old_user){
+  let(:existing_old_user)do
     old_user_class.new(
         o_id: 'existing_user_2',
         o_names: ['first_name', 'second_name']
     )
-  }
+  end
 
-  let(:existing_user){
+  let(:existing_user)do
     new_user_class.new(
         id: 'existing_user_2',
         names: ['first_name', 'second_name']
     )
-  }
+  end
 
   describe '.new' do
-    subject{
+    subject do
       Yaoc::ManyToOneMapperChain
-    }
+    end
 
     it 'converts symbols into converter' do
       registry = double('registry')
@@ -101,14 +101,14 @@ describe Yaoc::ManyToOneMapperChain do
       converted_user = subject.load_next(existing_old_user)
 
       expect(converted_user.id).to eq 'existing_user_2'
-      expect(converted_user.names).to eq ["first_name", "second_name"]
+      expect(converted_user.names).to eq ['first_name', 'second_name']
     end
 
     it 'raises an exception when too many values are passed' do
       subject.load_first(existing_old_user)
       subject.load_next(existing_old_user)
 
-      expect{subject.load_next(existing_old_user)}.to raise_error "ToManyInputObjects"
+      expect { subject.load_next(existing_old_user) }.to raise_error 'ToManyInputObjects'
     end
 
   end
@@ -131,7 +131,6 @@ describe Yaoc::ManyToOneMapperChain do
       expect(converted_user.object_id).to eq user.object_id
     end
   end
-
 
   describe '#dump_first' do
     it 'dumps the first object into the result object' do

@@ -1,7 +1,6 @@
 module Yaoc
   module Strategies
     module ToArrayMapping
-
       def self.call(conv_object)
         [].tap do |result|
           conv_object.converter_methods.each do |method_name|
@@ -9,7 +8,6 @@ module Yaoc
           end
         end
       end
-
     end
   end
 end

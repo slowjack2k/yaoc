@@ -1,30 +1,30 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Yaoc::ObjectMapper do
-  subject{
-    Yaoc::ObjectMapper.new(Struct.new(:id, :name)).tap{|mapper|
+  subject do
+    Yaoc::ObjectMapper.new(Struct.new(:id, :name)).tap do|mapper|
       mapper.stub(:converter_builder).and_return(converter_builder)
       mapper.stub(:reverse_converter_builder).and_return(reverse_converter_builder)
-    }
-  }
+    end
+  end
 
-  let(:converter_builder){
-    double("converter_builder", rule: nil, apply_commands!: nil, converter: converter)
-  }
+  let(:converter_builder)do
+    double('converter_builder', rule: nil, apply_commands!: nil, converter: converter)
+  end
 
-  let(:reverse_converter_builder){
-    double("reverse_converter_builder", rule: nil, apply_commands!: nil, converter: reverse_converter)
-  }
+  let(:reverse_converter_builder)do
+    double('reverse_converter_builder', rule: nil, apply_commands!: nil, converter: reverse_converter)
+  end
 
-  let(:converter){
-    double("converter", call: nil)
-  }
+  let(:converter)do
+    double('converter', call: nil)
+  end
 
-  let(:reverse_converter){
-    double("reverse_converter", call: nil)
-  }
+  let(:reverse_converter)do
+    double('reverse_converter', call: nil)
+  end
 
-  let(:expected_default_params){
+  let(:expected_default_params)do
     {
         to: :id,
         from: :id,
@@ -33,11 +33,11 @@ describe Yaoc::ObjectMapper do
         is_collection: nil,
         lazy_loading: nil,
     }
-  }
+  end
 
-  describe "#add_mapping" do
+  describe '#add_mapping' do
 
-    it "creates a converter" do
+    it 'creates a converter' do
       expected_params = expected_default_params
 
       expect(converter_builder).to receive(:rule).with(expected_params)
@@ -48,7 +48,7 @@ describe Yaoc::ObjectMapper do
 
     end
 
-    it "creates a revers converter" do
+    it 'creates a revers converter' do
       expected_params = expected_default_params
 
       expect(reverse_converter_builder).to receive(:rule).with(expected_params)
@@ -61,10 +61,10 @@ describe Yaoc::ObjectMapper do
 
   end
 
-  describe "#rule" do
+  describe '#rule' do
 
-    it "allows to use another converter as converter" do
-      converter_double = double("converter")
+    it 'allows to use another converter as converter' do
+      converter_double = double('converter')
 
       expected_params = expected_default_params.merge(
           object_converter: [converter_double],
@@ -74,13 +74,11 @@ describe Yaoc::ObjectMapper do
           object_converter: [converter_double]
       )
 
-
       expect(converter_builder).to receive(:rule).with(expected_params)
       expect(reverse_converter_builder).to receive(:rule).with(expected_params_reverse)
 
       expect(converter_double).to receive(:converter).and_return(converter_double)
       expect(converter_double).to receive(:reverse_converter).and_return(converter_double)
-
 
       subject.add_mapping do
         rule to: :id,
@@ -88,8 +86,8 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it "allows to use another converter as reverse converter" do
-      reverse_converter_double = double("reverse converter")
+    it 'allows to use another converter as reverse converter' do
+      reverse_converter_double = double('reverse converter')
 
       expected_params = expected_default_params.merge(
           object_converter: [],
@@ -98,7 +96,6 @@ describe Yaoc::ObjectMapper do
       expected_params_reverse = expected_default_params.merge(
           object_converter: [reverse_converter_double]
       )
-
 
       expect(converter_builder).to receive(:rule).with(expected_params)
       expect(reverse_converter_builder).to receive(:rule).with(expected_params_reverse)
@@ -111,7 +108,7 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it "accepts a reverse mapping for from and to" do
+    it 'accepts a reverse mapping for from and to' do
       expected_params = expected_default_params.merge(
           to: :id_r,
           from: :id_r,
@@ -124,7 +121,7 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it "allows to set a fetcher" do
+    it 'allows to set a fetcher' do
       expect(converter_builder).to receive(:fetcher=).with(:public_send)
 
       subject.add_mapping do
@@ -134,7 +131,7 @@ describe Yaoc::ObjectMapper do
 
     end
 
-    it "allows to set a reverse_fetcher" do
+    it 'allows to set a reverse_fetcher' do
       expect(reverse_converter_builder).to receive(:fetcher=).with(:fetch)
 
       subject.add_mapping do
@@ -143,7 +140,7 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it "allows to change the strategy" do
+    it 'allows to change the strategy' do
       expect(converter_builder).to receive(:strategy=).with(:to_array_mapping)
 
       subject.add_mapping do
@@ -152,7 +149,7 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it "allows to change the reverse strategy" do
+    it 'allows to change the reverse strategy' do
       expect(reverse_converter_builder).to receive(:strategy=).with(:to_array_mapping)
 
       subject.add_mapping do
@@ -161,7 +158,7 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it "allows to set lazy_loading" do
+    it 'allows to set lazy_loading' do
       expected_params = expected_default_params.merge(
           lazy_loading: true,
       )
@@ -175,7 +172,7 @@ describe Yaoc::ObjectMapper do
       end
     end
 
-    it "allows to set reverse lazy_loading" do
+    it 'allows to set reverse lazy_loading' do
       expected_params = expected_default_params.merge(
           lazy_loading: nil,
       )
@@ -194,7 +191,7 @@ describe Yaoc::ObjectMapper do
     end
 
     it 'allows to register the mapper globally' do
-      registry_double=double('registry')
+      registry_double = double('registry')
       subject.registry = registry_double
 
       expect(registry_double).to receive(:add).with(:mapper_name, subject)
@@ -205,17 +202,16 @@ describe Yaoc::ObjectMapper do
 
     end
 
-
   end
 
-  describe "#load" do
-    it "creates an object of result class kind" do
+  describe '#load' do
+    it 'creates an object of result class kind' do
       expect(converter).to receive(:call)
 
       subject.load({})
     end
 
-    it "uses an existing object for the result" do
+    it 'uses an existing object for the result' do
       preloaded_obj = Object.new
 
       expect(converter).to receive(:call).with(preloaded_obj)
@@ -224,15 +220,15 @@ describe Yaoc::ObjectMapper do
     end
   end
 
-  describe "#dump" do
+  describe '#dump' do
 
-    it "dump the object as an wanted object" do
+    it 'dump the object as an wanted object' do
       expect(reverse_converter).to receive(:call)
 
       subject.dump({})
     end
 
-    it "uses an existing object for the result" do
+    it 'uses an existing object for the result' do
       preloaded_obj = Object.new
 
       expect(reverse_converter).to receive(:call).with(preloaded_obj)
@@ -242,8 +238,8 @@ describe Yaoc::ObjectMapper do
 
   end
 
-  describe "#noop" do
-    it "returns the input" do
+  describe '#noop' do
+    it 'returns the input' do
       expect(subject.noop.call(:some_thing, :expected_value)).to eq :expected_value
     end
   end
@@ -252,7 +248,7 @@ describe Yaoc::ObjectMapper do
     it 'returns a readable representation' do
       subject.dump_result_source = Object
       subject.load_result_source = nil
-      expect(subject.to_s).to eq "Object <=> "
+      expect(subject.to_s).to eq 'Object <=> '
     end
   end
 

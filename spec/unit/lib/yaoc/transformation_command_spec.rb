@@ -1,22 +1,22 @@
 require 'spec_helper'
 
 describe Yaoc::TransformationCommand do
-  subject{
+  subject do
     Yaoc::TransformationCommand.new(to: :id, from: :name, fetch_method: :fetch)
-  }
+  end
 
-  let(:source){
-    {name: 'my_name'}
-  }
+  let(:source)do
+    { name: 'my_name' }
+  end
 
-  let(:result){
+  let(:result)do
     {}
-  }
+  end
 
   describe '.create' do
-    subject{
+    subject do
       Yaoc::TransformationCommand
-    }
+    end
 
     it 'creates a proc' do
       expect(subject.create(to: :to, from: :from)).to respond_to :call
@@ -54,11 +54,11 @@ describe Yaoc::TransformationCommand do
   end
 
   describe '#value' do
-    subject {
+    subject do
       Yaoc::TransformationCommand.new(to: :id, from: :name, fetch_method: :fetch, fetcher_proc: value_fetcher)
-    }
+    end
 
-    let(:value_fetcher) { double('value fetcher proc')}
+    let(:value_fetcher) { double('value fetcher proc') }
 
     it 'uses a given proc for value fetching' do
       expect(value_fetcher).to receive(:call).with(source, :fetch, :name).and_return(:some_thing_to_store)

@@ -1,14 +1,13 @@
 module Yaoc
   module MappingToClass
-
     def self.included(other)
       other.send(:include, MappingBase)
       other.send(:include, InstanceMethods)
     end
 
     module InstanceMethods
-      def call(pre_created_object=nil)
-        source_converted_to_hash_or_array = to_hash_or_array()
+      def call(pre_created_object = nil)
+        source_converted_to_hash_or_array = to_hash_or_array
         unless source_converted_to_hash_or_array.nil?
           if pre_created_object.nil?
             create_target_from_class(source_converted_to_hash_or_array)
@@ -22,21 +21,21 @@ module Yaoc
       alias_method :to_object, :call
 
       def source_method
-        self.target_source.respond_to?(:call) ? :call : :new
+        target_source.respond_to?(:call) ? :call : :new
       end
 
       def create_target_from_class(args)
         array_based_constructor = args.is_a? Array
 
         if array_based_constructor
-          self.target_source.send(source_method, *args)
+          target_source.send(source_method, *args)
         else
-          self.target_source.send(source_method, args)
+          target_source.send(source_method, args)
         end
       end
 
       def fill_target_object(attribute_hash, pre_created_object)
-        raise "UnexpectedStrategy" unless attribute_hash.respond_to? :each_pair
+        fail 'UnexpectedStrategy' unless attribute_hash.respond_to? :each_pair
 
         attribute_hash.each_pair do |key, value|
           pre_created_object.send("#{key}=", value)
@@ -49,6 +48,5 @@ module Yaoc
         [self]
       end
     end
-
   end
 end

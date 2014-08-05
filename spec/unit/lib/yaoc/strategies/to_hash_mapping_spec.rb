@@ -1,35 +1,35 @@
-require "spec_helper"
+require 'spec_helper'
 
 describe Yaoc::Strategies::ToHashMapping do
-  subject{
+  subject do
     Struct.new(:to_convert) do
       include Yaoc::MappingBase
       self.mapping_strategy = Yaoc::Strategies::ToHashMapping
     end
-  }
+  end
 
-  let(:mapper){
+  let(:mapper)do
     subject.new(source_object)
-  }
+  end
 
-  let(:source_object){
-    {id: 1, name: "paul"}
-  }
+  let(:source_object)do
+    { id: 1, name: 'paul' }
+  end
 
-  let(:expected_hash){
-    {id: 1, name: "paul"}
-  }
+  let(:expected_hash)do
+    { id: 1, name: 'paul' }
+  end
 
-  describe "#call" do
+  describe '#call' do
 
-    it "creates a hash from a object" do
+    it 'creates a hash from a object' do
       subject.map(to: :id, from: :id)
       subject.map(to: :name, from: :name)
 
       expect(mapper.call).to eq(expected_hash)
     end
 
-    it "renames attributes" do
+    it 'renames attributes' do
       subject.map(to: :id)
       subject.map(to: :fullname, from: :name)
 
@@ -39,22 +39,22 @@ describe Yaoc::Strategies::ToHashMapping do
       expect(mapper.call).to eq(renamed_expectation)
     end
 
-    it "uses my converter proc" do
+    it 'uses my converter proc' do
       subject.map(to: :id)
-      subject.map(to: :name, from: :fullname, converter: ->(source, result){ Yaoc::TransformationCommand.fill_result_with_value(result, :name, source.fetch(:name) + " Hello World") })
+      subject.map(to: :name, from: :fullname, converter: ->(source, result) { Yaoc::TransformationCommand.fill_result_with_value(result, :name, source.fetch(:name) + ' Hello World') })
 
       ext_expectation = expected_hash.clone
-      ext_expectation[:name] += " Hello World"
+      ext_expectation[:name] += ' Hello World'
 
       expect(mapper.call).to eq(ext_expectation)
     end
 
-    context "changed fetcher method" do
-      let(:source_object){
-        Struct.new(:id, :name).new(1, "paul")
-      }
+    context 'changed fetcher method' do
+      let(:source_object)do
+        Struct.new(:id, :name).new(1, 'paul')
+      end
 
-      it "uses custom fetcher methods" do
+      it 'uses custom fetcher methods' do
         subject.map(to: :id)
         subject.map(to: :name)
 
@@ -65,7 +65,7 @@ describe Yaoc::Strategies::ToHashMapping do
         expect(mapper.call).to eq(expected_hash)
       end
 
-      it "works with arrays" do
+      it 'works with arrays' do
         subject.map(to: :id, from: 0)
         subject.map(to: :name, from: 1)
 
@@ -73,7 +73,7 @@ describe Yaoc::Strategies::ToHashMapping do
           :[]
         end
 
-        mapper.to_convert = [1, "paul"]
+        mapper.to_convert = [1, 'paul']
 
         expect(mapper.call).to eq(expected_hash)
       end

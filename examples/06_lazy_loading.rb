@@ -7,7 +7,6 @@ include Yaoc::Helper
 
 puts "\n" * 5
 
-
 OldUser6 = StructHE(:id) do
 
   def names=(new_names)
@@ -22,7 +21,6 @@ OldUser6 = StructHE(:id) do
 
 end
 User6 = StructHE(:id, :names)
-
 
 user_mapper = Yaoc::ObjectMapper.new(User6, OldUser6).tap do |mapper|
   mapper.add_mapping do
@@ -39,9 +37,4 @@ puts new_user6.id.inspect
 puts new_user6.names.inspect
 puts new_user6
 
-
 puts "\n" * 5
-
-
-
-

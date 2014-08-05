@@ -1,5 +1,4 @@
 module Yaoc
-
   class NormalizedParameters
     attr_accessor :to_s, :from_s, :converter_s, :lazy_loading_s
 
@@ -12,7 +11,7 @@ module Yaoc
       object_converter_s = Array(object_converter)
       is_collection_s = Array(is_collection)
 
-      self.to_s.each_with_index do |to, index|
+      to_s.each_with_index do |to, index|
         from_s[index] ||= to
         lazy_loading_s[index] ||= false
       end
@@ -24,20 +23,18 @@ module Yaoc
                                                !!is_collection_s[index],
                                                !!lazy_loading_s[index])
       end
-
     end
 
     def each
       return to_enum(__callee__) unless block_given?
 
-      self.to_s.each_with_index do |to, index|
+      to_s.each_with_index do |to, index|
         yield to, from_s[index] , converter_s[index], lazy_loading_s[index]
       end
     end
 
     def converter_to_proc(to, from, converter, is_collection, deferred)
-
-      get_value_with = ->(source, fetcher, from){
+      get_value_with = ->(source, fetcher, from)do
         object_to_convert = source.public_send(fetcher, from)
 
         if is_collection
@@ -46,11 +43,10 @@ module Yaoc
           converter_as_proc = converter.to_proc
           converter_as_proc.call(object_to_convert)
         end
-      }
+      end
 
       TransformationCommand.create(to: to, from: from, deferred: deferred, fetcher_proc: get_value_with)
     end
-
   end
 
   module BuilderDSLMethods
@@ -63,7 +59,7 @@ module Yaoc
       self.all_commands_applied = false
 
       NormalizedParameters.new(to, from, converter, object_converter, is_collection, lazy_loading).each do |to, from, converter, lazy_loading|
-        build_commands.push  ->{ converter_class.map(to: to, from: from , converter: converter, lazy_loading: lazy_loading) }
+        build_commands.push  -> { converter_class.map(to: to, from: from , converter: converter, lazy_loading: lazy_loading) }
       end
     end
 
@@ -84,10 +80,9 @@ module Yaoc
     end
 
     def noop
-      ->(_, result){ result }
+      ->(_, result) { result }
     end
   end
-
 
   class ConverterBuilder
     include BuilderDSLMethods
@@ -95,7 +90,7 @@ module Yaoc
     attr_accessor  :build_commands, :command_order,
                    :strategy, :all_commands_applied
 
-    def initialize(command_order=:recorded_order, fetcher=:fetch)
+    def initialize(command_order = :recorded_order, fetcher = :fetch)
       self.build_commands = []
       self.command_order = command_order
       self.fetcher = fetcher
@@ -110,13 +105,13 @@ module Yaoc
       build_commands_ordered.each &:call
     end
 
-    def converter(fetch_able, target_source=nil)
-      raise "BuildCommandsNotExecuted" unless self.all_commands_applied?
-      converter_class.new(fetch_able, fetcher, target_source || ->(attrs){ attrs})
+    def converter(fetch_able, target_source = nil)
+      fail 'BuildCommandsNotExecuted' unless self.all_commands_applied?
+      converter_class.new(fetch_able, fetcher, target_source || ->(attrs) { attrs })
     end
 
     def fetcher=(new_fetcher)
-      @fetcher= new_fetcher
+      @fetcher = new_fetcher
     end
 
     protected
@@ -136,9 +131,9 @@ module Yaoc
 
     def sym_as_module_name(sym)
       sym.to_s
-         .split("_")
+         .split('_')
          .map(&:capitalize)
-         .join()
+         .join
          .to_sym
     end
 
@@ -153,7 +148,5 @@ module Yaoc
     def reset_converters!
       @converter_class = nil
     end
-
   end
-
 end

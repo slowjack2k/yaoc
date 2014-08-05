@@ -12,11 +12,10 @@ module Yaoc
         end
       end
 
-
       def __getobj__
-        unless self._initialisation_proc_loaded
+        unless _initialisation_proc_loaded
           self._initialisation_proc_loaded = true
-          __setobj__(self._initialisation_proc.call())
+          __setobj__(_initialisation_proc.call)
         end
 
         super
@@ -35,13 +34,12 @@ module Yaoc
       end
 
       def _initialisation_proc_loaded?
-        self._initialisation_proc_loaded
+        _initialisation_proc_loaded
       end
 
       def _needs_conversion?
         _initialisation_proc_loaded? && ! nil?
       end
-
     end
   end
 end
